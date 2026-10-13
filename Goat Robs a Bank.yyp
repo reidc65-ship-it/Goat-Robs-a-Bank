@@ -19,9 +19,11 @@
   },
   "name":"Goat Robs a Bank",
   "resources":[
+    {"id":{"name":"obj_horn_bullet","path":"objects/obj_horn_bullet/obj_horn_bullet.yy",},},
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oWall","path":"objects/oWall/oWall.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"Horn","path":"sprites/Horn/Horn.yy",},},
     {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
     {"id":{"name":"sPlayerR","path":"sprites/sPlayerR/sPlayerR.yy",},},
     {"id":{"name":"sWall","path":"sprites/sWall/sWall.yy",},},
