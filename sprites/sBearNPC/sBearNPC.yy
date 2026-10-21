@@ -12,21 +12,21 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","resourceType":"GMSpriteFrame","resourceVersion":"2.0"}
   ],
   "gridX":0,
   "gridY":0,
   "height":136,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"6885510f-039f-4e4d-97c0-06e3c2632d37","blendMode":0,"displayName":"default","isLocked":false,"name":"6885510f-039f-4e4d-97c0-06e3c2632d37","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"6885510f-039f-4e4d-97c0-06e3c2632d37","blendMode":0,"displayName":"default","isLocked":false,"name":"6885510f-039f-4e4d-97c0-06e3c2632d37","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true}
   ],
   "name":"sBearNPC",
   "nineSlice":null,
   "origin":7,
   "parent":{
     "name":"Goat Robs a Bank",
-    "path":"Goat Robs a Bank.yyp",
+    "path":"Goat Robs a Bank.yyp"
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
@@ -45,7 +45,7 @@
       "$KeyframeStore<MessageEventKeyframe>":"",
       "Keyframes":[],
       "resourceType":"KeyframeStore<MessageEventKeyframe>",
-      "resourceVersion":"2.0",
+      "resourceVersion":"2.0"
     },
     "eventStubScript":null,
     "eventToFunction":{},
@@ -55,7 +55,7 @@
       "$KeyframeStore<MomentsEventKeyframe>":"",
       "Keyframes":[],
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
-      "resourceVersion":"2.0",
+      "resourceVersion":"2.0"
     },
     "name":"sBearNPC",
     "playback":1,
@@ -69,22 +69,22 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","path":"sprites/sBearNPC/sBearNPC.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"ff041ab5-3ca6-4696-aae3-2f47d0f51af5","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-          ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"0aba9ca3-e0eb-4e7f-a509-442265943f5d","path":"sprites/sBearNPC/sBearNPC.yy"},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0"}
+              },"Disabled":false,"id":"ff041ab5-3ca6-4696-aae3-2f47d0f51af5","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false}
+          ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0"},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0}
     ],
     "visibleRange":null,
     "volume":1.0,
     "xorigin":96,
-    "yorigin":136,
+    "yorigin":136
   },
   "swatchColours":null,
   "swfPrecision":0.5,
   "textureGroupId":{
     "name":"Default",
-    "path":"texturegroups/Default",
+    "path":"texturegroups/Default"
   },
   "type":0,
   "VTile":false,
-  "width":192,
+  "width":192
 }

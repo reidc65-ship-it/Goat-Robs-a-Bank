@@ -12,21 +12,21 @@
   "edgeFiltering":false,
   "For3D":false,
   "frames":[
-    {"$GMSpriteFrame":"v1","%Name":"81e58614-0861-4977-8763-cadceddb9394","name":"81e58614-0861-4977-8763-cadceddb9394","resourceType":"GMSpriteFrame","resourceVersion":"2.0",},
+    {"$GMSpriteFrame":"v1","%Name":"81e58614-0861-4977-8763-cadceddb9394","name":"81e58614-0861-4977-8763-cadceddb9394","resourceType":"GMSpriteFrame","resourceVersion":"2.0"}
   ],
   "gridX":0,
   "gridY":0,
   "height":64,
   "HTile":false,
   "layers":[
-    {"$GMImageLayer":"","%Name":"7c9728c8-80d0-481f-affa-5a685db83752","blendMode":0,"displayName":"default","isLocked":false,"name":"7c9728c8-80d0-481f-affa-5a685db83752","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true,},
+    {"$GMImageLayer":"","%Name":"7c9728c8-80d0-481f-affa-5a685db83752","blendMode":0,"displayName":"default","isLocked":false,"name":"7c9728c8-80d0-481f-affa-5a685db83752","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true}
   ],
   "name":"Horn",
   "nineSlice":{
     "$GMNineSliceData":"",
     "bottom":23,
     "enabled":false,
-    "guideColour":[4294902015,4294902015,4294902015,4294902015,],
+    "guideColour":[4294902015,4294902015,4294902015,4294902015],
     "highlightColour":1728023040,
     "highlightStyle":0,
     "left":23,
@@ -38,14 +38,14 @@
       0,
       0,
       0,
-      0,
+      0
     ],
-    "top":26,
+    "top":26
   },
   "origin":4,
   "parent":{
     "name":"Goat Robs a Bank",
-    "path":"Goat Robs a Bank.yyp",
+    "path":"Goat Robs a Bank.yyp"
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",
@@ -64,7 +64,7 @@
       "$KeyframeStore<MessageEventKeyframe>":"",
       "Keyframes":[],
       "resourceType":"KeyframeStore<MessageEventKeyframe>",
-      "resourceVersion":"2.0",
+      "resourceVersion":"2.0"
     },
     "eventStubScript":null,
     "eventToFunction":{},
@@ -74,7 +74,7 @@
       "$KeyframeStore<MomentsEventKeyframe>":"",
       "Keyframes":[],
       "resourceType":"KeyframeStore<MomentsEventKeyframe>",
-      "resourceVersion":"2.0",
+      "resourceVersion":"2.0"
     },
     "name":"Horn",
     "playback":1,
@@ -88,22 +88,22 @@
     "tracks":[
       {"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[
             {"$Keyframe<SpriteFrameKeyframe>":"","Channels":{
-                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"81e58614-0861-4977-8763-cadceddb9394","path":"sprites/Horn/Horn.yy",},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0",},
-              },"Disabled":false,"id":"9e779753-4322-4209-96f1-07f5579a22b8","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false,},
-          ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0",},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0,},
+                "0":{"$SpriteFrameKeyframe":"","Id":{"name":"81e58614-0861-4977-8763-cadceddb9394","path":"sprites/Horn/Horn.yy"},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0"}
+              },"Disabled":false,"id":"9e779753-4322-4209-96f1-07f5579a22b8","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false}
+          ],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0"},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0}
     ],
     "visibleRange":null,
     "volume":1.0,
     "xorigin":32,
-    "yorigin":32,
+    "yorigin":32
   },
   "swatchColours":null,
   "swfPrecision":0.5,
   "textureGroupId":{
     "name":"Default",
-    "path":"texturegroups/Default",
+    "path":"texturegroups/Default"
   },
   "type":0,
   "VTile":false,
-  "width":64,
+  "width":64
 }

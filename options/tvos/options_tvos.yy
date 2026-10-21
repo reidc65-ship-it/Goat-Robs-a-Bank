@@ -27,5 +27,5 @@
   "option_tvos_topshelf_wide_2x":"${base_options_dir}/tvos/topshelf/topshelf_wide_2x.png",
   "option_tvos_version":"1.0.0.0",
   "resourceType":"GMtvOSOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

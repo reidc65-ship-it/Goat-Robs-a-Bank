@@ -81,5 +81,5 @@
   "option_android_use_facebook":false,
   "option_android_version":"1.0.0.0",
   "resourceType":"GMAndroidOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

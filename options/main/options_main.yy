@@ -25,5 +25,5 @@
   "option_template_image":"${base_options_dir}/main/template_image.png",
   "option_window_colour":255,
   "resourceType":"GMMainOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

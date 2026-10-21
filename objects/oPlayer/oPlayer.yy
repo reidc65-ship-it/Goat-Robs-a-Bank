@@ -2,15 +2,15 @@
   "$GMObject":"",
   "%Name":"oPlayer",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0"},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0"}
   ],
   "managed":true,
   "name":"oPlayer",
   "overriddenProperties":[],
   "parent":{
     "name":"Goat Robs a Bank",
-    "path":"Goat Robs a Bank.yyp",
+    "path":"Goat Robs a Bank.yyp"
   },
   "parentObjectId":null,
   "persistent":false,
@@ -32,11 +32,11 @@
   "solid":false,
   "spriteId":{
     "name":"sPlayer",
-    "path":"sprites/sPlayer/sPlayer.yy",
+    "path":"sprites/sPlayer/sPlayer.yy"
   },
   "spriteMaskId":{
     "name":"sPlayer",
-    "path":"sprites/sPlayer/sPlayer.yy",
+    "path":"sprites/sPlayer/sPlayer.yy"
   },
-  "visible":true,
+  "visible":true
 }

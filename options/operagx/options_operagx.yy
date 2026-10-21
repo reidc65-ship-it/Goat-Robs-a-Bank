@@ -26,5 +26,5 @@
   "option_operagx_transparent_background":false,
   "option_operagx_version":"1.0.0.0",
   "resourceType":"GMOperaGXOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

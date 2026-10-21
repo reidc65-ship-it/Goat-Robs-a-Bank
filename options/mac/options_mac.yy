@@ -34,5 +34,5 @@
   "option_mac_vsync":false,
   "option_mac_x86_64":true,
   "resourceType":"GMMacOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }
