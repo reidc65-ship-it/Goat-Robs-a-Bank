@@ -1,3 +1,19 @@
+// The shared pause/settings menu freezes gameplay while it is open.
+if (variable_global_exists("game_paused") && global.game_paused) {
+    hsp        = 0;
+    vsp        = 0;
+    is_dashing = false;
+    exit;
+}
+
+// Conversations own the screen while they run.
+if (variable_global_exists("dialogue_active") && global.dialogue_active) {
+    hsp        = 0;
+    vsp        = 0;
+    is_dashing = false;
+    exit;
+}
+
 // Get player input (WASD)
 key_left = keyboard_check(ord("A"));
 key_right = keyboard_check(ord("D"));
