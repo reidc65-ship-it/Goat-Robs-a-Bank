@@ -51,7 +51,10 @@ start_conversation = function() {
 
 /// @desc Called after dialogue ends to open upgrade menu
 open_upgrade_menu = function() {
-    // TODO: Open upgrade menu UI here
-    // For now, just show a simple message
-    show_debug_message("OPEN UPGRADE MENU - bank_balance: " + string(global.bank_balance));
+    // Create persistent upgrade menu instance if not exists
+    if (!instance_exists(oUpgradeMenu)) {
+        instance_create_depth(0, 0, -15000, oUpgradeMenu);
+    }
+    var _menu = instance_find(oUpgradeMenu, 0);
+    _menu.open_menu();
 };
