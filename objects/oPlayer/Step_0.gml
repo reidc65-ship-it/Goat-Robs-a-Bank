@@ -28,7 +28,7 @@ if (key_dash && !is_dashing && dash_cooldown_timer <= 0) {
 }
 
 // --- Coyote time + jump buffering ---
-var _grounded = place_meeting(x, y + 1, oWall) || place_meeting(x, y + 1, oStair);
+var _grounded = place_meeting(x, y + 1, oWall);
 if (_grounded) {
     coyote_timer = coyote_time;
 } else if (coyote_timer > 0) {
@@ -39,18 +39,6 @@ if (key_jump_pressed) {
     jump_buffer_timer = jump_buffer_time;
 } else if (jump_buffer_timer > 0) {
     jump_buffer_timer--;
-}
-
-// --- Stair State Variables ---
-// Track if we're currently on a stair landing (flat top piece)
-var _on_stair_landing = false;
-var _stair_landing_inst = noone;
-
-// Check if standing on a stair landing (flat piece with is_landing = true)
-var _landing_check = instance_place(x, y + 1, oStair);
-if (_landing_check != noone && _landing_check.is_landing) {
-    _on_stair_landing = true;
-    _stair_landing_inst = _landing_check;
 }
 
 // --- Movement Logic ---
@@ -99,50 +87,11 @@ if (is_dashing) {
 }
 
 // =====================================================================
-//  STAIR COLLISION SYSTEM (Katana ZERO style)
+//  SIMPLE PLATFORMER COLLISION (Wall only)
 // =====================================================================
 
-// --- Horizontal Stair Collision (Auto-climb) ---
-// Check for stairs in our horizontal path BEFORE regular wall collision
-var _stair_climbed = false;
-if (hsp != 0 && !is_dashing) {
-    var _stair_ahead = instance_place(x + hsp, y, oStair);
-    if (_stair_ahead != noone && !_stair_ahead.is_landing) {
-        // We're walking into a stair piece - determine stair direction
-        var _stair_dir = _stair_ahead.stair_direction; // 1 = right/up, -1 = left/up
-        var _move_dir = sign(hsp); // 1 = right, -1 = left
-        
-        // Only auto-climb if moving in the direction the stair goes up
-        if (_move_dir == _stair_dir) {
-            // Auto-climb: move horizontally AND vertically up
-            var _step_h = _stair_ahead.stair_step_height; // pixels per step (default 16)
-            
-            // Move horizontally into the stair
-            while (!place_meeting(x + sign(hsp), y, oWall) && 
-                   !place_meeting(x + sign(hsp), y, oStair)) {
-                x = x + sign(hsp);
-            }
-            
-            // Move up by step height (climb the stair)
-            var _climb_amount = min(_step_h, abs(hsp)); // climb proportional to horizontal move
-            for (var i = 0; i < _climb_amount; i++) {
-                if (!place_meeting(x, y - 1, oWall) && !place_meeting(x, y - 1, oStair)) {
-                    y -= 1;
-                } else {
-                    break;
-                }
-            }
-            
-            // Clear horizontal speed since we climbed
-            hsp = 0;
-            _stair_climbed = true;
-        }
-    }
-}
-
 // --- Horizontal Collision (Walls) ---
-// Skip if we already climbed a stair this frame
-if (!_stair_climbed && place_meeting(x + hsp, y, oWall)) {
+if (place_meeting(x + hsp, y, oWall)) {
     while (!place_meeting(x + sign(hsp), y, oWall)) {
         x = x + sign(hsp);
     }
@@ -150,23 +99,9 @@ if (!_stair_climbed && place_meeting(x + hsp, y, oWall)) {
 }
 x = x + hsp;
 
-// --- Vertical Stair Collision (Landing drop-through) ---
-// If standing on a stair landing and holding DOWN, drop through
-var _drop_through = false;
-if (_on_stair_landing && key_down && vsp >= 0) {
-    _drop_through = true;
-    // Move down slightly to clear the landing
-    y += 4;
-}
-
-// --- Vertical Collision ---
-// Check collision with walls AND stairs (unless dropping through landing)
-var _check_wall = place_meeting(x, y + vsp, oWall);
-var _check_stair = (!_drop_through) ? place_meeting(x, y + vsp, oStair) : false;
-
-if (_check_wall || _check_stair) {
-    while (!place_meeting(x, y + sign(vsp), oWall) && 
-           (!_drop_through || !place_meeting(x, y + sign(vsp), oStair))) {
+// --- Vertical Collision (Walls) ---
+if (place_meeting(x, y + vsp, oWall)) {
+    while (!place_meeting(x, y + sign(vsp), oWall)) {
         y = y + sign(vsp);
     }
     vsp = 0;
