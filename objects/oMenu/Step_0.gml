@@ -14,6 +14,10 @@ if (fade_dir == 1) {
             room_goto(pending_room);
             exit;
         }
+        if (next_screen == "farm") {
+            room_goto(rm_farm);
+            exit;
+        }
 
         menu_screen = next_screen;
         fade_dir = -1;
@@ -27,14 +31,6 @@ if (denied_timer > 0) denied_timer--;
 
 // No input while the screen is fading
 if (fade_dir != 0) exit;
-
-// --- Splash -----------------------------------------------------------
-if (menu_screen == "splash") {
-    if (keyboard_check_pressed(vk_anykey) || mouse_check_button_pressed(mb_left)) {
-        begin_fade("levels", noone);
-    }
-    exit;
-}
 
 // --- Level select -----------------------------------------------------
 var _count   = array_length(levels);
@@ -64,7 +60,7 @@ if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))) {
 }
 
 if (keyboard_check_pressed(vk_escape)) {
-    begin_fade("splash", noone);
+    begin_fade("farm", noone);
     exit;
 }
 

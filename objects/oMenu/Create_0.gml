@@ -18,7 +18,7 @@ window_center();
 
 if (!variable_global_exists("bank_balance")) global.bank_balance = 0;
 
-menu_screen = "splash"; // "splash" or "levels"
+menu_screen = "levels"; // "levels" only - splash removed, farm is entry point
 
 // --- Level list -------------------------------------------------------
 // The doc calls for around five heist jobs. Only the first is built; the
