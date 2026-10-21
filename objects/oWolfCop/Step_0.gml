@@ -59,6 +59,8 @@ switch (state) {
 if (state == "chase" && chase_target != noone && instance_exists(chase_target)) {
     facing = sign(chase_target.x - x);
 } else if (state == "patrol" && array_length(patrol_points) > 0) {
+    // Clamp patrol_index to valid range
+    patrol_index = clamp(patrol_index, 0, array_length(patrol_points) - 1);
     var _target = patrol_points[patrol_index];
     facing = sign(_target.x - x);
 }
@@ -84,6 +86,9 @@ do_patrol = function() {
         return;
     }
 
+    // Ensure patrol_index is valid
+    patrol_index = clamp(patrol_index, 0, array_length(patrol_points) - 1);
+
     var _target = patrol_points[patrol_index];
     var _dx = _target.x - x;
     var _dist = abs(_dx);
@@ -91,14 +96,19 @@ do_patrol = function() {
     if (_dist < 8) {
         // Reached point, wait then move to next
         if (state_timer > patrol_wait) {
-            patrol_index += patrol_dir;
-            if (patrol_index >= array_length(patrol_points)) {
-                patrol_index = array_length(patrol_points) - 2;
+            // Calculate next index
+            var _next_index = patrol_index + patrol_dir;
+            
+            // Check bounds and reverse if needed
+            if (_next_index >= array_length(patrol_points)) {
                 patrol_dir = -1;
-            } else if (patrol_index < 0) {
-                patrol_index = 1;
+                _next_index = array_length(patrol_points) - 2;
+            } else if (_next_index < 0) {
                 patrol_dir = 1;
+                _next_index = 1;
             }
+            
+            patrol_index = _next_index;
             state_timer = 0;
         }
         // Face the point while waiting
@@ -111,6 +121,8 @@ do_patrol = function() {
             // Hit wall, reverse
             patrol_dir *= -1;
             patrol_index += patrol_dir;
+            // Clamp after reversing
+            patrol_index = clamp(patrol_index, 0, array_length(patrol_points) - 1);
             state_timer = 0;
         }
     }
