@@ -24,6 +24,16 @@ max_hp = 3;
 hp = max_hp;
 invincible_timer = 0;
 
+// --- Ensure global systems exist (pause menu, dialogue, balance) ---
+if (!variable_global_exists("game_paused"))     global.game_paused = false;
+if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
+if (!variable_global_exists("bank_balance"))    global.bank_balance = 0;
+
+// Create persistent pause menu controller if missing
+if (!instance_exists(oPauseMenu)) {
+    instance_create_depth(0, 0, -10000, oPauseMenu);
+}
+
 // Camera follow state (driven in the Step event)
 cam_x = 0;
 cam_y = y - 300;
