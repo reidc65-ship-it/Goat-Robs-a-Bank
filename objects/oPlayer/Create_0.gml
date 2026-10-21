@@ -19,6 +19,32 @@ jump_buffer_time = 6;   // frames a jump press is remembered before landing
 jump_buffer_timer = 0;
 max_fall = 16;          // terminal velocity
 
+// Health
+max_hp = 3;
+hp = max_hp;
+invincible_timer = 0;
+
 // Camera follow state (driven in the Step event)
 cam_x = 0;
 cam_y = y - 300;
+
+/// @desc Take damage and handle knockback/invincibility
+take_damage = function(_amt, _knockback_dir) {
+    if (invincible_timer > 0 || hp <= 0) return;
+    
+    hp -= _amt;
+    invincible_timer = 60; // 1 second invincibility
+    
+    // Knockback
+    x += _knockback_dir * 8;
+    vsp = -4; // Pop up slightly
+    
+    // Visual feedback
+    image_blend = c_red;
+    alarm[0] = 10;
+    
+    if (hp <= 0) {
+        // Death - restart room
+        room_restart();
+    }
+};
