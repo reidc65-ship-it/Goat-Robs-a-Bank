@@ -1,21 +1,147 @@
 {
-  "$GMSprite":"v2",
-  "%Name":"sUpgradeMenuBG",
-  "bboxMode":0,
-  "bbox_bottom":767,
-  "bbox_left":0,
-  "bbox_right":1365,
-  "bbox_top":0,
-  "collisionKind":1,
-  "collisionTolerance":0,
-  "DynamicTexturePage":false,
-  "edgeFiltering":false,
-  "For3D":false,
-  "frames":[{"$GMSpriteFrame":"v1","%Name":"bg_frame_0","name":"bg_frame_0","resourceType":"GMSpriteFrame","resourceVersion":"2.0"}],
-  "gridX":0,"gridY":0,"height":768,"HTile":false,
-  "layers":[{"$GMImageLayer":"","%Name":"bg_layer","blendMode":0,"displayName":"default","isLocked":false,"name":"bg_layer","opacity":100.0,"resourceType":"GMImageLayer","resourceVersion":"2.0","visible":true}],
-  "name":"sUpgradeMenuBG","nineSlice":null,"origin":0,"parent":{"name":"Goat Robs a Bank","path":"Goat Robs a Bank.yyp"},
-  "preMultiplyAlpha":false,"resourceType":"GMSprite","resourceVersion":"2.0",
-  "sequence":{"$GMSequence":"v1","%Name":"sUpgradeMenuBG","autoRecord":true,"backdropHeight":768,"backdropImageOpacity":0.5,"backdropImagePath":"","backdropWidth":1366,"backdropXOffset":0.0,"backdropYOffset":0.0,"events":{"$KeyframeStore<MessageEventKeyframe>":"","Keyframes":[],"resourceType":"KeyframeStore<MessageEventKeyframe>","resourceVersion":"2.0"},"eventStubScript":null,"eventToFunction":{},"length":1.0,"lockOrigin":false,"moments":{"$KeyframeStore<MomentsEventKeyframe>":"","Keyframes":[],"resourceType":"KeyframeStore<MomentsEventKeyframe>","resourceVersion":"2.0"},"name":"sUpgradeMenuBG","playback":1,"playbackSpeed":30.0,"playbackSpeedType":0,"resourceType":"GMSequence","resourceVersion":"2.0","showBackdrop":true,"showBackdropImage":false,"timeUnits":1,"tracks":[{"$GMSpriteFramesTrack":"","builtinName":0,"events":[],"inheritsTrackColour":true,"interpolation":1,"isCreationTrack":false,"keyframes":{"$KeyframeStore<SpriteFrameKeyframe>":"","Keyframes":[{"$Keyframe<SpriteFrameKeyframe>":"","Channels":{"0":{"$SpriteFrameKeyframe":"","Id":{"name":"bg_frame_0","path":"sprites/sUpgradeMenuBG/sUpgradeMenuBG.yy"},"resourceType":"SpriteFrameKeyframe","resourceVersion":"2.0"}},"Disabled":false,"id":"bg_key_0","IsCreationKey":false,"Key":0.0,"Length":1.0,"resourceType":"Keyframe<SpriteFrameKeyframe>","resourceVersion":"2.0","Stretch":false}],"resourceType":"KeyframeStore<SpriteFrameKeyframe>","resourceVersion":"2.0"},"modifiers":[],"name":"frames","resourceType":"GMSpriteFramesTrack","resourceVersion":"2.0","spriteId":null,"trackColour":0,"tracks":[],"traits":0}],"visibleRange":null,"volume":1.0,"xorigin":0,"yorigin":0},
-  "swatchColours":null,"swfPrecision":0.5,"textureGroupId":{"name":"Default","path":"texturegroups/Default"},"type":0,"VTile":false,"width":1366
+  "$GMSprite": "v2",
+  "%Name": "sUpgradeMenuBG",
+  "bboxMode": 0,
+  "bbox_bottom": 767,
+  "bbox_left": 0,
+  "bbox_right": 1365,
+  "bbox_top": 0,
+  "collisionKind": 1,
+  "collisionTolerance": 0,
+  "DynamicTexturePage": false,
+  "edgeFiltering": false,
+  "For3D": false,
+  "frames": [
+    {
+      "$GMSpriteFrame": "v1",
+      "%Name": "75a06600-fa32-48a6-a109-f548e28c2180",
+      "name": "75a06600-fa32-48a6-a109-f548e28c2180",
+      "resourceType": "GMSpriteFrame",
+      "resourceVersion": "2.0"
+    }
+  ],
+  "gridX": 0,
+  "gridY": 0,
+  "height": 768,
+  "HTile": false,
+  "layers": [
+    {
+      "$GMImageLayer": "",
+      "%Name": "043f861b-b1c6-466b-a902-932f6b1a3b95",
+      "blendMode": 0,
+      "displayName": "default",
+      "isLocked": false,
+      "name": "043f861b-b1c6-466b-a902-932f6b1a3b95",
+      "opacity": 100.0,
+      "resourceType": "GMImageLayer",
+      "resourceVersion": "2.0",
+      "visible": true
+    }
+  ],
+  "name": "sUpgradeMenuBG",
+  "nineSlice": null,
+  "origin": 0,
+  "parent": {
+    "name": "Goat Robs a Bank",
+    "path": "Goat Robs a Bank.yyp"
+  },
+  "preMultiplyAlpha": false,
+  "resourceType": "GMSprite",
+  "resourceVersion": "2.0",
+  "sequence": {
+    "$GMSequence": "v1",
+    "%Name": "sUpgradeMenuBG",
+    "autoRecord": true,
+    "backdropHeight": 768,
+    "backdropImageOpacity": 0.5,
+    "backdropImagePath": "",
+    "backdropWidth": 1366,
+    "backdropXOffset": 0.0,
+    "backdropYOffset": 0.0,
+    "events": {
+      "$KeyframeStore<MessageEventKeyframe>": "",
+      "Keyframes": [],
+      "resourceType": "KeyframeStore<MessageEventKeyframe>",
+      "resourceVersion": "2.0"
+    },
+    "eventStubScript": null,
+    "eventToFunction": {},
+    "length": 1.0,
+    "lockOrigin": false,
+    "moments": {
+      "$KeyframeStore<MomentsEventKeyframe>": "",
+      "Keyframes": [],
+      "resourceType": "KeyframeStore<MomentsEventKeyframe>",
+      "resourceVersion": "2.0"
+    },
+    "name": "sUpgradeMenuBG",
+    "playback": 1,
+    "playbackSpeed": 30.0,
+    "playbackSpeedType": 0,
+    "resourceType": "GMSequence",
+    "resourceVersion": "2.0",
+    "showBackdrop": true,
+    "showBackdropImage": false,
+    "timeUnits": 1,
+    "tracks": [
+      {
+        "$GMSpriteFramesTrack": "",
+        "builtinName": 0,
+        "events": [],
+        "inheritsTrackColour": true,
+        "interpolation": 1,
+        "isCreationTrack": false,
+        "keyframes": {
+          "$KeyframeStore<SpriteFrameKeyframe>": "",
+          "Keyframes": [
+            {
+              "$Keyframe<SpriteFrameKeyframe>": "",
+              "Channels": {
+                "0": {
+                  "$SpriteFrameKeyframe": "",
+                  "Id": {
+                    "name": "75a06600-fa32-48a6-a109-f548e28c2180",
+                    "path": "sprites/sUpgradeMenuBG/sUpgradeMenuBG.yy"
+                  },
+                  "resourceType": "SpriteFrameKeyframe",
+                  "resourceVersion": "2.0"
+                }
+              },
+              "Disabled": false,
+              "id": "951dbc4e-6a23-4799-ae83-b7a7d51f4f9d",
+              "IsCreationKey": false,
+              "Key": 0.0,
+              "Length": 1.0,
+              "resourceType": "Keyframe<SpriteFrameKeyframe>",
+              "resourceVersion": "2.0",
+              "Stretch": false
+            }
+          ],
+          "resourceType": "KeyframeStore<SpriteFrameKeyframe>",
+          "resourceVersion": "2.0"
+        },
+        "modifiers": [],
+        "name": "frames",
+        "resourceType": "GMSpriteFramesTrack",
+        "resourceVersion": "2.0",
+        "spriteId": null,
+        "trackColour": 0,
+        "tracks": [],
+        "traits": 0
+      }
+    ],
+    "visibleRange": null,
+    "volume": 1.0,
+    "xorigin": 0,
+    "yorigin": 0
+  },
+  "swatchColours": null,
+  "swfPrecision": 0.5,
+  "textureGroupId": {
+    "name": "Default",
+    "path": "texturegroups/Default"
+  },
+  "type": 0,
+  "VTile": false,
+  "width": 1366
 }
