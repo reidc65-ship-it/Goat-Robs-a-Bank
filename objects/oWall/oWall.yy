@@ -7,7 +7,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Goat Robs a Bank",
-    "path":"Goat Robs a Bank.yyp",
+    "path":"Goat Robs a Bank.yyp"
   },
   "parentObjectId":null,
   "persistent":false,
@@ -29,8 +29,8 @@
   "solid":false,
   "spriteId":{
     "name":"sWall",
-    "path":"sprites/sWall/sWall.yy",
+    "path":"sprites/sWall/sWall.yy"
   },
   "spriteMaskId":null,
-  "visible":true,
+  "visible":true
 }

@@ -1,51 +1,337 @@
 {
-  "$GMProject":"v1",
-  "%Name":"Goat Robs a Bank",
-  "AudioGroups":[
-    {"$GMAudioGroup":"v1","%Name":"audiogroup_default","exportDir":"","name":"audiogroup_default","resourceType":"GMAudioGroup","resourceVersion":"2.0","targets":-1,},
+  "$GMProject": "v1",
+  "%Name": "Goat Robs a Bank",
+  "AudioGroups": [
+    {
+      "$GMAudioGroup": "v1",
+      "%Name": "audiogroup_default",
+      "exportDir": "",
+      "name": "audiogroup_default",
+      "resourceType": "GMAudioGroup",
+      "resourceVersion": "2.0",
+      "targets": -1
+    }
   ],
-  "configs":{
-    "children":[],
-    "name":"Default",
+  "configs": {
+    "children": [],
+    "name": "Default"
   },
-  "defaultScriptType":1,
-  "Folders":[],
-  "ForcedPrefabProjectReferences":[],
-  "IncludedFiles":[],
-  "isEcma":false,
-  "LibraryEmitters":[],
-  "MetaData":{
-    "IDEVersion":"2026.0.0.16",
+  "defaultScriptType": 1,
+  "Folders": [],
+  "ForcedPrefabProjectReferences": [],
+  "IncludedFiles": [],
+  "isEcma": false,
+  "LibraryEmitters": [],
+  "MetaData": {
+    "IDEVersion": "2026.0.0.16"
   },
-  "name":"Goat Robs a Bank",
-  "resources":[
-    {"id":{"name":"obj_horn_bullet","path":"objects/obj_horn_bullet/obj_horn_bullet.yy",},},
-    {"id":{"name":"oDoor","path":"objects/oDoor/oDoor.yy",},},
-    {"id":{"name":"oMenu","path":"objects/oMenu/oMenu.yy",},},
-    {"id":{"name":"oPauseMenu","path":"objects/oPauseMenu/oPauseMenu.yy",},},
-    {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
-    {"id":{"name":"oWall","path":"objects/oWall/oWall.yy",},},
-    {"id":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
-    {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
-    {"id":{"name":"Horn","path":"sprites/Horn/Horn.yy",},},
-    {"id":{"name":"sDoor","path":"sprites/sDoor/sDoor.yy",},},
-    {"id":{"name":"sLogo","path":"sprites/sLogo/sLogo.yy",},},
-    {"id":{"name":"sMenuLevels","path":"sprites/sMenuLevels/sMenuLevels.yy",},},
-    {"id":{"name":"sMenuSplash","path":"sprites/sMenuSplash/sMenuSplash.yy",},},
-    {"id":{"name":"sPortraitBear","path":"sprites/sPortraitBear/sPortraitBear.yy",},},
-    {"id":{"name":"sPortraitGoat","path":"sprites/sPortraitGoat/sPortraitGoat.yy",},},
-    {"id":{"name":"sPlayer","path":"sprites/sPlayer/sPlayer.yy",},},
-    {"id":{"name":"sPlayerR","path":"sprites/sPlayerR/sPlayerR.yy",},},
-    {"id":{"name":"sWall","path":"sprites/sWall/sWall.yy",},},
+  "name": "Goat Robs a Bank",
+  "resources": [
+    {
+      "id": {
+        "name": "Horn",
+        "path": "sprites/Horn/Horn.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "Room1",
+        "path": "rooms/Room1/Room1.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oDoor",
+        "path": "objects/oDoor/oDoor.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oGoatElder",
+        "path": "objects/oGoatElder/oGoatElder.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oGoatScout",
+        "path": "objects/oGoatScout/oGoatScout.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oMenu",
+        "path": "objects/oMenu/oMenu.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oPlayer",
+        "path": "objects/oPlayer/oPlayer.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oUpgradeMenu",
+        "path": "objects/oUpgradeMenu/oUpgradeMenu.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oWall",
+        "path": "objects/oWall/oWall.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oWolfCop",
+        "path": "objects/oWolfCop/oWolfCop.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "obj_horn_bullet",
+        "path": "objects/obj_horn_bullet/obj_horn_bullet.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "rm_farm",
+        "path": "rooms/rm_farm/rm_farm.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "rm_menu",
+        "path": "rooms/rm_menu/rm_menu.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sBearNPC",
+        "path": "sprites/sBearNPC/sBearNPC.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sDoor",
+        "path": "sprites/sDoor/sDoor.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sLogo",
+        "path": "sprites/sLogo/sLogo.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sMenuLevels",
+        "path": "sprites/sMenuLevels/sMenuLevels.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sMenuSplash",
+        "path": "sprites/sMenuSplash/sMenuSplash.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sPlayer",
+        "path": "sprites/sPlayer/sPlayer.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sPlayerR",
+        "path": "sprites/sPlayerR/sPlayerR.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sPortraitBear",
+        "path": "sprites/sPortraitBear/sPortraitBear.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sPortraitGoat",
+        "path": "sprites/sPortraitGoat/sPortraitGoat.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeCharge",
+        "path": "sprites/sUpgradeCharge/sUpgradeCharge.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeDash",
+        "path": "sprites/sUpgradeDash/sUpgradeDash.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeDoubleJump",
+        "path": "sprites/sUpgradeDoubleJump/sUpgradeDoubleJump.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeHorn",
+        "path": "sprites/sUpgradeHorn/sUpgradeHorn.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeMenuBG",
+        "path": "sprites/sUpgradeMenuBG/sUpgradeMenuBG.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sUpgradeSpirit",
+        "path": "sprites/sUpgradeSpirit/sUpgradeSpirit.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sWall",
+        "path": "sprites/sWall/sWall.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sWolfCop",
+        "path": "sprites/sWolfCop/sWolfCop.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBearNPC",
+        "path": "objects/oBearNPC/oBearNPC.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oDialogue",
+        "path": "objects/oDialogue/oDialogue.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oPauseMenu",
+        "path": "objects/oPauseMenu/oPauseMenu.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oFarmBlocker",
+        "path": "objects/oFarmBlocker/oFarmBlocker.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBarnEnter",
+        "path": "objects/oBarnEnter/oBarnEnter.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBarnExit",
+        "path": "objects/oBarnExit/oBarnExit.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sFarmBG",
+        "path": "sprites/sFarmBG/sFarmBG.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sBarnBG",
+        "path": "sprites/sBarnBG/sBarnBG.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "rm_barn",
+        "path": "rooms/rm_barn/rm_barn.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oStair",
+        "path": "objects/oStair/oStair.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBankBlocker",
+        "path": "objects/oBankBlocker/oBankBlocker.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oSkylight",
+        "path": "objects/oSkylight/oSkylight.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBankBackdrop",
+        "path": "objects/oBankBackdrop/oBankBackdrop.yy"
+      }
+    }
   ],
-  "resourceType":"GMProject",
-  "resourceVersion":"2.0",
-  "RoomOrderNodes":[
-    {"roomId":{"name":"rm_menu","path":"rooms/rm_menu/rm_menu.yy",},},
-    {"roomId":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+  "resourceType": "GMProject",
+  "resourceVersion": "2.0",
+  "RoomOrderNodes": [
+    {
+      "roomId": {
+        "name": "rm_menu",
+        "path": "rooms/rm_menu/rm_menu.yy"
+      }
+    },
+    {
+      "roomId": {
+        "name": "rm_farm",
+        "path": "rooms/rm_farm/rm_farm.yy"
+      }
+    },
+    {
+      "roomId": {
+        "name": "rm_barn",
+        "path": "rooms/rm_barn/rm_barn.yy"
+      }
+    },
+    {
+      "roomId": {
+        "name": "Room1",
+        "path": "rooms/Room1/Room1.yy"
+      }
+    }
   ],
-  "templateType":"game",
-  "TextureGroups":[
-    {"$GMTextureGroup":"","%Name":"Default","autocrop":true,"border":2,"compressFormat":"bz2","customOptions":"","directory":"","groupParent":null,"isScaled":true,"loadType":"default","mipsToGenerate":0,"name":"Default","resourceType":"GMTextureGroup","resourceVersion":"2.0","targets":-1,},
-  ],
+  "templateType": "game",
+  "TextureGroups": [
+    {
+      "$GMTextureGroup": "",
+      "%Name": "Default",
+      "autocrop": true,
+      "border": 2,
+      "compressFormat": "bz2",
+      "customOptions": "",
+      "directory": "",
+      "groupParent": null,
+      "isScaled": true,
+      "loadType": "default",
+      "mipsToGenerate": 0,
+      "name": "Default",
+      "resourceType": "GMTextureGroup",
+      "resourceVersion": "2.0",
+      "targets": -1
+    }
+  ]
 }

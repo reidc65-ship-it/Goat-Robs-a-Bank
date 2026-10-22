@@ -31,5 +31,5 @@
   "option_html5_version":"1.0.0.0",
   "option_html5_webgl":2,
   "resourceType":"GMHtml5Options",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

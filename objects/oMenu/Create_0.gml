@@ -18,7 +18,17 @@ window_center();
 
 if (!variable_global_exists("bank_balance")) global.bank_balance = 0;
 
-menu_screen = "splash"; // "splash" or "levels"
+// The splash is shown once per launch. Opening the heist board from the
+// Scout later goes straight to the level list.
+if (!variable_global_exists("splash_done"))      global.splash_done = false;
+if (!variable_global_exists("spawn_x"))          global.spawn_x = -1;
+if (!variable_global_exists("spawn_y"))          global.spawn_y = -1;
+if (!variable_global_exists("menu_return_room")) global.menu_return_room = rm_farm;
+if (!variable_global_exists("menu_return_x"))    global.menu_return_x = 1320;
+if (!variable_global_exists("menu_return_y"))    global.menu_return_y = 608;
+
+menu_screen = global.splash_done ? "levels" : "splash";
+splash_timer = 0;
 
 // --- Level list -------------------------------------------------------
 // The doc calls for around five heist jobs. Only the first is built; the

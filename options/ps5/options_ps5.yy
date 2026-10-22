@@ -23,5 +23,5 @@
   "option_ps5_trophyedit":"",
   "option_ps5_trophy_screen":"${base_options_dir}/ps5/sce_sys/pic0.png",
   "resourceType":"GMPS5Options",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }

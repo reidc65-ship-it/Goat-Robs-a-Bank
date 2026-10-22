@@ -1,6 +1,15 @@
+// Freeze the goat while a menu or a conversation owns the screen. Without
+// this the player keeps moving (and can still shoot) behind the overlay.
+if (global.game_paused || global.dialogue_active) exit;
+
+// Damage invincibility counts down while the game is running.
+if (invincible_timer > 0) invincible_timer--;
+
 // Get player input (WASD)
 key_left = keyboard_check(ord("A"));
 key_right = keyboard_check(ord("D"));
+key_up = keyboard_check(ord("W"));
+key_down = keyboard_check(ord("S"));
 key_jump_pressed = keyboard_check_pressed(ord("W"));
 key_jump_released = keyboard_check_released(ord("W"));
 key_dash = keyboard_check_pressed(vk_shift);
@@ -25,8 +34,23 @@ if (key_dash && !is_dashing && dash_cooldown_timer <= 0) {
     dash_timer = dash_duration;
 }
 
+// --- Stair Attachment ---
+// Find a sloped stair surface under the goat's feet. A vertical dash or
+// jump deliberately leaves the stairs so they can be used as shortcuts.
+on_stair = noone;
+var _dash_vertical = is_dashing && abs(lengthdir_y(dashsp, dash_dir)) > 4;
+if (!_dash_vertical && vsp >= -1) {
+    var _found_stair = find_stair(x, y + 32);
+    if (_found_stair != noone) {
+        on_stair = _found_stair;
+        y = stair_surface - 32;
+        vsp = 0;
+        coyote_timer = coyote_time;
+    }
+}
+
 // --- Coyote time + jump buffering ---
-var _grounded = place_meeting(x, y + 1, oWall);
+var _grounded = place_meeting(x, y + 1, oWall) || (on_stair != noone);
 if (_grounded) {
     coyote_timer = coyote_time;
 } else if (coyote_timer > 0) {
@@ -51,18 +75,34 @@ if (is_dashing) {
         dash_cooldown_timer = dash_cooldown;
     }
 } else {
-    // Normal platformer movement
+    // Normal platformer movement. On a stair, downhill movement is faster
+    // and uphill movement is heavier, which gives the stairs their
+    // Katana ZERO-style momentum.
     var move = key_right - key_left;
-    hsp = move * walksp;
-    vsp = vsp + grv;
-    if (vsp > max_fall) vsp = max_fall;
+    var _speed = walksp;
+
+    if (on_stair != noone) {
+        var _downhill = (on_stair.dir == 1 && move < 0)
+                     || (on_stair.dir == -1 && move > 0);
+        _speed = walksp * (_downhill ? 1.65 : 0.85);
+    }
+
+    hsp = move * _speed;
+
+    if (on_stair != noone) {
+        vsp = 0;
+    } else {
+        vsp = vsp + grv;
+        if (vsp > max_fall) vsp = max_fall;
+    }
 
     // Jump (allowed slightly after walking off a ledge, or if pressed just
-    // before landing)
+    // before landing, and from a stair surface)
     if (coyote_timer > 0 && jump_buffer_timer > 0) {
         vsp = -7;
         coyote_timer = 0;
         jump_buffer_timer = 0;
+        on_stair = noone;
     }
 
     // Variable jump height: releasing W early cuts the jump short
@@ -71,7 +111,7 @@ if (is_dashing) {
     }
 }
 
-// --- Dashing smashes doors open ---
+// --- Dashing smashes doors open and bowls over guards ---
 if (is_dashing) {
     var _door = instance_place(x + sign(hsp), y + sign(vsp), oDoor);
     if (_door != noone) {
@@ -82,10 +122,24 @@ if (is_dashing) {
             instance_destroy(_door);
         }
     }
+
+    var _wolf = instance_place(x + hsp, y, oWolfCop);
+    if (_wolf != noone && variable_instance_exists(_wolf, "take_damage")) {
+        _wolf.take_damage(2, sign(hsp));
+    }
 }
 
-// --- Horizontal Collision ---
-if (place_meeting(x + hsp, y, oWall)) {
+// =====================================================================
+//  SIMPLE PLATFORMER COLLISION (Wall only)
+// =====================================================================
+
+// --- Horizontal Collision (Walls) ---
+// While following a stair, skip wall collision. The landing slabs share
+// the stair endpoints, and the goat's shoulder overlaps their side face
+// by a few pixels for one frame when stepping on or off a flight. The
+// flights themselves are in open shafts, so there are no real walls to
+// catch on while `on_stair` is set.
+if (on_stair == noone && place_meeting(x + hsp, y, oWall)) {
     while (!place_meeting(x + sign(hsp), y, oWall)) {
         x = x + sign(hsp);
     }
@@ -93,8 +147,31 @@ if (place_meeting(x + hsp, y, oWall)) {
 }
 x = x + hsp;
 
-// --- Vertical Collision ---
-if (place_meeting(x, y + vsp, oWall)) {
+// --- Stay on the stairs after the horizontal move ---
+// Re-find the surface at the new x. If we walked off either end, drop
+// back into normal gravity next frame. When walking UP a flight and
+// crossing the top edge, snap to the landing's top surface; otherwise the
+// goat's last sloped-foot position would be a few pixels below the slab
+// and the solid landing would catch them.
+if (on_stair != noone) {
+    var _old_stair = on_stair;
+    var _stair_now = find_stair(x, y + 32);
+    if (_stair_now != noone) {
+        on_stair = _stair_now;
+        y = stair_surface - 32;
+        vsp = 0;
+    } else {
+        var _top_x = _old_stair.x + _old_stair.dir * _old_stair.w;
+        var _top_y = _old_stair.y - _old_stair.h;
+        var _crossed_top = ((_old_stair.dir == -1 && x <= _top_x)
+                         || (_old_stair.dir == 1  && x >= _top_x));
+        if (_crossed_top) y = _top_y - 32;
+        on_stair = noone;
+    }
+}
+
+// --- Vertical Collision (Walls) ---
+if (vsp != 0 && place_meeting(x, y + vsp, oWall)) {
     while (!place_meeting(x, y + sign(vsp), oWall)) {
         y = y + sign(vsp);
     }

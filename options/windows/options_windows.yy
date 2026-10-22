@@ -34,5 +34,5 @@
   "option_windows_version":"1.0.0.0",
   "option_windows_vsync":false,
   "resourceType":"GMWindowsOptions",
-  "resourceVersion":"2.0",
+  "resourceVersion":"2.0"
 }
