@@ -206,11 +206,95 @@
         "name": "sWolfCop",
         "path": "sprites/sWolfCop/sWolfCop.yy"
       }
+    },
+    {
+      "id": {
+        "name": "oBearNPC",
+        "path": "objects/oBearNPC/oBearNPC.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oDialogue",
+        "path": "objects/oDialogue/oDialogue.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oPauseMenu",
+        "path": "objects/oPauseMenu/oPauseMenu.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oFarmBlocker",
+        "path": "objects/oFarmBlocker/oFarmBlocker.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBarnEnter",
+        "path": "objects/oBarnEnter/oBarnEnter.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBarnExit",
+        "path": "objects/oBarnExit/oBarnExit.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sFarmBG",
+        "path": "sprites/sFarmBG/sFarmBG.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sBarnBG",
+        "path": "sprites/sBarnBG/sBarnBG.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "rm_barn",
+        "path": "rooms/rm_barn/rm_barn.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oStair",
+        "path": "objects/oStair/oStair.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBankBlocker",
+        "path": "objects/oBankBlocker/oBankBlocker.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oSkylight",
+        "path": "objects/oSkylight/oSkylight.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oBankBackdrop",
+        "path": "objects/oBankBackdrop/oBankBackdrop.yy"
+      }
     }
   ],
   "resourceType": "GMProject",
   "resourceVersion": "2.0",
   "RoomOrderNodes": [
+    {
+      "roomId": {
+        "name": "rm_menu",
+        "path": "rooms/rm_menu/rm_menu.yy"
+      }
+    },
     {
       "roomId": {
         "name": "rm_farm",
@@ -219,8 +303,8 @@
     },
     {
       "roomId": {
-        "name": "rm_menu",
-        "path": "rooms/rm_menu/rm_menu.yy"
+        "name": "rm_barn",
+        "path": "rooms/rm_barn/rm_barn.yy"
       }
     },
     {

@@ -85,10 +85,19 @@ for (var i = 0; i <= max_sel; i++) {
             break;
     }
 
-    // Selection highlight
+    // Selection highlight: brighten each channel, remembering that
+    // GameMaker colours are stored as BGR.
     if (_sel) {
-        _c1 = make_colour_rgb(min(_c1 & 0xFF + 30, 255), min((_c1 >> 8) & 0xFF + 20, 255), min((_c1 >> 16) & 0xFF + 10, 255));
-        _c2 = make_colour_rgb(min(_c2 & 0xFF + 20, 255), min((_c2 >> 8) & 0xFF + 15, 255), min((_c2 >> 16) & 0xFF + 8, 255));
+        var _rr = min(((_c1 >> 16) & 0xFF) + 30, 255);
+        var _gg = min(((_c1 >> 8)  & 0xFF) + 20, 255);
+        var _bb = min(( _c1        & 0xFF) + 10, 255);
+        _c1 = make_colour_rgb(_rr, _gg, _bb);
+
+        _rr = min(((_c2 >> 16) & 0xFF) + 20, 255);
+        _gg = min(((_c2 >> 8)  & 0xFF) + 15, 255);
+        _bb = min(( _c2        & 0xFF) + 8,  255);
+        _c2 = make_colour_rgb(_rr, _gg, _bb);
+
         _border = make_colour_rgb(242, 208, 107);
     }
 
@@ -119,9 +128,15 @@ for (var i = 0; i <= max_sel; i++) {
 
     // Lock icon for locked
     if (_tier == 0) {
+        // Simple padlock, drawn with primitives (no extra sprite needed).
+        var _lx = _r.x2 - 34;
+        var _ly = _r.y1 + 34;
         draw_set_colour(make_colour_rgb(120, 100, 70));
-        draw_set_alpha(0.9);
-        draw_sprite_ext(sUpgradeDash, 0, _ix, _iy, 1.0, 1.0, 0, c_black, 0.7); // placeholder lock
+        draw_set_alpha(0.95);
+        draw_roundrect_ext(_lx - 10, _ly - 2, _lx + 10, _ly + 14, 3, 3, false);
+        draw_set_colour(make_colour_rgb(70, 58, 40));
+        draw_circle(_lx, _ly - 6, 7, true);
+        draw_circle(_lx, _ly - 6, 4, false);
         draw_set_alpha(1);
     }
 
@@ -193,12 +208,12 @@ for (var i = 0; i <= max_sel; i++) {
 
     // Selection arrows
     if (_sel) {
-        var _cy = (_r.y1 + _r.y2) * 0.5;
+        var _row_cy = (_r.y1 + _r.y2) * 0.5;
         draw_set_colour(make_colour_rgb(242, 208, 107));
         // Left arrow
-        draw_triangle(_r.x1 - 18, _cy, _r.x1 - 6, _cy - 10, _r.x1 - 6, _cy + 10, false);
+        draw_triangle(_r.x1 - 18, _row_cy, _r.x1 - 6, _row_cy - 10, _r.x1 - 6, _row_cy + 10, false);
         // Right arrow
-        draw_triangle(_r.x2 + 18, _cy, _r.x2 + 6, _cy - 10, _r.x2 + 6, _cy + 10, false);
+        draw_triangle(_r.x2 + 18, _row_cy, _r.x2 + 6, _row_cy - 10, _r.x2 + 6, _row_cy + 10, false);
     }
 }
 

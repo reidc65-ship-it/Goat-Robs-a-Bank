@@ -11,6 +11,12 @@ if (fade_dir == 1) {
 
     if (fade >= 1) {
         if (next_screen == "game") {
+            global.spawn_x = -1;
+            global.spawn_y = -1;
+            room_goto(pending_room);
+            exit;
+        }
+        if (next_screen == "room") {
             room_goto(pending_room);
             exit;
         }
@@ -31,6 +37,22 @@ if (denied_timer > 0) denied_timer--;
 
 // No input while the screen is fading
 if (fade_dir != 0) exit;
+
+// --- Splash -----------------------------------------------------------
+if (menu_screen == "splash") {
+    splash_timer++;
+
+    // Ignore the first few frames so the F5 key press cannot skip it.
+    if (splash_timer > 15 &&
+        (keyboard_check_pressed(vk_anykey) || mouse_check_button_pressed(mb_left))) {
+        global.splash_done = true;
+        begin_fade("farm", noone);
+    } else if (splash_timer > 360) {
+        global.splash_done = true;
+        begin_fade("farm", noone);
+    }
+    exit;
+}
 
 // --- Level select -----------------------------------------------------
 var _count   = array_length(levels);
@@ -60,7 +82,9 @@ if (keyboard_check_pressed(vk_down) || keyboard_check_pressed(ord("S"))) {
 }
 
 if (keyboard_check_pressed(vk_escape)) {
-    begin_fade("farm", noone);
+    global.spawn_x = global.menu_return_x;
+    global.spawn_y = global.menu_return_y;
+    begin_fade("room", global.menu_return_room);
     exit;
 }
 

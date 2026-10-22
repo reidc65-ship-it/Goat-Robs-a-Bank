@@ -4,6 +4,11 @@
 //  Sight system: cone vision + line-of-sight check.
 // =====================================================================
 
+// These globals may not exist yet if the wolf is placed in a room that is
+// launched directly from the Room Editor (no oPlayer yet).
+if (!variable_global_exists("game_paused"))     global.game_paused = false;
+if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
+
 // --- Stats ------------------------------------------------------------
 max_hp        = 3;
 hp            = max_hp;
@@ -66,9 +71,10 @@ alert_sprite  = sWolfCop; // placeholder for "!" icon
 if (variable_instance_exists(id, "patrol_path")) {
     // Path assigned in Room Editor
 } else {
-    // Default: create two points left/right of spawn
-    patrol_points[0] = { x: x - 160, y: y };
-    patrol_points[1] = { x: x + 160, y: y };
+    // Default: create two points left/right of spawn. Kept short enough
+    // that the guard does not walk straight into a room wall.
+    patrol_points[0] = { x: x - 96, y: y };
+    patrol_points[1] = { x: x + 96, y: y };
 }
 
 // --- Helpers ----------------------------------------------------------
@@ -85,9 +91,11 @@ can_see_player = function() {
     // Range check
     if (_dist > sight_range) return false;
     
-    // Angle check (cone in front)
+    // Angle check (cone in front). image_angle is never rotated for this
+    // sprite, so derive the looking direction from `facing`.
+    var _look_dir = (facing >= 0) ? 0 : 180;
     var _angle_to = point_direction(x, y, _p.x, _p.y);
-    var _diff = angle_difference(_angle_to, image_angle);
+    var _diff = angle_difference(_angle_to, _look_dir);
     if (abs(_diff) > sight_angle) return false;
     
     // Line of sight check
@@ -123,7 +131,6 @@ set_state = function(_new_state) {
             break;
         case "dead":
             image_speed = 0;
-            event_user(0); // death event
             break;
     }
 };

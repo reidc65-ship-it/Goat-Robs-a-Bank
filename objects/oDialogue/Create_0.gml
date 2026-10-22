@@ -232,7 +232,7 @@ finish_dialogue = function() {
     global.dialogue_active = false;
     global.game_paused     = false;
 
-    if (is_function(on_complete)) {
+    if (is_callable(on_complete)) {
         on_complete();
     }
 

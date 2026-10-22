@@ -3,6 +3,9 @@
 //  State machine: idle -> patrol -> chase -> attack -> stunned -> dead
 // =====================================================================
 
+// Freeze with the rest of the game while a menu / conversation is open.
+if (global.game_paused || global.dialogue_active) exit;
+
 // --- Timers -----------------------------------------------------------
 if (state_timer < 1000000) state_timer++; // prevent overflow
 
@@ -51,28 +54,37 @@ switch (state) {
         break;
 
     case "dead":
-        // Fade out handled in Draw or Animation End
+        // Fade the body out, then remove it so the room stays clean.
+        image_alpha = max(image_alpha - 0.02, 0);
+        if (state_timer > 40) instance_destroy();
         break;
 }
 
 // --- Facing direction -------------------------------------------------
+// Recompute the direction, but never let it become 0: a zero facing used
+// to set image_xscale to 0 and make the wolf disappear at patrol points.
+var _new_facing = 0;
 if (state == "chase" && chase_target != noone && instance_exists(chase_target)) {
-    facing = sign(chase_target.x - x);
+    _new_facing = sign(chase_target.x - x);
 } else if (state == "patrol" && array_length(patrol_points) > 0) {
     // Clamp patrol_index to valid range
     patrol_index = clamp(patrol_index, 0, array_length(patrol_points) - 1);
     var _target = patrol_points[patrol_index];
-    facing = sign(_target.x - x);
+    _new_facing = sign(_target.x - x);
 }
 
-image_xscale = abs(image_xscale) * facing;
+if (_new_facing != 0) facing = _new_facing;
+if (facing == 0) facing = 1;
+
+image_xscale = abs(image_xscale);
+if (facing < 0) image_xscale = -image_xscale;
 
 // --- Physics ----------------------------------------------------------
-// Simple gravity
-if (!place_meeting(x, y + 1, oWall)) {
-    y += 4; // gravity
+// Simple gravity, snapped to the floor so the wolf never sinks into it.
+if (!place_meeting(x, y + 4, oWall)) {
+    y += 4;
 } else {
-    // On ground
+    while (!place_meeting(x, y + 1, oWall)) y++;
 }
 
 /// =====================================================================
@@ -111,17 +123,15 @@ do_patrol = function() {
             patrol_index = _next_index;
             state_timer = 0;
         }
-        // Face the point while waiting
-        facing = sign(_dx);
     } else {
-        // Move toward point
-        x += patrol_speed * facing;
-        // Check for walls ahead
-        if (place_meeting(x + facing * 16, y, oWall)) {
+        // Move toward point, but stop at a wall instead of walking into it.
+        var _step = patrol_speed * sign(_dx);
+        if (!place_meeting(x + _step, y, oWall)) {
+            x += _step;
+        } else {
             // Hit wall, reverse
             patrol_dir *= -1;
             patrol_index += patrol_dir;
-            // Clamp after reversing
             patrol_index = clamp(patrol_index, 0, array_length(patrol_points) - 1);
             state_timer = 0;
         }
@@ -138,15 +148,14 @@ do_chase = function() {
     var _dx = chase_target.x - x;
     var _dist = abs(_dx);
 
-    // Move toward player
-    x += chase_speed * sign(_dx);
-
-    // Jump over small obstacles
-    if (place_meeting(x + sign(_dx) * 16, y, oWall) && !place_meeting(x + sign(_dx) * 16, y - 32, oWall)) {
-        // Simple jump
-        if (place_meeting(x, y + 1, oWall)) {
-            y -= 8; // hop up
-        }
+    // Move toward player, stopping at walls. If a wall blocks the route,
+    // hop up so the guard can follow over low ledges.
+    var _step = chase_speed * sign(_dx);
+    if (_step != 0 && !place_meeting(x + _step, y, oWall)) {
+        x += _step;
+    } else if (place_meeting(x, y + 1, oWall)
+            && !place_meeting(x, y - 32, oWall)) {
+        y -= 8; // hop up
     }
 
     // Attack if in range

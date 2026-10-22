@@ -9,13 +9,15 @@ if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
 
 // --- Upgrade Data -----------------------------------------------------
 // Each upgrade: id, name, desc, cost, sprite, unlocked, tier (0=locked, 1=available, 2=owned)
-global.upgrades = global.upgrades ?? [
-    { id: "dash",        name: "DASH STRIKE",      desc: "Tap SHIFT to dash through enemies.",       cost: 0,   sprite: sUpgradeDash,       tier: 2 }, // Starter - owned
-    { id: "horn",        name: "HORN THROW",       desc: "Press X to hurl your horn at range.",      cost: 500, sprite: sUpgradeHorn,       tier: 1 }, // Available
-    { id: "doublejump",  name: "DOUBLE JUMP",      desc: "Jump again in mid-air to reach new heights.", cost: 1200, sprite: sUpgradeDoubleJump, tier: 0 }, // Locked
-    { id: "charge",      name: "CHARGE ATTACK",    desc: "Hold X to charge a devastating horn blast.", cost: 2500, sprite: sUpgradeCharge,     tier: 0 }, // Locked
-    { id: "spirit",      name: "SPIRIT FORM",      desc: "Become intangible for 3 seconds. Cooldown: 20s.", cost: 5000, sprite: sUpgradeSpirit,    tier: 0 }  // Locked
-];
+if (!variable_global_exists("upgrades")) {
+    global.upgrades = [
+        { id: "dash",        name: "DASH STRIKE",      desc: "Tap SHIFT to dash through enemies.",       cost: 0,   sprite: sUpgradeDash,       tier: 2 }, // Starter - owned
+        { id: "horn",        name: "HORN THROW",       desc: "Press X to hurl your horn at range.",      cost: 500, sprite: sUpgradeHorn,       tier: 1 }, // Available
+        { id: "doublejump",  name: "DOUBLE JUMP",      desc: "Jump again in mid-air to reach new heights.", cost: 1200, sprite: sUpgradeDoubleJump, tier: 0 }, // Locked
+        { id: "charge",      name: "CHARGE ATTACK",    desc: "Hold X to charge a devastating horn blast.", cost: 2500, sprite: sUpgradeCharge,     tier: 0 }, // Locked
+        { id: "spirit",      name: "SPIRIT FORM",      desc: "Become intangible for 3 seconds. Cooldown: 20s.", cost: 5000, sprite: sUpgradeSpirit,    tier: 0 }  // Locked
+    ];
+}
 
 // --- Menu State -------------------------------------------------------
 is_open       = false;

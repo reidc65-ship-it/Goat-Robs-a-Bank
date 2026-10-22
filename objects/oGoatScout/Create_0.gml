@@ -51,6 +51,9 @@ start_conversation = function() {
 
 /// @desc Called after dialogue ends to open level select (rm_menu)
 open_level_select = function() {
-    // Return to menu room which has the level select screen
+    // Backing out of the board returns to the barn, next to the Scout.
+    global.menu_return_room = rm_barn;
+    global.menu_return_x    = 880;
+    global.menu_return_y    = 608;
     room_goto(rm_menu);
 };

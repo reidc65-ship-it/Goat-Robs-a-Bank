@@ -5,7 +5,8 @@
 
 // --- Shadow ---
 draw_sprite_ext(sprite_index, image_index, x + 4, y + 6,
-                image_xscale, image_yscale, image_angle, c_black, 0.25);
+                image_xscale, image_yscale, image_angle, c_black,
+                0.25 * image_alpha);
 draw_self();
 
 // --- Vision Cone (Debug - only in debug mode) ---
@@ -61,7 +62,7 @@ if (debug_mode) {
 }
 
 // --- Alert Indicator ---
-if (alert_level > 0) {
+if (alert_level > 0 && state != "dead") {
     var _bob = sin(current_time / 150) * 4;
     var _ax = x;
     var _ay = bbox_top - 24 + _bob;

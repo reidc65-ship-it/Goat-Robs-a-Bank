@@ -14,6 +14,12 @@ if (room == rm_menu) {
 // A conversation owns the screen and the pause state while it runs.
 if (global.dialogue_active) exit;
 
+// The upgrade shop has its own Escape handling; don't stack the two menus.
+if (instance_exists(oUpgradeMenu)) {
+    var _upgrade_menu = instance_find(oUpgradeMenu, 0);
+    if (_upgrade_menu.is_open) exit;
+}
+
 // The level-complete card owns the screen. Don't let Escape open the
 // pause menu behind it.
 if (variable_global_exists("level_complete") && global.level_complete) {
