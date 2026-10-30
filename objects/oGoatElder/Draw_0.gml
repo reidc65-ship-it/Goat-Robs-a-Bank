@@ -7,13 +7,25 @@ draw_sprite_ext(sprite_index, 0, x + 6, y + 8,
                 image_xscale, image_yscale, image_angle, c_black, 0.22);
 draw_self();
 
+// White beard
+draw_set_colour(c_white);
+draw_triangle(x - 11, y - 2, x + 11, y - 2, x, y + 20, false);
+
+// Name, shown until the talk prompt replaces it.
+if (!can_talk) {
+    draw_set_font(-1);
+    gui_text(x, bbox_top - 14, "ELDER - UPGRADES", 1.1, c_white, fa_center, 0.95);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
+}
+
 // Floating "talk" prompt, only while the player is close and free.
 if (can_talk && !global.dialogue_active && !global.game_paused
     && !(variable_global_exists("level_complete") && global.level_complete)) {
     var _bob = sin(current_time / 300) * 3;
     var _px  = x;
     var _py  = bbox_top - 34 + _bob;
-    var _w   = 148;
+    var _w   = 240;
     var _h   = 38;
 
     // Shadow
@@ -47,12 +59,12 @@ if (can_talk && !global.dialogue_active && !global.game_paused
 
     draw_set_alpha(0.7);
     draw_set_colour(c_black);
-    draw_text_transformed(_px + 2, _py + 2, "E   TALK", 1.3, 1.3, 0);
+    draw_text_transformed(_px + 2, _py + 2, "ELDER  -  E  SHOP", 1.3, 1.3, 0);
 
     draw_set_alpha(1);
     draw_set_colour(make_colour_rgb(242, 208, 107));
-    draw_text_transformed(_px, _py, "E   TALK", 1.3, 1.3, 0);
-    draw_text_transformed(_px + 1, _py, "E   TALK", 1.3, 1.3, 0);
+    draw_text_transformed(_px, _py, "ELDER  -  E  SHOP", 1.3, 1.3, 0);
+    draw_text_transformed(_px + 1, _py, "ELDER  -  E  SHOP", 1.3, 1.3, 0);
 
     draw_set_alpha(1);
 }

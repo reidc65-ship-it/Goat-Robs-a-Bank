@@ -4,7 +4,7 @@
 
 // Soft shadow for the photo-sticker cutout.
 draw_sprite_ext(sprite_index, 0, x + 6, y + 8,
-                image_xscale, image_yscale, image_angle, c_black, 0.22);
+                image_xscale, image_yscale, image_angle, c_black, 0.22 * image_alpha);
 draw_self();
 
 // Floating "talk" prompt, only while the player is close and free.

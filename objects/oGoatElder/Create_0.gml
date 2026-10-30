@@ -4,11 +4,14 @@
 //  Walk close and press E to open upgrade menu.
 // =====================================================================
 
-if (!variable_global_exists("game_paused"))     global.game_paused = false;
-if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
+game_state_init();
 
 can_talk   = false;
 talk_range = 120;
+
+// Same goat art as the player for now. The tint and the beard (see Draw)
+// keep the characters easy to tell apart.
+image_blend = make_colour_rgb(215, 220, 255);
 
 // --- Speakers ---------------------------------------------------------
 speakers = {
@@ -24,6 +27,7 @@ speakers = {
     right: {
         name:          "ELDER",
         portrait:      sPortraitGoat,
+        tint:          image_blend,
         bubble_fill:   make_colour_rgb(223, 247, 223),
         bubble_border: make_colour_rgb(154, 201, 154),
         tag_fill:      make_colour_rgb(193, 232, 193),
@@ -42,6 +46,13 @@ dialogue = [
 ];
 
 start_conversation = function() {
+    // The introduction only plays once. After that, straight to the shop.
+    if (flag_get("elder_met")) {
+        open_upgrade_menu();
+        return;
+    }
+    flag_set("elder_met");
+
     var _d = instance_create_depth(0, 0, -20000, oDialogue);
     _d.lines      = dialogue;
     _d.speakers   = speakers;

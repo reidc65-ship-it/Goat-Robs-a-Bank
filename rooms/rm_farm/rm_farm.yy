@@ -25,6 +25,18 @@
     {
       "name": "inst_barn_enter",
       "path": "rooms/rm_farm/rm_farm.yy"
+    },
+    {
+      "name": "inst_farm_upgrades",
+      "path": "rooms/rm_farm/rm_farm.yy"
+    },
+    {
+      "name": "inst_farm_family",
+      "path": "rooms/rm_farm/rm_farm.yy"
+    },
+    {
+      "name": "inst_arrow_to_barn",
+      "path": "rooms/rm_farm/rm_farm.yy"
     }
   ],
   "isDnd": false,
@@ -177,6 +189,87 @@
           "scaleY": 1.0,
           "x": 1440.0,
           "y": 540.0
+        },
+        {
+          "$GMRInstance": "v4",
+          "%Name": "inst_farm_upgrades",
+          "colour": 4294967295,
+          "frozen": false,
+          "hasCreationCode": false,
+          "ignore": false,
+          "imageIndex": 0,
+          "imageSpeed": 1.0,
+          "inheritCode": false,
+          "inheritedItemId": null,
+          "inheritItemSettings": false,
+          "isDnd": false,
+          "name": "inst_farm_upgrades",
+          "objectId": {
+            "name": "oFarmUpgrades",
+            "path": "objects/oFarmUpgrades/oFarmUpgrades.yy"
+          },
+          "properties": [],
+          "resourceType": "GMRInstance",
+          "resourceVersion": "2.0",
+          "rotation": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "$GMRInstance": "v4",
+          "%Name": "inst_farm_family",
+          "colour": 4294967295,
+          "frozen": false,
+          "hasCreationCode": false,
+          "ignore": false,
+          "imageIndex": 0,
+          "imageSpeed": 1.0,
+          "inheritCode": false,
+          "inheritedItemId": null,
+          "inheritItemSettings": false,
+          "isDnd": false,
+          "name": "inst_farm_family",
+          "objectId": {
+            "name": "oFamilyGoat",
+            "path": "objects/oFamilyGoat/oFamilyGoat.yy"
+          },
+          "properties": [],
+          "resourceType": "GMRInstance",
+          "resourceVersion": "2.0",
+          "rotation": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "x": 470.0,
+          "y": 608.0
+        },
+        {
+          "$GMRInstance": "v4",
+          "%Name": "inst_arrow_to_barn",
+          "colour": 4294967295,
+          "frozen": false,
+          "hasCreationCode": true,
+          "ignore": false,
+          "imageIndex": 0,
+          "imageSpeed": 1.0,
+          "inheritCode": false,
+          "inheritedItemId": null,
+          "inheritItemSettings": false,
+          "isDnd": false,
+          "name": "inst_arrow_to_barn",
+          "objectId": {
+            "name": "oNavArrow",
+            "path": "objects/oNavArrow/oNavArrow.yy"
+          },
+          "properties": [],
+          "resourceType": "GMRInstance",
+          "resourceVersion": "2.0",
+          "rotation": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "x": 1290.0,
+          "y": 545.0
         }
       ],
       "layers": [],

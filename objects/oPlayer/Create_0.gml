@@ -11,6 +11,7 @@ dash_cooldown = 30;     // Time between dashes (30 frames = 0.5 sec)
 dash_cooldown_timer = 0;// Remaining cooldown time
 is_dashing = false;     // State flag
 dash_dir = 0;           // Dash direction
+dash_hits = [];         // Guards already hit by the current dash
 
 // Platforming feel: forgiving edges and remembered jump presses.
 coyote_time = 6;        // frames you can still jump after leaving a ledge
@@ -18,6 +19,24 @@ coyote_timer = 0;
 jump_buffer_time = 6;   // frames a jump press is remembered before landing
 jump_buffer_timer = 0;
 max_fall = 16;          // terminal velocity
+air_jumps = 0;          // mid-air jumps left (Double Jump upgrade)
+
+// Charge Attack upgrade: hold right click, release at full charge.
+charge_timer = 0;
+charge_max = 45;
+
+// Spirit Form upgrade: Q makes the goat untouchable and unseen.
+spirit_duration = 180;        // 3 seconds
+spirit_cooldown = 1200;       // 20 seconds, from activation
+spirit_timer = 0;
+spirit_cooldown_timer = 0;
+
+// Which way the goat is drawn. Only affects drawing, not the collision mask.
+facing = 1;
+
+// Short message over the goat's head, e.g. when the horn isn't owned yet.
+hint_text = "";
+hint_timer = 0;
 
 // Stair traversal (Katana ZERO style). Stairs are non-solid objects; the
 // player finds the nearest walkable surface and follows it.
@@ -66,14 +85,17 @@ max_hp = 3;
 hp = max_hp;
 invincible_timer = 0;
 
-// --- Ensure global systems exist (pause menu, dialogue, balance) ---
-if (!variable_global_exists("game_paused"))     global.game_paused = false;
-if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
-if (!variable_global_exists("bank_balance"))    global.bank_balance = 0;
+// --- Ensure global systems exist (pause menu, dialogue, progress) ---
+game_state_init();
 
 // Create persistent pause menu controller if missing
 if (!instance_exists(oPauseMenu)) {
     instance_create_depth(0, 0, -10000, oPauseMenu);
+}
+
+// The HUD isn't persistent: each room's player brings its own.
+if (!instance_exists(oHud)) {
+    instance_create_depth(0, 0, -9000, oHud);
 }
 
 // --- Scene transitions can request a specific spawn point ------------
@@ -98,13 +120,15 @@ cam_y = clamp(y - 300, 0, max(0, room_height - 768));
 
 /// @desc Take damage and handle knockback/invincibility
 take_damage = function(_amt, _knockback_dir) {
-    if (invincible_timer > 0 || hp <= 0) return;
+    if (invincible_timer > 0 || spirit_timer > 0 || hp <= 0) return;
     
     hp -= _amt;
     invincible_timer = 60; // 1 second invincibility
     
     // Knockback
-    x += _knockback_dir * 8;
+    if (!place_meeting(x + _knockback_dir * 8, y, oWall)) {
+        x += _knockback_dir * 8;
+    }
     vsp = -4; // Pop up slightly
     
     // Visual feedback
@@ -112,7 +136,42 @@ take_damage = function(_amt, _knockback_dir) {
     alarm[0] = 10;
     
     if (hp <= 0) {
-        // Death - restart room
-        room_restart();
+        // Getting caught during a heist ends it and loses the loot.
+        // Anywhere else, just restart the room.
+        if (instance_exists(oHeist)) {
+            var _heist = instance_find(oHeist, 0);
+            _heist.fail_heist("BUSTED!", "The wolves confiscated the loot. And your hat, if you had one.");
+        } else {
+            room_restart();
+        }
     }
+};
+
+/// @desc Throws the horn, unless it is already out. Charged throws are
+///       bigger, faster and hit harder.
+throw_horn = function(_charged) {
+    if (instance_exists(obj_horn_bullet)) return;
+
+    var _horn = instance_create_layer(x, y, "Instances", obj_horn_bullet);
+    var _dir = point_direction(x, y, mouse_x, mouse_y);
+
+    with (_horn) {
+        direction = _dir;
+        image_angle = _dir;
+        target_player = other.id;
+
+        if (_charged) {
+            damage = 3;
+            door_damage = 2;
+            speed = 16;
+            image_xscale = 1.5;
+            image_yscale = 1.5;
+        }
+    }
+};
+
+/// @desc Shows a short message over the goat's head.
+show_hint = function(_text) {
+    hint_text = _text;
+    hint_timer = 120;
 };

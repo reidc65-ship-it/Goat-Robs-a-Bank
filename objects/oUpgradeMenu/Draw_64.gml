@@ -45,16 +45,21 @@ draw_set_alpha(1);
 // --- Header -----------------------------------------------------------
 draw_ui_text(_gw * 0.5, 80, "ELDER'S UPGRADES", 3.8,
              make_colour_rgb(242, 208, 107), fa_center, 1);
-draw_ui_text(_gw * 0.5, 124, "Spend your stolen gold wisely.", 1.3,
-             c_white, fa_center, 0.65);
+draw_ui_text(_gw * 0.5 - 90, 124, "GOAT GEAR", 1.4,
+             (tab == 0) ? make_colour_rgb(242, 208, 107) : c_white,
+             fa_center, (tab == 0) ? 1 : 0.45);
+draw_ui_text(_gw * 0.5 + 90, 124, "THE FARM", 1.4,
+             (tab == 1) ? make_colour_rgb(242, 208, 107) : c_white,
+             fa_center, (tab == 1) ? 1 : 0.45);
 
 // Bank balance
 draw_ui_text(_gw * 0.5, 152, "$" + string(global.bank_balance), 2.8,
              make_colour_rgb(242, 208, 107), fa_center, 1);
 
 // --- Slots ------------------------------------------------------------
-for (var i = 0; i <= max_sel; i++) {
-    var _up   = global.upgrades[i];
+var _list = current_list();
+for (var i = 0; i < array_length(_list); i++) {
+    var _up   = _list[i];
     var _r    = slot_rect(i);
     var _sel  = (i == sel);
     var _tier = _up.tier; // 0=locked, 1=available, 2=owned
@@ -123,7 +128,15 @@ for (var i = 0; i <= max_sel; i++) {
     var _ix = (_r.x1 + _r.x2) * 0.5;
     var _iy = _r.y1 + 70;
     draw_set_alpha(_icon_alpha);
-    draw_sprite_ext(_up.sprite, 0, _ix, _iy, 2.2, 2.2, 0, c_white, 1);
+    if (sprite_exists(_up.sprite)) {
+        draw_sprite_ext(_up.sprite, 0, _ix, _iy, 2.2, 2.2, 0, c_white, 1);
+    } else {
+        // Farm upgrades have no icon sprite: draw a simple green sprout.
+        draw_set_colour(make_colour_rgb(96, 205, 80));
+        draw_rectangle(_ix - 3, _iy - 10, _ix + 3, _iy + 40, false);
+        draw_circle(_ix - 22, _iy - 14, 22, false);
+        draw_circle(_ix + 22, _iy - 14, 22, false);
+    }
     draw_set_alpha(1);
 
     // Lock icon for locked
@@ -217,9 +230,16 @@ for (var i = 0; i <= max_sel; i++) {
     }
 }
 
+// --- Purchase feedback ------------------------------------------------
+if (confirm_timer > 0) {
+    draw_ui_text(_gw * 0.5, start_y + slot_h + 60, confirm_text, 1.8,
+                 confirm_good ? make_colour_rgb(100, 220, 100) : make_colour_rgb(220, 100, 100),
+                 fa_center, min(confirm_timer / 20, 1));
+}
+
 // --- Footer hints -----------------------------------------------------
 draw_ui_text(_gw * 0.5, _my2 - 50,
-             "A / D OR ARROWS TO SELECT     ENTER TO BUY     ESC TO CLOSE",
+             "A / D OR ARROWS TO SELECT     ENTER TO BUY     TAB FOR GOAT / FARM     ESC TO CLOSE",
              1.2, c_white, fa_center, 0.6);
 
 draw_set_alpha(1);

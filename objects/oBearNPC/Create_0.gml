@@ -1,8 +1,11 @@
 // =====================================================================
 //  oBearNPC -> Create
-//  An interactable bear resting on the bank floor. Walk close and press
-//  E to start the conversation.
+//  Mr. Bear, the bank's owner. oHeist brings Bear in when the vault is
+//  robbed, so the villain gets to gloat before storming off. If placed in a
+//  room by hand, walk close and press E instead.
 // =====================================================================
+
+game_state_init();
 
 // This object can be run directly from the Room Editor, before the
 // persistent pause controller has had a chance to create the globals.
@@ -11,6 +14,7 @@ if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
 
 can_talk   = false;
 talk_range = 180;
+leaving    = false;   // storms off after the conversation
 
 // --- Speakers ---------------------------------------------------------
 // Each side owns its portrait, name and bubble palette. Add or edit
@@ -38,6 +42,11 @@ speakers = {
 
 // --- Conversation -----------------------------------------------------
 // `side` selects the speaker from the struct above. Edit the text freely.
+dialogue_repeat = [
+    { side: "right", text: "YOU AGAIN?! I bought more wolves! Do you know what wolves COST?" },
+    { side: "left",  text: "Roughly? I've seen your vault." },
+    { side: "right", text: "GUARDS!" }
+];
 dialogue = [
     { side: "right", text: "Halt, goat. That's an awful lot of cash for a bakery." },
     { side: "left",  text: "It was a very successful bake sale." },
@@ -49,7 +58,13 @@ dialogue = [
 
 start_conversation = function() {
     var _d = instance_create_depth(0, 0, -20000, oDialogue);
-    _d.lines    = dialogue;
-    _d.speakers = speakers;
+    _d.lines       = flag_get("bear_met") ? dialogue_repeat : dialogue;
+    _d.speakers    = speakers;
+    _d.on_complete = on_talk_done;
+    flag_set("bear_met");
     _d.start_dialogue();
+};
+
+on_talk_done = function() {
+    leaving = true;
 };

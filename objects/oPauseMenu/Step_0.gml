@@ -110,6 +110,15 @@ if (sel == 0) {
     if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))) {
         global.settings.show_fps = true;
     }
+} else if (sel == 3) {
+    if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))) {
+        global.tips_enabled = false;
+        save_game();
+    }
+    if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))) {
+        global.tips_enabled = true;
+        save_game();
+    }
 }
 
 // --- Activate ---------------------------------------------------------
@@ -122,8 +131,9 @@ if (sel == 0) {
     switch (sel) {
         case 1: toggle_fullscreen(); break;
         case 2: global.settings.show_fps = !global.settings.show_fps; break;
-        case 3: close_menu(); break;
-        case 4: restart_level(); break;
-        case 5: quit_to_title(); break;
+        case 3: global.tips_enabled = !global.tips_enabled; save_game(); break;
+        case 4: close_menu(); break;
+        case 5: restart_level(); break;
+        case 6: quit_to_title(); break;
     }
 }

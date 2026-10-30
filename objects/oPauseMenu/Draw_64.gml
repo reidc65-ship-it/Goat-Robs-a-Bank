@@ -91,12 +91,13 @@ for (var i = 0; i < row_count; i++) {
         case 0: _label = "MASTER VOLUME"; break;
         case 1: _label = "FULLSCREEN";    break;
         case 2: _label = "SHOW FPS";      break;
-        case 3: _label = "RESUME";        break;
-        case 4: _label = "RESTART LEVEL"; break;
-        case 5: _label = "QUIT TO TITLE"; break;
+        case 3: _label = "TUTORIAL TIPS"; break;
+        case 4: _label = "RESUME";        break;
+        case 5: _label = "RESTART LEVEL"; break;
+        case 6: _label = "QUIT TO TITLE"; break;
     }
 
-    if (i <= 2) {
+    if (i <= 3) {
         draw_ui_text(_r.x1 + 32, _cy, _label, 1.7, c_white, fa_left, 1);
     } else {
         draw_ui_text((_r.x1 + _r.x2) * 0.5, _cy, _label, 1.7,
@@ -139,6 +140,12 @@ for (var i = 0; i < row_count; i++) {
                      _on_fps ? make_colour_rgb(242, 208, 107)
                              : make_colour_rgb(125, 136, 152),
                      fa_right, 1);
+    } else if (i == 3) {
+        var _on_tips = global.tips_enabled;
+        draw_ui_text(_r.x2 - 32, _cy, _on_tips ? "ON" : "OFF", 1.55,
+                     _on_tips ? make_colour_rgb(242, 208, 107)
+                              : make_colour_rgb(125, 136, 152),
+                     fa_right, 1);
     } else if (_is_sel) {
         // Chevrons on the selected action row
         draw_set_colour(make_colour_rgb(242, 208, 107));
@@ -150,7 +157,7 @@ for (var i = 0; i < row_count; i++) {
 }
 
 // --- Divider between settings and actions -----------------------------
-var _div_y = row_rect(2).y2 + row_gap * 0.5;
+var _div_y = row_rect(3).y2 + row_gap * 0.5;
 draw_set_colour(make_colour_rgb(201, 162, 39));
 draw_set_alpha(0.35);
 draw_rectangle(_px1 + 80, _div_y - 1, _px2 - 80, _div_y + 1, false);

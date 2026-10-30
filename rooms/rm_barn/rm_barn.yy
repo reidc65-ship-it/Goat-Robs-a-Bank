@@ -33,6 +33,10 @@
     {
       "name": "inst_goat_scout",
       "path": "rooms/rm_barn/rm_barn.yy"
+    },
+    {
+      "name": "inst_arrow_to_farm",
+      "path": "rooms/rm_barn/rm_barn.yy"
     }
   ],
   "isDnd": false,
@@ -239,6 +243,33 @@
           "scaleY": 1.0,
           "x": 980.0,
           "y": 608.0
+        },
+        {
+          "$GMRInstance": "v4",
+          "%Name": "inst_arrow_to_farm",
+          "colour": 4294967295,
+          "frozen": false,
+          "hasCreationCode": true,
+          "ignore": false,
+          "imageIndex": 0,
+          "imageSpeed": 1.0,
+          "inheritCode": false,
+          "inheritedItemId": null,
+          "inheritItemSettings": false,
+          "isDnd": false,
+          "name": "inst_arrow_to_farm",
+          "objectId": {
+            "name": "oNavArrow",
+            "path": "objects/oNavArrow/oNavArrow.yy"
+          },
+          "properties": [],
+          "resourceType": "GMRInstance",
+          "resourceVersion": "2.0",
+          "rotation": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "x": 175.0,
+          "y": 545.0
         }
       ],
       "layers": [],
