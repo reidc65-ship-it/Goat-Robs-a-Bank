@@ -21,7 +21,7 @@ global.settings = {
 // --- Menu state -------------------------------------------------------
 is_open       = false;
 sel           = 0;
-row_count     = 6;
+row_count     = 7;
 dragging_vol  = false;
 unpause_timer = 0;
 
@@ -29,9 +29,9 @@ unpause_timer = 0;
 panel_w = 760;
 panel_h = 652;
 panel_y = 48;
-row_y0  = 200;
-row_h   = 60;
-row_gap = 14;
+row_y0  = 190;
+row_h   = 52;
+row_gap = 10;
 row_w   = 640;
 
 mx_prev = -1;

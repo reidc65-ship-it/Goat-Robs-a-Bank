@@ -4,7 +4,7 @@
 // =====================================================================
 
 // Freeze with the rest of the game while a menu / conversation is open.
-if (global.game_paused || global.dialogue_active) exit;
+if (game_is_frozen()) exit;
 
 // --- Timers -----------------------------------------------------------
 if (state_timer < 1000000) state_timer++; // prevent overflow
@@ -12,7 +12,6 @@ if (state_timer < 1000000) state_timer++; // prevent overflow
 if (attack_cooldown > 0) attack_cooldown--;
 if (stun_timer > 0) stun_timer--;
 if (alert_timer > 0) alert_timer--;
-if (lose_sight_timer > 0) lose_sight_timer--;
 
 // --- Alert level decay ------------------------------------------------
 if (alert_level > 0 && alert_timer <= 0) {

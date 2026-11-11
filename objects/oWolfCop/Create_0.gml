@@ -6,8 +6,7 @@
 
 // These globals may not exist yet if the wolf is placed in a room that is
 // launched directly from the Room Editor (no oPlayer yet).
-if (!variable_global_exists("game_paused"))     global.game_paused = false;
-if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
+game_state_init();
 
 // --- Stats ------------------------------------------------------------
 max_hp        = 3;
@@ -84,6 +83,10 @@ can_see_player = function() {
     if (!instance_exists(oPlayer)) return false;
     
     var _p = instance_find(oPlayer, 0);
+
+    // Spirit Form hides the goat completely.
+    if (_p.spirit_timer > 0) return false;
+
     var _dx = _p.x - x;
     var _dy = _p.y - y;
     var _dist = point_distance(x, y, _p.x, _p.y);

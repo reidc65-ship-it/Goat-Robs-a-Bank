@@ -232,11 +232,15 @@ finish_dialogue = function() {
     global.dialogue_active = false;
     global.game_paused     = false;
 
-    if (is_callable(on_complete)) {
-        on_complete();
-    }
-
+    // Destroy first. The Destroy event clears the pause, so running the
+    // callback before it would leave a menu opened by the callback (the
+    // Elder's shop) unpaused, with the goat still walking around behind it.
+    var _callback = on_complete;
     instance_destroy();
+
+    if (is_callable(_callback)) {
+        _callback();
+    }
 };
 
 advance_line = function() {

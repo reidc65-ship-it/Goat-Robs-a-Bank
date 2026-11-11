@@ -4,6 +4,14 @@
 
 can_talk = false;
 
+if (leaving) {
+    if (game_is_frozen()) exit;
+    x -= 3;
+    image_alpha -= 0.02;
+    if (image_alpha <= 0) instance_destroy();
+    exit;
+}
+
 // Don't offer the conversation while the vault results card is up.
 if (variable_global_exists("level_complete") && global.level_complete) exit;
 

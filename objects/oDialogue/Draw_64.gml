@@ -43,8 +43,10 @@ var _ba = _active_left ? 0.68 : 1;
 
 draw_sprite_ext(_bear_spk.portrait, 0, _bx + 12, _by + 16,
                 1, 1, 0, c_black, 0.08 * _ba);
+// Optional tint, so characters sharing a portrait still look different.
+var _right_tint = variable_struct_exists(_bear_spk, "tint") ? _bear_spk.tint : c_white;
 draw_sprite_ext(_bear_spk.portrait, 0, _bx, _by,
-                1, 1, 0, c_white, _ba);
+                1, 1, 0, _right_tint, _ba);
 
 // --- Speech bubbles ---------------------------------------------------
 if (_active_left) {
@@ -57,7 +59,7 @@ if (_active_left) {
 
 // --- Footer hint ------------------------------------------------------
 draw_ui_text(_gw * 0.5, 730,
-             "E / ENTER / SPACE   CONTINUE          ESC   END",
+             "E / ENTER / SPACE / CLICK   CONTINUE          ESC   SKIP",
              1.1, col_ink_soft, fa_center, 0.7);
 
 draw_set_alpha(1);

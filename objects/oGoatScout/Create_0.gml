@@ -4,11 +4,14 @@
 //  Walk close and press E to pick the next job.
 // =====================================================================
 
-if (!variable_global_exists("game_paused"))     global.game_paused = false;
-if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
+game_state_init();
 
 can_talk   = false;
 talk_range = 120;
+
+// Same goat art as the player for now. The tint and the cap (see Draw)
+// keep the characters easy to tell apart.
+image_blend = make_colour_rgb(255, 222, 170);
 
 // --- Speakers ---------------------------------------------------------
 speakers = {
@@ -24,6 +27,7 @@ speakers = {
     right: {
         name:          "SCOUT",
         portrait:      sPortraitGoat,
+        tint:          image_blend,
         bubble_fill:   make_colour_rgb(223, 238, 247),
         bubble_border: make_colour_rgb(154, 183, 201),
         tag_fill:      make_colour_rgb(193, 217, 232),
@@ -37,11 +41,18 @@ dialogue = [
     { side: "right", text: "Heist board's ready. Five jobs posted, one unlocked." },
     { side: "left",  text: "Only one? What about the others?" },
     { side: "right", text: "Need to prove yourself first. Bank don't rob itself." },
-    { side: "right", text: "Finish Job 01, the rest open up. Simple." },
+    { side: "right", text: "Grab the vault loot, get out alive, keep the cash. Simple." },
     { side: "left",  text: "Show me the board." }
 ];
 
 start_conversation = function() {
+    // The introduction only plays once. After that, straight to the board.
+    if (flag_get("scout_met")) {
+        open_level_select();
+        return;
+    }
+    flag_set("scout_met");
+
     var _d = instance_create_depth(0, 0, -20000, oDialogue);
     _d.lines      = dialogue;
     _d.speakers   = speakers;
@@ -55,5 +66,6 @@ open_level_select = function() {
     global.menu_return_room = rm_barn;
     global.menu_return_x    = 880;
     global.menu_return_y    = 608;
+    global.menu_open_board  = true;
     room_goto(rm_menu);
 };

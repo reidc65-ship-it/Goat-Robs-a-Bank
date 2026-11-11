@@ -284,6 +284,66 @@
         "name": "oBankBackdrop",
         "path": "objects/oBankBackdrop/oBankBackdrop.yy"
       }
+    },
+    {
+      "id": {
+        "name": "oCash",
+        "path": "objects/oCash/oCash.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oGoldBar",
+        "path": "objects/oGoldBar/oGoldBar.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oVaultLoot",
+        "path": "objects/oVaultLoot/oVaultLoot.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oHeist",
+        "path": "objects/oHeist/oHeist.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oHeistExit",
+        "path": "objects/oHeistExit/oHeistExit.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oHud",
+        "path": "objects/oHud/oHud.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oFarmUpgrades",
+        "path": "objects/oFarmUpgrades/oFarmUpgrades.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "scrGameState",
+        "path": "scripts/scrGameState/scrGameState.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oNavArrow",
+        "path": "objects/oNavArrow/oNavArrow.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "oFamilyGoat",
+        "path": "objects/oFamilyGoat/oFamilyGoat.yy"
+      }
     }
   ],
   "resourceType": "GMProject",

@@ -1,17 +1,27 @@
 // Freeze the goat while a menu or a conversation owns the screen. Without
 // this the player keeps moving (and can still shoot) behind the overlay.
-if (global.game_paused || global.dialogue_active) exit;
+if (game_is_frozen()) exit;
 
 // Damage invincibility counts down while the game is running.
 if (invincible_timer > 0) invincible_timer--;
+if (hint_timer > 0) hint_timer--;
 
-// Get player input (WASD)
-key_left = keyboard_check(ord("A"));
-key_right = keyboard_check(ord("D"));
-key_up = keyboard_check(ord("W"));
-key_down = keyboard_check(ord("S"));
-key_jump_pressed = keyboard_check_pressed(ord("W"));
-key_jump_released = keyboard_check_released(ord("W"));
+// --- Spirit Form ---
+if (spirit_timer > 0) spirit_timer--;
+if (spirit_cooldown_timer > 0) spirit_cooldown_timer--;
+if (keyboard_check_pressed(ord("Q")) && spirit_cooldown_timer <= 0 && upgrade_owned("spirit")) {
+    spirit_timer = spirit_duration;
+    spirit_cooldown_timer = spirit_cooldown;
+}
+image_alpha = (spirit_timer > 0) ? 0.45 : 1;
+
+// Get player input (WASD or the arrow keys)
+key_left = keyboard_check(ord("A")) || keyboard_check(vk_left);
+key_right = keyboard_check(ord("D")) || keyboard_check(vk_right);
+key_up = keyboard_check(ord("W")) || keyboard_check(vk_up);
+key_down = keyboard_check(ord("S")) || keyboard_check(vk_down);
+key_jump_pressed = keyboard_check_pressed(ord("W")) || keyboard_check_pressed(vk_up);
+key_jump_released = !key_up && (keyboard_check_released(ord("W")) || keyboard_check_released(vk_up));
 key_dash = keyboard_check_pressed(vk_shift);
 
 // --- Dash Cooldown Management ---
@@ -32,6 +42,8 @@ if (key_dash && !is_dashing && dash_cooldown_timer <= 0) {
 
     is_dashing = true;
     dash_timer = dash_duration;
+    dash_hits = [];
+    flag_set("tip_dash");
 }
 
 // --- Stair Attachment ---
@@ -53,11 +65,13 @@ if (!_dash_vertical && vsp >= -1) {
 var _grounded = place_meeting(x, y + 1, oWall) || (on_stair != noone);
 if (_grounded) {
     coyote_timer = coyote_time;
+    air_jumps = upgrade_owned("doublejump") ? 1 : 0;
 } else if (coyote_timer > 0) {
     coyote_timer--;
 }
 
 if (key_jump_pressed) {
+    flag_set("tip_jump");
     jump_buffer_timer = jump_buffer_time;
 } else if (jump_buffer_timer > 0) {
     jump_buffer_timer--;
@@ -81,6 +95,8 @@ if (is_dashing) {
     var move = key_right - key_left;
     var _speed = walksp;
 
+    if (move != 0) facing = sign(move);
+
     if (on_stair != noone) {
         var _downhill = (on_stair.dir == 1 && move < 0)
                      || (on_stair.dir == -1 && move > 0);
@@ -103,6 +119,11 @@ if (is_dashing) {
         coyote_timer = 0;
         jump_buffer_timer = 0;
         on_stair = noone;
+    } else if (key_jump_pressed && air_jumps > 0) {
+        // Double Jump upgrade
+        vsp = -7;
+        air_jumps--;
+        jump_buffer_timer = 0;
     }
 
     // Variable jump height: releasing W early cuts the jump short
@@ -124,7 +145,10 @@ if (is_dashing) {
     }
 
     var _wolf = instance_place(x + hsp, y, oWolfCop);
-    if (_wolf != noone && variable_instance_exists(_wolf, "take_damage")) {
+    if (_wolf != noone && variable_instance_exists(_wolf, "take_damage")
+        && !array_contains(dash_hits, _wolf)) {
+        // A dash overlaps a guard for several frames, but only hits once.
+        array_push(dash_hits, _wolf);
         _wolf.take_damage(2, sign(hsp));
     }
 }
@@ -181,15 +205,22 @@ y = y + vsp;
 
 // --- Shooting Logic ---
 if (mouse_check_button_pressed(mb_left)) {
-    if (!instance_exists(obj_horn_bullet)) {
-        var _horn = instance_create_layer(x, y, "Instances", obj_horn_bullet);
-        var _dir = point_direction(x, y, mouse_x, mouse_y);
+    if (upgrade_owned("horn")) {
+        throw_horn(false);
+    } else {
+        show_hint("Buy HORN THROW from the Elder!");
+    }
+}
 
-        with (_horn) {
-            direction = _dir;
-            image_angle = _dir;
-            target_player = other.id;
-        }
+// Charge Attack: hold right click, release at full charge.
+if (upgrade_owned("charge")) {
+    if (mouse_check_button_released(mb_right) && charge_timer >= charge_max) {
+        throw_horn(true);
+    }
+    if (mouse_check_button(mb_right)) {
+        charge_timer = min(charge_timer + 1, charge_max);
+    } else {
+        charge_timer = 0;
     }
 }
 
