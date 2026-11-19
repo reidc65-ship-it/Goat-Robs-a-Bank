@@ -209,6 +209,42 @@
     },
     {
       "id": {
+        "name": "sGoatHurt",
+        "path": "sprites/sGoatHurt/sGoatHurt.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sGoatIdle",
+        "path": "sprites/sGoatIdle/sGoatIdle.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sGoatJump",
+        "path": "sprites/sGoatJump/sGoatJump.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sGoatRun",
+        "path": "sprites/sGoatRun/sGoatRun.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sGoatThrow",
+        "path": "sprites/sGoatThrow/sGoatThrow.yy"
+      }
+    },
+    {
+      "id": {
+        "name": "sGoatWalk",
+        "path": "sprites/sGoatWalk/sGoatWalk.yy"
+      }
+    },
+    {
+      "id": {
         "name": "oBearNPC",
         "path": "objects/oBearNPC/oBearNPC.yy"
       }

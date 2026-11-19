@@ -1,11 +1,8 @@
 // oPlayer -> Draw Event
-// Drawn by hand so the goat can flip and hop without changing its collision
-// mask, which could otherwise wedge it against a wall.
-var _hop = 0;
-if (abs(hsp) > 0.5 && (on_stair != noone || place_meeting(x, y + 1, oWall))) {
-    _hop = -abs(sin(current_time / 90)) * 3;
-}
-draw_sprite_ext(sprite_index, image_index, x, y + _hop,
+// Drawn by hand so the goat can flip without changing its collision mask,
+// which could otherwise wedge it against a wall. The animation frames carry
+// their own bob, so no extra hop offset is applied here.
+draw_sprite_ext(sprite_index, image_index, x, y,
                 image_xscale * facing, image_yscale, image_angle, image_blend, image_alpha);
 
 // Charge Attack meter

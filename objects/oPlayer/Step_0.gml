@@ -224,6 +224,31 @@ if (upgrade_owned("charge")) {
     }
 }
 
+// --- Animation ---------------------------------------------------------
+// Throw and hurt are one-shots: they keep control for `anim_lock` frames,
+// then hand back to whatever the movement state is doing.
+if (anim_lock > 0) {
+    anim_lock--;
+    if (anim_lock <= 0) anim_state = "";
+} else {
+    var _on_ground = (on_stair != noone) || place_meeting(x, y + 1, oWall);
+
+    if (!_on_ground) {
+        // Launch / apex / fall each have their own painted frame.
+        if (anim_state != "jump") animation_set("jump", 0);
+        image_speed = 0;
+        if (vsp < -3)      image_index = 1;
+        else if (vsp < 2)  image_index = 2;
+        else               image_index = 3;
+    } else if (is_dashing) {
+        animation_set("run", 0);
+    } else if (abs(hsp) > 0.5) {
+        animation_set("walk", 0);
+    } else {
+        animation_set("idle", 0);
+    }
+}
+
 // --- Camera ---
 // Follow the goat through the tower. The legacy view_xview/view_yview
 // variables are read-only in GameMaker Studio 2, so the view has to be

@@ -34,6 +34,44 @@ spirit_cooldown_timer = 0;
 // Which way the goat is drawn. Only affects drawing, not the collision mask.
 facing = 1;
 
+// --- Character animation -------------------------------------------------
+// The player has a dedicated side-view sprite per state. The original
+// front-facing sPlayer is kept as the collision mask so every level that was
+// tuned against the old 54x61 box still feels identical.
+anim_idle  = sGoatIdle;
+anim_walk  = sGoatWalk;
+anim_run   = sGoatRun;
+anim_jump  = sGoatJump;
+anim_throw = sGoatThrow;
+anim_hurt  = sGoatHurt;
+
+sprite_index = anim_idle;
+mask_index   = sPlayer;
+image_speed  = 1;
+
+anim_state = "idle";
+anim_lock  = 0;      // frames a one-shot animation keeps control
+
+/// @desc Switches to an animation state. `_hold` keeps one-shot animations
+///       (throw, hurt) on screen for a fixed number of frames.
+animation_set = function(_state, _hold) {
+    if (anim_state == _state) return;
+
+    anim_state = _state;
+    image_index = 0;
+    image_speed = 1;
+    anim_lock = _hold;
+
+    switch (_state) {
+        case "idle":  sprite_index = anim_idle;  break;
+        case "walk":  sprite_index = anim_walk;  break;
+        case "run":   sprite_index = anim_run;   break;
+        case "jump":  sprite_index = anim_jump; image_speed = 0; break;
+        case "throw": sprite_index = anim_throw; break;
+        case "hurt":  sprite_index = anim_hurt;  break;
+    }
+};
+
 // Short message over the goat's head, e.g. when the horn isn't owned yet.
 hint_text = "";
 hint_timer = 0;
@@ -130,6 +168,7 @@ take_damage = function(_amt, _knockback_dir) {
         x += _knockback_dir * 8;
     }
     vsp = -4; // Pop up slightly
+    animation_set("hurt", 16);
     
     // Visual feedback
     image_blend = c_red;
@@ -152,7 +191,13 @@ take_damage = function(_amt, _knockback_dir) {
 throw_horn = function(_charged) {
     if (instance_exists(obj_horn_bullet)) return;
 
-    var _horn = instance_create_layer(x, y, "Instances", obj_horn_bullet);
+    // Play the throw animation before the horn leaves the muzzle.
+    animation_set("throw", 18);
+
+    // Spawn at the muzzle so the projectile reads as leaving the goat's head.
+    var _sx = x + facing * 28;
+    var _sy = y - 22;
+    var _horn = instance_create_layer(_sx, _sy, "Instances", obj_horn_bullet);
     var _dir = point_direction(x, y, mouse_x, mouse_y);
 
     with (_horn) {
