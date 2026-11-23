@@ -141,16 +141,21 @@ def extract(box):
                 dq.append((ny, nx))
 
     alpha = np.where(trans, 0, 255).astype(np.uint8)
-    # Soften the outermost anti-aliased pixels so the cutout doesn't look
-    # like it was done with scissors.
-    light = (bright >= 205) & (sat <= 26)
-    for y in range(1, h - 1):
-        for x in range(1, w - 1):
-            if alpha[y, x] and light[y, x] and (
-                not alpha[y - 1, x] or not alpha[y + 1, x]
-                or not alpha[y, x - 1] or not alpha[y, x + 1]
-            ):
-                alpha[y, x] = 130
+
+    # Scrub the paper-coloured anti-aliasing ring. Leaving those light grey
+    # pixels in place is what produces the pale halo around the goat on the
+    # dark level art, so erode any neutral bright pixels on the silhouette.
+    op = alpha > 0
+    for _ in range(3):
+        pad = np.zeros((h + 2, w + 2), bool)
+        pad[1:-1, 1:-1] = op
+        boundary = op & (~pad[:-2, 1:-1] | ~pad[2:, 1:-1]
+                         | ~pad[1:-1, :-2] | ~pad[1:-1, 2:])
+        fringe = boundary & (sat <= 18) & (bright >= 105)
+        if not fringe.any():
+            break
+        alpha[fringe] = 0
+        op = alpha > 0
 
     out = a.astype(np.uint8).copy()
     out[:, :, 3] = alpha
@@ -204,6 +209,55 @@ def despeckle(img, min_area=10):
                     keep[y, x] = True
     a[:, :, 3] = np.where(keep, a[:, :, 3], 0)
     return Image.fromarray(a, "RGBA")
+
+
+def clean_edges(img, alpha_cut=40, rim_passes=4):
+    """Harden the alpha and strip any remaining pale fringe.
+
+    The concept sheet is painted on white paper, so the resized cutouts (and
+    the rotated leg pieces) carry a ring of light, semi-transparent pixels.
+    GameMaker keeps those pixels, and they read as a white outline around the
+    goat on the dark levels. Drop the ring, snap alpha to 0/255 for crisp
+    pixel art, then bleed the edge colours outward so the texture page never
+    samples white.
+    """
+    a = np.array(img).astype(np.uint8).copy()
+    h, w = a.shape[:2]
+    alpha = a[:, :, 3].copy()
+    alpha[alpha < alpha_cut] = 0
+    rgb = a[:, :, :3].astype(np.int16)
+    sat = rgb.max(axis=2) - rgb.min(axis=2)
+    bright = rgb.max(axis=2)
+
+    def boundary(op):
+        pad = np.zeros((h + 2, w + 2), bool)
+        pad[1:-1, 1:-1] = op
+        return op & (~pad[:-2, 1:-1] | ~pad[2:, 1:-1]
+                     | ~pad[1:-1, :-2] | ~pad[1:-1, 2:])
+
+    op = alpha > 0
+    for _ in range(rim_passes):
+        rim = boundary(op) & (sat <= 16) & (bright > 70)
+        if not rim.any():
+            break
+        alpha[rim] = 0
+        op = alpha > 0
+
+    out = a.copy()
+    out[:, :, 3] = np.where(op, 255, 0).astype(np.uint8)
+
+    # Spread the silhouette colours into the transparent margin.
+    colour = a[:, :, :3].astype(np.float32).copy()
+    known = op.copy()
+    for _ in range(6):
+        for dy, dx in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            sk = np.roll(known, (dy, dx), axis=(0, 1))
+            sr = np.roll(colour, (dy, dx), axis=(0, 1))
+            take = (~known) & sk
+            colour[take] = sr[take]
+            known |= take
+    out[:, :, :3] = colour.clip(0, 255).astype(np.uint8)
+    return Image.fromarray(out, "RGBA")
 
 
 def split_legs(img):
@@ -273,6 +327,33 @@ def band(piece, x0f, x1f):
 
 
 # --------------------------------------------------------------------------
+# Satchel
+# --------------------------------------------------------------------------
+# The concept sheet only draws the loot satchel on the idle pose. Lift the bag
+# out of the idle cutout and paste it onto the run and jump poses, otherwise
+# the bag vanishes for those states once they are animated.
+BAG_BOX = (11, 24, 30, 42)      # in idle cutout space
+BAG_TARGET = {"run": (14, 16), "jump": (10, 18)}
+
+
+def extract_bag(idle):
+    bag = idle.crop(BAG_BOX).copy()
+    a = np.array(bag)
+    r = a[:, :, 0].astype(int)
+    g = a[:, :, 1].astype(int)
+    # Drop the scarf pixels that poke into the top-right of the crop.
+    scarf = (a[:, :, 3] > 0) & (r - g > 50) & (r > 100) & (g < 100)
+    a[:, :, 3] = np.where(scarf, 0, a[:, :, 3])
+    return Image.fromarray(a, "RGBA")
+
+
+def add_bag(pose, bag, pos):
+    out = pose.copy()
+    out.alpha_composite(bag, pos)
+    return out
+
+
+# --------------------------------------------------------------------------
 # Animation rig
 # --------------------------------------------------------------------------
 def gait(base, frames):
@@ -314,7 +395,7 @@ def tail_sway(base, angle):
 
 
 def to_canvas(img):
-    img = despeckle(img)
+    img = despeckle(clean_edges(img))
     c = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 0))
     x = int(round(ORIGIN[0] - img.width / 2))
     y = int(round(BASELINE - img.height))
@@ -325,6 +406,11 @@ def to_canvas(img):
 def build_animations(src):
     idle, run, jump = src["idle"], src["run"], src["jump"]
     throw, hurt = src["throw"], src["hurt"]
+
+    # Keep the satchel on the goat in every state.
+    bag = extract_bag(idle)
+    run = add_bag(run, bag, BAG_TARGET["run"])
+    jump = add_bag(jump, bag, BAG_TARGET["jump"])
 
     # --- idle: breathing bob + tail flick ---
     idle_frames = []
@@ -561,22 +647,17 @@ def register_in_project(names):
     place right after the last sprite entry.
     """
     text = open(YPP).read()
-    missing = [n for n in names if f'"name": "{n}"' not in text]
+    missing = [n for n in names if f'"{n}"' not in text]
     if not missing:
         return
     entries = "".join(
-        '    {\n'
-        '      "id": {\n'
-        f'        "name": "{n}",\n'
-        f'        "path": "sprites/{n}/{n}.yy"\n'
-        '      }\n'
-        '    },\n'
+        f'    {{"id":{{"name":"{n}","path":"sprites/{n}/{n}.yy",}},}},\n'
         for n in sorted(missing)
     )
-    anchor = text.rfind('"path": "sprites/sWolfCop/sWolfCop.yy"')
+    anchor = text.rfind('{"id":{"name":"')
     if anchor == -1:
-        raise RuntimeError("could not find the sprite block in the .yyp")
-    insert_at = text.index("    {\n", anchor)
+        raise RuntimeError("could not find the resources block in the .yyp")
+    insert_at = text.index("\n", anchor) + 1
     text = text[:insert_at] + entries + text[insert_at:]
     open(YPP, "w").write(text)
 
