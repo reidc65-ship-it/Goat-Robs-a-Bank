@@ -14,8 +14,12 @@ draw_rectangle(x - 18, bbox_top + 2, x + 18, bbox_top + 6, false);
 
 // Name, shown until the talk prompt replaces it.
 if (!can_talk) {
+    var _locked = !flag_get("scarecrow_defeated");
     draw_set_font(-1);
-    gui_text(x, bbox_top - 18, "SCOUT - JOB BOARD", 1.1, c_white, fa_center, 0.95);
+    gui_text(x, bbox_top - 18,
+             _locked ? "SCOUT - BOARD LOCKED" : "SCOUT - JOB BOARD",
+             1.1, _locked ? make_colour_rgb(242, 208, 107) : c_white,
+             fa_center, 0.95);
     draw_set_halign(fa_left);
     draw_set_valign(fa_top);
 }
@@ -54,18 +58,21 @@ if (can_talk && !global.dialogue_active && !global.game_paused
                   _px, _py + _h * 0.5 + 10, false);
 
     // Text
+    var _prompt = flag_get("scarecrow_defeated") ? "SCOUT  -  E  JOBS"
+                 : (flag_get("scarecrow_pending") ? "SCOUT  -  E  LESSON"
+                                                  : "SCOUT  -  E  TALK");
     draw_set_font(-1);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
 
     draw_set_alpha(0.7);
     draw_set_colour(c_black);
-    draw_text_transformed(_px + 2, _py + 2, "SCOUT  -  E  JOBS", 1.3, 1.3, 0);
+    draw_text_transformed(_px + 2, _py + 2, _prompt, 1.3, 1.3, 0);
 
     draw_set_alpha(1);
     draw_set_colour(make_colour_rgb(242, 208, 107));
-    draw_text_transformed(_px, _py, "SCOUT  -  E  JOBS", 1.3, 1.3, 0);
-    draw_text_transformed(_px + 1, _py, "SCOUT  -  E  JOBS", 1.3, 1.3, 0);
+    draw_text_transformed(_px, _py, _prompt, 1.3, 1.3, 0);
+    draw_text_transformed(_px + 1, _py, _prompt, 1.3, 1.3, 0);
 
     draw_set_alpha(1);
 }

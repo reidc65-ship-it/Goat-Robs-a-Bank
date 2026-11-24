@@ -22,7 +22,11 @@ var _text  = "";
 var _timed = false;   // for tips with no clear action: clear after a while
 
 if (room == rm_farm) {
-    if (!flag_get("tip_move")) {
+    if (flag_get("scarecrow_pending") && !flag_get("scarecrow_defeated")) {
+        _id = "tip_scarecrow"; _text = "DASH through the training scarecrow with SHIFT. Hold A / D to aim";
+    } else if (flag_get("scarecrow_defeated") && !flag_get("board_opened")) {
+        _id = "tip_scarecrow_done"; _text = "Scarecrow down! Head into the barn and talk to the SCOUT";
+    } else if (!flag_get("tip_move")) {
         _id = "tip_move"; _text = "Walk with A / D or the LEFT / RIGHT arrow keys";
     } else if (!flag_get("tip_jump")) {
         _id = "tip_jump"; _text = "Press W or the UP arrow to jump";
@@ -34,7 +38,11 @@ if (room == rm_farm) {
 } else if (room == rm_barn) {
     flag_set("tip_barn");
 
-    if (!flag_get("elder_met")) {
+    if (flag_get("scarecrow_pending") && !flag_get("scarecrow_defeated")) {
+        _id = "tip_scarecrow"; _text = "The training scarecrow is outside the barn. DASH through it with SHIFT";
+    } else if (flag_get("scarecrow_defeated") && !flag_get("board_opened")) {
+        _id = "tip_scarecrow_done"; _text = "Scarecrow's down! Talk to the SCOUT to unlock the job board";
+    } else if (!flag_get("elder_met")) {
         _id = "elder_met"; _text = "The ELDER sells upgrades: stand close and press E";
     } else if (!flag_get("scout_met")) {
         _id = "scout_met"; _text = "The SCOUT runs the job board: stand close and press E";

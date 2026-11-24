@@ -35,6 +35,10 @@
       "path": "rooms/rm_farm/rm_farm.yy"
     },
     {
+      "name": "inst_farm_scarecrow",
+      "path": "rooms/rm_farm/rm_farm.yy"
+    },
+    {
       "name": "inst_arrow_to_barn",
       "path": "rooms/rm_farm/rm_farm.yy"
     }
@@ -243,6 +247,33 @@
           "scaleY": 1.0,
           "x": 470.0,
           "y": 608.0
+        },
+        {
+          "$GMRInstance": "v4",
+          "%Name": "inst_farm_scarecrow",
+          "colour": 4294967295,
+          "frozen": false,
+          "hasCreationCode": false,
+          "ignore": false,
+          "imageIndex": 0,
+          "imageSpeed": 1.0,
+          "inheritCode": false,
+          "inheritedItemId": null,
+          "inheritItemSettings": false,
+          "isDnd": false,
+          "name": "inst_farm_scarecrow",
+          "objectId": {
+            "name": "oScarecrow",
+            "path": "objects/oScarecrow/oScarecrow.yy"
+          },
+          "properties": [],
+          "resourceType": "GMRInstance",
+          "resourceVersion": "2.0",
+          "rotation": 0.0,
+          "scaleX": 1.0,
+          "scaleY": 1.0,
+          "x": 1200.0,
+          "y": 638.0
         },
         {
           "$GMRInstance": "v4",

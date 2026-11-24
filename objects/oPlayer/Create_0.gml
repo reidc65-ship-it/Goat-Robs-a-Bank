@@ -216,7 +216,7 @@ throw_horn = function(_charged) {
 };
 
 /// @desc Shows a short message over the goat's head.
-show_hint = function(_text) {
+show_hint = function(_text, _duration = 120) {
     hint_text = _text;
-    hint_timer = 120;
+    hint_timer = _duration;
 };

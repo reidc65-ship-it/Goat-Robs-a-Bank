@@ -78,6 +78,8 @@
     {"id":{"name":"sUpgradeSpirit","path":"sprites/sUpgradeSpirit/sUpgradeSpirit.yy",},},
     {"id":{"name":"sWall","path":"sprites/sWall/sWall.yy",},},
     {"id":{"name":"sWolfCop","path":"sprites/sWolfCop/sWolfCop.yy",},},
+    {"id":{"name":"sScarecrow","path":"sprites/sScarecrow/sScarecrow.yy",},},
+    {"id":{"name":"oScarecrow","path":"objects/oScarecrow/oScarecrow.yy",},},
   ],
   "resourceType":"GMProject",
   "resourceVersion":"2.0",

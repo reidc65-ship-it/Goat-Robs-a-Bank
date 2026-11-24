@@ -151,6 +151,16 @@ if (is_dashing) {
         array_push(dash_hits, _wolf);
         _wolf.take_damage(2, sign(hsp));
     }
+
+    // The Scout's training scarecrow only yields to a dash. Check the
+    // current spot and the next one so a fast dash can't tunnel past it.
+    var _scare = instance_place(x + hsp, y, oScarecrow);
+    if (_scare == noone) _scare = instance_place(x, y, oScarecrow);
+    if (_scare != noone && variable_instance_exists(_scare, "take_damage")
+        && !array_contains(dash_hits, _scare)) {
+        array_push(dash_hits, _scare);
+        _scare.take_damage(1, sign(hsp), true);
+    }
 }
 
 // =====================================================================

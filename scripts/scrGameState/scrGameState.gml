@@ -34,7 +34,10 @@ function game_state_defaults() {
     global.flags = {
         tip_move: false, tip_jump: false, tip_barn: false, tip_spend: false,
         tip_dash: false, tip_cash: false, tip_guards: false, tip_vault: false, tip_escape: false,
-        elder_met: false, scout_met: false, family_met: false, bear_met: false
+        elder_met: false, scout_met: false, family_met: false, bear_met: false,
+        // Scout's dash tutorial: the job board stays shut until the
+        // training scarecrow outside the barn is knocked down.
+        scarecrow_pending: false, scarecrow_defeated: false, board_opened: false
     };
 
     // --- Progress ---------------------------------------------------------
@@ -103,6 +106,14 @@ function flag_set(_id) {
     save_game();
 }
 
+/// @desc Clears a tutorial tip or story beat. Used when a temporary
+///       objective (like the training scarecrow) is finished.
+function flag_clear(_id) {
+    if (!flag_get(_id)) return;
+    global.flags[$ _id] = false;
+    save_game();
+}
+
 /// @desc Writes all progress. Upgrades keep their original [upgrades]
 ///       section, so saves from before this system still load.
 function save_game() {
@@ -131,6 +142,7 @@ function save_game() {
 
 /// @desc Reads the save. Anything missing keeps its default value.
 function load_game() {
+    var _had_save = file_exists("goat_upgrades.ini");
     ini_open("goat_upgrades.ini");
 
     global.bank_balance     = max(0, ini_read_real("progress", "bank_balance",     global.bank_balance));
@@ -151,6 +163,18 @@ function load_game() {
     var _flag_ids = variable_struct_get_names(global.flags);
     for (var i = 0; i < array_length(_flag_ids); i++) {
         global.flags[$ _flag_ids[i]] = (ini_read_real("flags", _flag_ids[i], 0) > 0);
+    }
+
+    // Saves from before the Scout's dash tutorial never fought the
+    // scarecrow. Don't strand those players behind a brand new gate.
+    // A save that already contains the tutorial flags keeps its progress,
+    // so quitting halfway through the lesson doesn't skip it.
+    var _tutorial_saved = (ini_read_real("flags", "scarecrow_pending", -1) >= 0)
+                       || (ini_read_real("flags", "scarecrow_defeated", -1) >= 0);
+    if (_had_save && !_tutorial_saved && !flag_get("scarecrow_defeated")
+        && (flag_get("scout_met") || global.heists_completed > 0)) {
+        global.flags.scarecrow_defeated = true;
+        global.flags.board_opened       = true;
     }
 
     ini_close();
