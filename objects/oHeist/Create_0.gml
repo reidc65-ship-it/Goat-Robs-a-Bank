@@ -62,9 +62,10 @@ on_vault_looted = function() {
     _backup.alert_level = 2;
     _backup.alert_timer = 120;
 
-    // Bear turns up to gloat. The conversation pauses the heist clock.
-    var _bear = instance_create_depth(1480, 3264, 115, oBearNPC);
-    _bear.start_conversation();
+    // Story beat: a wolf guard reports the break-in through a single
+    // conversation box. This replaces the old Bear/Goat vault chat and
+    // pauses the heist clock until the report is dismissed.
+    instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
 };
 
 /// @desc Successful escape. The only place stolen money reaches the bank.
