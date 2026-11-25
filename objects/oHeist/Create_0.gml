@@ -98,15 +98,13 @@ return_to_farm = function() {
     global.spawn_x = -1;
     global.spawn_y = -1;
 
-    // The wolf report plays once, after the first results card. The old
-    // Bear's Office animation is no longer part of the heist flow.
-    if (state == "won" && !flag_get("wolf_vault_story_seen")) {
+    // Bear's report plays once, after the first results card. The setup
+    // object hands the lines to oDialogue, so the box matches every other
+    // conversation. The old Bear's Office animation is no longer used.
+    if (state == "won" && !flag_get("bear_report_seen")) {
         if (!instance_exists(oWolfVaultDialogue)) {
-            flag_set("wolf_vault_story_seen");
-            var _talk = instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
-            _talk.on_complete = function() {
-                room_goto(rm_farm);
-            };
+            flag_set("bear_report_seen");
+            instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
         }
         return;
     }
