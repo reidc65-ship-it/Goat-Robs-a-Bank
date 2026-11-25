@@ -79,13 +79,30 @@ image_xscale = abs(image_xscale);
 if (facing < 0) image_xscale = -image_xscale;
 
 // --- Physics ----------------------------------------------------------
-// On a flight the shared surface lookup owns y. Off a flight, fall and
-// snap to the floor so the wolf never sinks into it.
+// Off a flight, fall and snap to the floor so the wolf never sinks into it.
 if (on_stair == noone) {
     if (!place_meeting(x, y + 4, oWall)) {
         y += 4;
     } else {
         while (!place_meeting(x, y + 1, oWall)) y++;
+    }
+}
+
+// --- Stair contact -----------------------------------------------------
+// Guards use the same visual stair geometry as the goat. After moving,
+// find the flight beneath our feet and place ourselves on its walk line.
+var _was_on_stair = on_stair;
+var _stair_hit = stair_surface_at(x, y + 32);
+
+if (_stair_hit != noone) {
+    on_stair = _stair_hit.stair;
+    y = _stair_hit.y - 32;
+} else {
+    on_stair = noone;
+
+    if (_was_on_stair != noone) {
+        var _landing_y = stair_top_y(_was_on_stair, x);
+        if (_landing_y != noone) y = _landing_y - 32;
     }
 }
 
@@ -150,8 +167,8 @@ do_chase = function() {
     var _dx = chase_target.x - x;
     var _dist = abs(_dx);
 
-    // Move toward the player with an ordinary wall check. The slope
-    // object corrects y after this in its End Step.
+    // Move toward the player with an ordinary wall check. The stair
+    // contact block above corrects y after movement.
     if (_dist >= 8) {
         var _step = chase_speed * sign(_dx);
         if (on_stair != noone || !place_meeting(x + _step, y, oWall)) {

@@ -79,8 +79,8 @@ animation_set = function(_state, _hold) {
 hint_text = "";
 hint_timer = 0;
 
-// Stair traversal. oStair owns the surface and places us in its End Step.
-// This flag only tells our collision code that a flight has us.
+// Stair traversal. oStair only draws the flight; scrStairSurface sets this
+// flag during Step so our movement code can follow the slope.
 on_stair = noone;
 
 // Health

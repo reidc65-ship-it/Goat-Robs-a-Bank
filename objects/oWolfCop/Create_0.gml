@@ -33,8 +33,8 @@ patrol_wait   = 60;       // frames to wait at each point
 patrol_dir    = 1;        // 1 = forward, -1 = reverse
 
 // --- Stair traversal ---------------------------------------------------
-// oStair places us on its surface in its End Step. Guards only hold the
-// flag so their collision code knows a flight has them.
+// oStair only draws the flight. scrStairSurface sets this flag during Step
+// so guards can stand and walk on the sloped surface.
 on_stair = noone;
 
 // --- Chase ------------------------------------------------------------

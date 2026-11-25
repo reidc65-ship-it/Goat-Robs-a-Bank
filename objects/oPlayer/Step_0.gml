@@ -205,6 +205,33 @@ if (vsp != 0 && place_meeting(x, y + vsp, oWall)) {
 }
 y = y + vsp;
 
+// --- Stair contact -----------------------------------------------------
+// The stair object is visual only. After ordinary wall collision, ask the
+// shared helper which flight is under our feet and snap to its walk line.
+// Skipping this while jumping upward keeps a jump from re-grabbing a stair.
+var _was_on_stair = on_stair;
+var _stair_hit = noone;
+if (vsp >= -1) {
+    _stair_hit = stair_surface_at(x, y + 32);
+}
+
+if (_stair_hit != noone) {
+    on_stair = _stair_hit.stair;
+    y = _stair_hit.y - 32;
+    vsp = 0;
+    coyote_timer = coyote_time;
+    air_jumps = upgrade_owned("doublejump") ? 1 : 0;
+} else {
+    on_stair = noone;
+
+    // Walking off the top edge should land on the slab, not hang a few
+    // pixels below it and get caught by the landing's side face.
+    if (_was_on_stair != noone) {
+        var _landing_y = stair_top_y(_was_on_stair, x);
+        if (_landing_y != noone) y = _landing_y - 32;
+    }
+}
+
 // --- Shooting Logic ---
 if (mouse_check_button_pressed(mb_left)) {
     if (upgrade_owned("horn")) {
