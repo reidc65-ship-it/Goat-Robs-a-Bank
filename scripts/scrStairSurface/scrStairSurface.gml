@@ -24,9 +24,9 @@ function stair_surface_at(_px, _py) {
         var _t = clamp((_px - _s.x) / (_s.dir * _s.w), 0, 1);
         var _sy = _s.y - _t * _s.h;
 
-        // Wide enough to catch a fall, narrow enough not to grab a flight
-        // on the floor below.
-        if (_py >= _sy - 40 && _py <= _sy + 40 && _sy > _best_y) {
+        // Tight enough that the actor snaps only when its feet are really
+        // on the carpet, not a flight on the floor above or below.
+        if (_py >= _sy - 24 && _py <= _sy + 24 && _sy > _best_y) {
             _best_y = _sy;
             _best = _s;
         }

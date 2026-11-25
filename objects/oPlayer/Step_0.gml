@@ -207,7 +207,7 @@ y = y + vsp;
 
 // --- Stair contact -----------------------------------------------------
 // The stair object is visual only. After ordinary wall collision, ask the
-// shared helper which flight is under our feet and snap to its walk line.
+// shared helper which flight is under our feet and snap to its carpet.
 // Skipping this while jumping upward keeps a jump from re-grabbing a stair.
 var _was_on_stair = on_stair;
 var _stair_hit = noone;

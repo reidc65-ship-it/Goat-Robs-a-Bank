@@ -89,8 +89,8 @@ if (on_stair == noone) {
 }
 
 // --- Stair contact -----------------------------------------------------
-// Guards use the same visual stair geometry as the goat. After moving,
-// find the flight beneath our feet and place ourselves on its walk line.
+// Guards use the same carpet surface as the goat. After moving, find the
+// flight beneath our feet and stand on its steps.
 var _was_on_stair = on_stair;
 var _stair_hit = stair_surface_at(x, y + 32);
 
