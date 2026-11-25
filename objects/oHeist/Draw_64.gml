@@ -54,8 +54,8 @@ if (card_news != "") {
 
 if (card_timer > 45) {
     var _pulse = 0.55 + 0.45 * sin(current_time / 260);
-    var _prompt = (_won && !flag_get("bear_cutscene_seen"))
-                ? "PRESS ENTER TO SEE WHAT HAPPENS AT THE BANK"
+    var _prompt = (_won && !flag_get("wolf_vault_story_seen"))
+                ? "PRESS ENTER TO HEAR THE WOLF'S REPORT"
                 : "PRESS ENTER TO RETURN TO THE FARM";
     gui_text(_cx, 570, _prompt, 1.5, c_white, fa_center, _pulse);
 }

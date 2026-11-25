@@ -21,6 +21,10 @@ if (state == "active") {
 }
 
 // --- Results card -----------------------------------------------------
+// A story overlay owns the input while it is open. Do not keep reading the
+// results-card keys underneath the wolf report.
+if (global.dialogue_active || global.game_paused) exit;
+
 card_timer++;
 
 // A short delay, so a key already being mashed can't skip the card.

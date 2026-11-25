@@ -6,7 +6,11 @@
 // also fire the goat's horn when control returns.
 if (close_timer > 0) {
     close_timer--;
-    if (close_timer <= 0) instance_destroy();
+    if (close_timer <= 0) {
+        var _done = on_complete;
+        if (!is_undefined(_done)) _done();
+        instance_destroy();
+    }
     exit;
 }
 

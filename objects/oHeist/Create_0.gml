@@ -53,6 +53,7 @@ add_loot = function(_amount, _x, _y) {
 };
 
 /// @desc The vault has been robbed: open the exit and send in backup.
+///       The wolf report waits until the results card has been dismissed.
 on_vault_looted = function() {
     if (vault_looted) return;
     vault_looted = true;
@@ -61,11 +62,6 @@ on_vault_looted = function() {
     var _backup = instance_create_depth(350, 2592, 110, oWolfCop);
     _backup.alert_level = 2;
     _backup.alert_timer = 120;
-
-    // Story beat: a wolf guard reports the break-in through a single
-    // conversation box. This replaces the old Bear/Goat vault chat and
-    // pauses the heist clock until the report is dismissed.
-    instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
 };
 
 /// @desc Successful escape. The only place stolen money reaches the bank.
@@ -102,13 +98,20 @@ return_to_farm = function() {
     global.spawn_x = -1;
     global.spawn_y = -1;
 
-    // The Bear's Office storyboard plays once, after the first results
-    // card. Later jobs go straight back to the farm.
-    if (state == "won" && !flag_get("bear_cutscene_seen")) {
-        room_goto(rm_bear_cutscene);
-    } else {
-        room_goto(rm_farm);
+    // The wolf report plays once, after the first results card. The old
+    // Bear's Office animation is no longer part of the heist flow.
+    if (state == "won" && !flag_get("wolf_vault_story_seen")) {
+        if (!instance_exists(oWolfVaultDialogue)) {
+            flag_set("wolf_vault_story_seen");
+            var _talk = instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
+            _talk.on_complete = function() {
+                room_goto(rm_farm);
+            };
+        }
+        return;
     }
+
+    room_goto(rm_farm);
 };
 
 /// @desc The current objective, based on how far the player has got.

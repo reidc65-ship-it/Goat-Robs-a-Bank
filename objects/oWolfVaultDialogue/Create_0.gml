@@ -1,7 +1,8 @@
 // =====================================================================
 //  oWolfVaultDialogue -> Create
-//  Story overlay shown when the vault is looted. The old Bear/Goat
-//  conversation is gone: this is a single wolf guard reporting the theft.
+//  Story overlay shown after the heist results card. The old Bear/Goat
+//  vault conversation and the Bear's Office animation are both replaced by
+//  this single wolf report.
 // =====================================================================
 
 game_state_init();
@@ -18,6 +19,7 @@ char_speed    = 0.8;
 start_timer   = 1;
 close_timer   = 0;
 is_closing    = false;
+on_complete   = undefined; // set by oHeist after the results card
 
 portrait_x = 200;
 portrait_y = 330;
@@ -50,8 +52,6 @@ if (!variable_global_exists("dialogue_active")) global.dialogue_active = false;
 
 global.dialogue_active = true;
 global.game_paused     = true;
-
-show_line(0);
 
 /// @desc Greedy word-wrap for the built-in font.
 wrap_text = function(_text, _max_width, _scale) {
@@ -118,3 +118,7 @@ advance_line = function() {
         end_dialogue();
     }
 };
+
+// Functions are assigned above, so initialise the first line only now.
+// Calling show_line() earlier caused a runtime error on the first frame.
+show_line(0);
