@@ -66,35 +66,19 @@ if (alert_level > 0 && state != "dead") {
     var _bob = sin(current_time / 150) * 4;
     var _ax = x;
     var _ay = bbox_top - 24 + _bob;
-    
-    // Background
-    draw_set_alpha(0.8);
-    draw_set_colour(c_black);
-    draw_roundrect_ext(_ax - 16, _ay - 16, _ax + 16, _ay + 16, 8, 8, false);
-    draw_set_alpha(1);
-    
-    // Alert icon
-    switch (alert_level) {
-        case 1: // Suspicious - yellow ?
-            draw_set_colour(make_colour_rgb(255, 220, 50));
-            draw_set_font(-1);
-            draw_set_halign(fa_center);
-            draw_set_valign(fa_middle);
-            draw_text_transformed(_ax, _ay + 2, "?", 1.8, 1.8, 0);
-            break;
-        case 2: // Alerted - red !
-            draw_set_colour(c_red);
-            draw_set_font(-1);
-            draw_set_halign(fa_center);
-            draw_set_valign(fa_middle);
-            draw_text_transformed(_ax, _ay + 2, "!", 2.2, 2.2, 0);
-            // Pulsing ring
-            var _pulse = 0.5 + 0.5 * sin(current_time / 100);
-            draw_set_alpha(0.3 * _pulse);
-            draw_circle(_ax, _ay, 24 + _pulse * 8, true);
-            draw_set_alpha(1);
-            break;
+
+    // Frame 0 is the yellow "?", frame 1 is the red "!".
+    if (alert_level >= 2) {
+        var _pulse = 0.5 + 0.5 * sin(current_time / 100);
+        draw_set_alpha(0.3 * _pulse);
+        draw_set_colour(c_red);
+        draw_circle(_ax, _ay, 24 + _pulse * 8, true);
+        draw_set_alpha(1);
     }
+
+    draw_set_colour(c_white);
+    draw_sprite(sAlertIcon, (alert_level >= 2) ? 1 : 0, _ax, _ay);
+    draw_set_colour(c_white);
 }
 
 // --- Health Bar (when damaged) ---

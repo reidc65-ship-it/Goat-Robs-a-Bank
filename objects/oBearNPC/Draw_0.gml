@@ -13,34 +13,14 @@ if (can_talk && !global.dialogue_active && !global.game_paused
     var _bob = sin(current_time / 300) * 3;
     var _px  = x;
     var _py  = bbox_top - 34 + _bob;
-    var _w   = 148;
-    var _h   = 38;
 
-    // Shadow
+    // Shadow behind the bubble art.
     draw_set_alpha(0.35);
-    draw_set_colour(c_black);
-    draw_roundrect_ext(_px - _w * 0.5 + 4, _py - _h * 0.5 + 6,
-                       _px + _w * 0.5 + 4, _py + _h * 0.5 + 6,
-                       10, 10, false);
-
-    // Body
+    draw_sprite_ext(sPromptBubble_S, 0, _px + 4, _py + 6, 1, 1, 0, c_black, 1);
     draw_set_alpha(1);
-    draw_set_colour(make_colour_rgb(201, 162, 39));
-    draw_roundrect_ext(_px - _w * 0.5, _py - _h * 0.5,
-                       _px + _w * 0.5, _py + _h * 0.5,
-                       10, 10, false);
-    draw_set_colour(make_colour_rgb(14, 18, 28));
-    draw_roundrect_ext(_px - _w * 0.5 + 2, _py - _h * 0.5 + 2,
-                       _px + _w * 0.5 - 2, _py + _h * 0.5 - 2,
-                       8, 8, false);
+    draw_sprite(sPromptBubble_S, 0, _px, _py);
 
-    // Pointer
-    draw_set_colour(make_colour_rgb(201, 162, 39));
-    draw_triangle(_px - 8, _py + _h * 0.5,
-                  _px + 8, _py + _h * 0.5,
-                  _px, _py + _h * 0.5 + 10, false);
-
-    // Text
+    // Text sits in the middle of the bubble body.
     draw_set_font(-1);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
@@ -55,4 +35,7 @@ if (can_talk && !global.dialogue_active && !global.game_paused
     draw_text_transformed(_px + 1, _py, "E   TALK", 1.3, 1.3, 0);
 
     draw_set_alpha(1);
+    draw_set_colour(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
 }

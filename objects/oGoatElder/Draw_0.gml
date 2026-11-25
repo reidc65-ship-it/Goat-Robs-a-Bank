@@ -7,9 +7,8 @@ draw_sprite_ext(sprite_index, 0, x + 6, y + 8,
                 image_xscale, image_yscale, image_angle, c_black, 0.22);
 draw_self();
 
-// White beard
-draw_set_colour(c_white);
-draw_triangle(x - 11, y - 2, x + 11, y - 2, x, y + 20, false);
+// White beard.
+draw_sprite(sElderBeard, 0, x, y - 2);
 
 // Name, shown until the talk prompt replaces it.
 if (!can_talk) {
@@ -25,34 +24,13 @@ if (can_talk && !global.dialogue_active && !global.game_paused
     var _bob = sin(current_time / 300) * 3;
     var _px  = x;
     var _py  = bbox_top - 34 + _bob;
-    var _w   = 240;
-    var _h   = 38;
 
-    // Shadow
+    // Shadow behind the bubble art.
     draw_set_alpha(0.35);
-    draw_set_colour(c_black);
-    draw_roundrect_ext(_px - _w * 0.5 + 4, _py - _h * 0.5 + 6,
-                       _px + _w * 0.5 + 4, _py + _h * 0.5 + 6,
-                       10, 10, false);
-
-    // Body
+    draw_sprite_ext(sPromptBubble_L, 0, _px + 4, _py + 6, 1, 1, 0, c_black, 1);
     draw_set_alpha(1);
-    draw_set_colour(make_colour_rgb(201, 162, 39));
-    draw_roundrect_ext(_px - _w * 0.5, _py - _h * 0.5,
-                       _px + _w * 0.5, _py + _h * 0.5,
-                       10, 10, false);
-    draw_set_colour(make_colour_rgb(14, 18, 28));
-    draw_roundrect_ext(_px - _w * 0.5 + 2, _py - _h * 0.5 + 2,
-                       _px + _w * 0.5 - 2, _py + _h * 0.5 - 2,
-                       8, 8, false);
+    draw_sprite(sPromptBubble_L, 0, _px, _py);
 
-    // Pointer
-    draw_set_colour(make_colour_rgb(201, 162, 39));
-    draw_triangle(_px - 8, _py + _h * 0.5,
-                  _px + 8, _py + _h * 0.5,
-                  _px, _py + _h * 0.5 + 10, false);
-
-    // Text
     draw_set_font(-1);
     draw_set_halign(fa_center);
     draw_set_valign(fa_middle);
@@ -67,4 +45,7 @@ if (can_talk && !global.dialogue_active && !global.game_paused
     draw_text_transformed(_px + 1, _py, "ELDER  -  E  SHOP", 1.3, 1.3, 0);
 
     draw_set_alpha(1);
+    draw_set_colour(c_white);
+    draw_set_halign(fa_left);
+    draw_set_valign(fa_top);
 }
