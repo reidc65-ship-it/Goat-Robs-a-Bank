@@ -41,7 +41,7 @@ take_damage = function(_amt, _dir, _from_dash = false) {
     image_blend = c_red;
 
     repeat (6) {
-        effect_create_above(ef_spark,
+        effect_create_depth(-15000, ef_spark,
             x + irandom_range(-22, 22), y - irandom_range(15, 70),
             0, make_colour_rgb(224, 182, 86));
     }
@@ -62,10 +62,10 @@ knock_down = function() {
     flag_set("scarecrow_defeated");
     flag_clear("scarecrow_pending");
 
-    effect_create_above(ef_explosion, x, y - 40, 1,
+    effect_create_depth(-15000, ef_explosion, x, y - 40, 1,
                         make_colour_rgb(224, 182, 86));
     repeat (12) {
-        effect_create_above(ef_spark,
+        effect_create_depth(-15000, ef_spark,
             x + irandom_range(-28, 28), y - irandom_range(8, 84),
             0, make_colour_rgb(242, 212, 132));
     }

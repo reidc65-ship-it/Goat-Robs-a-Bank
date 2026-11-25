@@ -79,11 +79,31 @@ image_xscale = abs(image_xscale);
 if (facing < 0) image_xscale = -image_xscale;
 
 // --- Physics ----------------------------------------------------------
-// Simple gravity, snapped to the floor so the wolf never sinks into it.
-if (!place_meeting(x, y + 4, oWall)) {
-    y += 4;
+// Off a flight, fall and snap to the floor so the wolf never sinks into it.
+if (on_stair == noone) {
+    if (!place_meeting(x, y + 4, oWall)) {
+        y += 4;
+    } else {
+        while (!place_meeting(x, y + 1, oWall)) y++;
+    }
+}
+
+// --- Stair contact -----------------------------------------------------
+// Guards use the same carpet surface as the goat. After moving, find the
+// flight beneath our feet and stand on its steps.
+var _was_on_stair = on_stair;
+var _stair_hit = stair_surface_at(x, y + 32);
+
+if (_stair_hit != noone) {
+    on_stair = _stair_hit.stair;
+    y = _stair_hit.y - 32;
 } else {
-    while (!place_meeting(x, y + 1, oWall)) y++;
+    on_stair = noone;
+
+    if (_was_on_stair != noone) {
+        var _landing_y = stair_top_y(_was_on_stair, x);
+        if (_landing_y != noone) y = _landing_y - 32;
+    }
 }
 
 /// =====================================================================
@@ -109,7 +129,7 @@ do_patrol = function() {
         if (state_timer > patrol_wait) {
             // Calculate next index
             var _next_index = patrol_index + patrol_dir;
-            
+
             // Check bounds and reverse if needed
             if (_next_index >= array_length(patrol_points)) {
                 patrol_dir = -1;
@@ -118,14 +138,14 @@ do_patrol = function() {
                 patrol_dir = 1;
                 _next_index = 1;
             }
-            
+
             patrol_index = _next_index;
             state_timer = 0;
         }
     } else {
         // Move toward point, but stop at a wall instead of walking into it.
         var _step = patrol_speed * sign(_dx);
-        if (!place_meeting(x + _step, y, oWall)) {
+        if (on_stair != noone || !place_meeting(x + _step, y, oWall)) {
             x += _step;
         } else {
             // Hit wall, reverse
@@ -147,14 +167,26 @@ do_chase = function() {
     var _dx = chase_target.x - x;
     var _dist = abs(_dx);
 
-    // Move toward player, stopping at walls. If a wall blocks the route,
-    // hop up so the guard can follow over low ledges.
-    var _step = chase_speed * sign(_dx);
-    if (_step != 0 && !place_meeting(x + _step, y, oWall)) {
-        x += _step;
-    } else if (place_meeting(x, y + 1, oWall)
-            && !place_meeting(x, y - 32, oWall)) {
-        y -= 8; // hop up
+    // Move toward the player with an ordinary wall check. The stair
+    // contact block above corrects y after movement.
+    if (_dist >= 8) {
+        var _step = chase_speed * sign(_dx);
+        if (on_stair != noone || !place_meeting(x + _step, y, oWall)) {
+            x += _step;
+        } else if (place_meeting(x, y + 1, oWall)
+                && !place_meeting(x, y - 32, oWall)) {
+            y -= 8; // hop up
+        }
+    } else if (on_stair != noone) {
+        // Directly above or below on the same flight: advance along the
+        // slope, since a horizontal-only step would be zero here.
+        var _up = sign(y - chase_target.y);
+        var _nx = x + on_stair.dir * _up * chase_speed;
+        var _high_x = on_stair.x + on_stair.dir * on_stair.w;
+        if (_nx >= min(on_stair.x, _high_x)
+                && _nx <= max(on_stair.x, _high_x)) {
+            x = _nx;
+        }
     }
 
     // Attack if in range
@@ -175,7 +207,7 @@ check_sight = function() {
         lose_sight_timer = lose_sight_max;
         alert_level = 2;
         alert_timer = 120;
-        
+
         if (state != "chase" && state != "attack") {
             set_state("chase");
         }
@@ -186,10 +218,13 @@ check_sight = function() {
             chase_target = noone;
             return_to_patrol();
         } else {
-            // Move to last known position
+            // Move to last known position with a normal wall check.
             var _dx = last_known_x - x;
             if (abs(_dx) > 16) {
-                x += chase_speed * 0.5 * sign(_dx);
+                var _step = chase_speed * 0.5 * sign(_dx);
+                if (on_stair != noone || !place_meeting(x + _step, y, oWall)) {
+                    x += _step;
+                }
             }
         }
     } else if (state == "patrol" && alert_level > 0) {
@@ -216,19 +251,21 @@ do_attack = function() {
     if (attack_cooldown <= 0) {
         // Perform attack
         attack_cooldown = attack_cooldown_max;
-        
+
         // Damage player if close enough
         if (_dist <= attack_range) {
             // Call player's take_damage or similar
             if (variable_instance_exists(chase_target, "take_damage")) {
                 chase_target.take_damage(damage, sign(chase_target.x - x));
             } else if (variable_instance_exists(chase_target, "hp")) {
-                chase_target.hp -= damage;
+                // Dynamic access keeps "hp" optional for non-player targets.
+                var _target_hp = variable_instance_get(chase_target, "hp") - damage;
+                variable_instance_set(chase_target, "hp", _target_hp);
                 // Knockback
                 chase_target.x += sign(chase_target.x - x) * knockback_force;
             }
         }
-        
+
         // Visual feedback
         image_blend = c_orange;
         alarm[1] = 10;

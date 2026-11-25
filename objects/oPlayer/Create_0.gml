@@ -79,47 +79,9 @@ animation_set = function(_state, _hold) {
 hint_text = "";
 hint_timer = 0;
 
-// Stair traversal (Katana ZERO style). Stairs are non-solid objects; the
-// player finds the nearest walkable surface and follows it.
+// Stair traversal. oStair only draws the flight; scrStairSurface sets this
+// flag during Step so our movement code can follow the slope.
 on_stair = noone;
-stair_surface = 0;
-
-/// @desc Find the lowest nearby stair surface under the player's feet.
-/// At a switchback landing two flights meet, so choosing the lowest
-/// surface makes the goat continue downhill instead of catching the
-/// uphill flight behind them.
-find_stair = function(_px, _py) {
-    var _best = noone;
-    var _best_y = -999999;
-    var _count = instance_number(oStair);
-
-    for (var _i = 0; _i < _count; _i++) {
-        var _s = instance_find(oStair, _i);
-        if (instance_exists(_s)) {
-            var _high_x = _s.x + _s.dir * _s.w;
-            var _min_x = min(_s.x, _high_x);
-            var _max_x = max(_s.x, _high_x);
-
-            // Use the exact flight span. Extra padding here would pull the
-            // goat below a landing at the low end of a flight.
-            if (_px >= _min_x && _px <= _max_x) {
-                var _t = clamp((_px - _s.x) / (_s.dir * _s.w), 0, 1);
-                var _sy = _s.y - _t * _s.h;
-
-                // Wide vertical tolerance catches a fast fall onto the flight.
-                if (_py >= _sy - 40 && _py <= _sy + 40) {
-                    if (_sy > _best_y) {
-                        _best_y = _sy;
-                        _best = _s;
-                    }
-                }
-            }
-        }
-    }
-
-    stair_surface = _best_y;
-    return _best;
-};
 
 // Health
 max_hp = 3;
@@ -162,21 +124,21 @@ cam_y = clamp(y - 300, 0, max(0, room_height - 768));
 /// @desc Take damage and handle knockback/invincibility
 take_damage = function(_amt, _knockback_dir) {
     if (invincible_timer > 0 || spirit_timer > 0 || hp <= 0) return;
-    
+
     hp -= _amt;
     invincible_timer = 60; // 1 second invincibility
-    
+
     // Knockback
     if (!place_meeting(x + _knockback_dir * 8, y, oWall)) {
         x += _knockback_dir * 8;
     }
     vsp = -4; // Pop up slightly
     animation_set("hurt", 16);
-    
+
     // Visual feedback
     image_blend = c_red;
     alarm[0] = 10;
-    
+
     if (hp <= 0) {
         // Getting caught during a heist ends it and loses the loot.
         // Anywhere else, just restart the room.
@@ -201,20 +163,18 @@ throw_horn = function(_charged) {
     var _sx = x + facing * 28;
     var _sy = y - 22;
     var _horn = instance_create_layer(_sx, _sy, "Instances", obj_horn_bullet);
-    var _dir = point_direction(x, y, mouse_x, mouse_y);
+    _horn.direction = point_direction(x, y, mouse_x, mouse_y);
+    _horn.image_angle = _horn.direction;
+    _horn.target_player = id;
 
-    with (_horn) {
-        direction = _dir;
-        image_angle = _dir;
-        target_player = other.id;
-
-        if (_charged) {
-            damage = 3;
-            door_damage = 2;
-            speed = 16;
-            image_xscale = 1.5;
-            image_yscale = 1.5;
-        }
+    // Set fields on the returned id instead of using `with`: analyzer rules
+    // treat locals from the calling scope as out of scope inside a with block.
+    if (_charged) {
+        _horn.damage = 3;
+        _horn.door_damage = 2;
+        _horn.speed = 16;
+        _horn.image_xscale = 1.5;
+        _horn.image_yscale = 1.5;
     }
 };
 

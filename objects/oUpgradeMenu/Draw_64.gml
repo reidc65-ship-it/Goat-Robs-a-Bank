@@ -43,18 +43,37 @@ draw_roundrect_ext(_mx1 + 8, _my1 + 8, _mx2 - 8, _my2 - 8, 24, 24, true);
 draw_set_alpha(1);
 
 // --- Header -----------------------------------------------------------
+// The farm tab gets a green pill so it reads as a place to go, not just a label.
+var _farm_tab_x = _gw * 0.5 + 90;
+draw_set_alpha((tab == 1) ? 0.5 : 0.28);
+draw_roundrect_colour_ext(_farm_tab_x - 84, 106, _farm_tab_x + 84, 142, 12, 12,
+                          make_colour_rgb(52, 110, 44),
+                          make_colour_rgb(26, 56, 24), false);
+draw_set_alpha((tab == 1) ? 1 : 0.55);
+draw_set_colour(make_colour_rgb(120, 220, 100));
+draw_roundrect_ext(_farm_tab_x - 84, 106, _farm_tab_x + 84, 142, 12, 12, true);
+draw_set_alpha(1);
+
 draw_ui_text(_gw * 0.5, 80, "ELDER'S UPGRADES", 3.8,
              make_colour_rgb(242, 208, 107), fa_center, 1);
 draw_ui_text(_gw * 0.5 - 90, 124, "GOAT GEAR", 1.4,
              (tab == 0) ? make_colour_rgb(242, 208, 107) : c_white,
              fa_center, (tab == 0) ? 1 : 0.45);
-draw_ui_text(_gw * 0.5 + 90, 124, "THE FARM", 1.4,
-             (tab == 1) ? make_colour_rgb(242, 208, 107) : c_white,
-             fa_center, (tab == 1) ? 1 : 0.45);
+draw_ui_text(_farm_tab_x, 124, "THE FARM", 1.4,
+             (tab == 1) ? make_colour_rgb(242, 208, 107) : make_colour_rgb(150, 235, 130),
+             fa_center, (tab == 1) ? 1 : 0.9);
 
 // Bank balance
 draw_ui_text(_gw * 0.5, 152, "$" + string(global.bank_balance), 2.8,
              make_colour_rgb(242, 208, 107), fa_center, 1);
+
+// --- Farm promo -------------------------------------------------------
+// GOAT GEAR now has three slots, so the right-hand side is free. The farm
+// tab needs all five slots, so the card only appears on the goat tab.
+if (tab == 0) {
+    var _farm_x1 = start_x + array_length(global.upgrades) * (slot_w + slot_gap);
+    draw_farm_promo(_farm_x1, start_y, _mx2 - 20, start_y + slot_h);
+}
 
 // --- Slots ------------------------------------------------------------
 var _list = current_list();
@@ -238,8 +257,10 @@ if (confirm_timer > 0) {
 }
 
 // --- Footer hints -----------------------------------------------------
-draw_ui_text(_gw * 0.5, _my2 - 50,
-             "A / D OR ARROWS TO SELECT     ENTER TO BUY     TAB FOR GOAT / FARM     ESC TO CLOSE",
+draw_ui_text(_gw * 0.5, _my2 - 52,
+             "A / D OR ARROWS TO SELECT     ENTER TO BUY     ESC TO CLOSE",
              1.2, c_white, fa_center, 0.6);
+draw_ui_text(_gw * 0.5, _my2 - 24, "TAB  >  FARM UPGRADES", 1.4,
+             make_colour_rgb(150, 235, 130), fa_center, 1);
 
 draw_set_alpha(1);

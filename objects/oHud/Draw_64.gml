@@ -37,19 +37,6 @@ for (var i = 0; i < _p.max_hp; i++) {
     draw_triangle(_hx - 16, _hy - 1, _hx + 16, _hy - 1, _hx, _hy + 17, false);
 }
 
-// --- Spirit Form status -----------------------------------------------
-if (upgrade_owned("spirit")) {
-    var _spirit_text = "Q  SPIRIT READY";
-    var _spirit_col  = make_colour_rgb(150, 220, 255);
-    if (_p.spirit_timer > 0) {
-        _spirit_text = "SPIRIT FORM  " + frames_to_clock(_p.spirit_timer);
-    } else if (_p.spirit_cooldown_timer > 0) {
-        _spirit_text = "SPIRIT  " + frames_to_clock(_p.spirit_cooldown_timer);
-        _spirit_col  = make_colour_rgb(150, 160, 175);
-    }
-    gui_text(24, 88, _spirit_text, 1.1, _spirit_col, fa_left, 0.9);
-}
-
 // --- Money and timer --------------------------------------------------
 if (instance_exists(oHeist)) {
     var _heist = instance_find(oHeist, 0);
@@ -67,8 +54,14 @@ if (instance_exists(oHeist)) {
 
     // Alert warning, if any guard is currently chasing the goat.
     var _chased = false;
-    with (oWolfCop) {
-        if (state == "chase" || state == "attack") _chased = true;
+    var _guard_count = instance_number(oWolfCop);
+    for (var _g = 0; _g < _guard_count; _g++) {
+        var _guard = instance_find(oWolfCop, _g);
+        if (!instance_exists(_guard)) continue;
+        if (_guard.state == "chase" || _guard.state == "attack") {
+            _chased = true;
+            break;
+        }
     }
     if (_chased) {
         gui_text(_gw * 0.5, 100, "SPOTTED!", 1.5, _red, fa_center,

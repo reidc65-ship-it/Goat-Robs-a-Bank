@@ -1,7 +1,8 @@
 // =====================================================================
 //  oFarmUpgrades -> Create
-//  Draws purchased farm improvements over the farm background. Bought
-//  from the Elder's shop, on the FARM tab.
+//  Draws the two visual farm improvements (grass and sprinkler) over the
+//  farm background. Bought from the Elder's shop, on the FARM tab. The
+//  other upgrades are visual no-ops so sFarmBG stays untouched.
 // =====================================================================
 
 game_state_init();

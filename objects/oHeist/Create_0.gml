@@ -30,10 +30,14 @@ if (security_level >= 1) instance_create_depth(1550, 1952, 110, oWolfCop);
 if (security_level >= 2) instance_create_depth(1600, 3232, 110, oWolfCop);
 if (security_level >= 3) instance_create_depth(450, 2592, 110, oWolfCop);
 
-var _level = security_level;
-with (oWolfCop) {
-    sight_range += 30 * _level;
-    chase_speed += 0.2 * _level;
+// Bump every guard created above. Looping over ids keeps `security_level`
+// in its own scope instead of using an outer local inside a `with` block.
+var _guard_count = instance_number(oWolfCop);
+for (var _i = 0; _i < _guard_count; _i++) {
+    var _guard = instance_find(oWolfCop, _i);
+    if (!instance_exists(_guard)) continue;
+    _guard.sight_range += 30 * security_level;
+    _guard.chase_speed += 0.2 * security_level;
 }
 
 // Floating world-space text such as "+$50".
@@ -53,6 +57,7 @@ add_loot = function(_amount, _x, _y) {
 };
 
 /// @desc The vault has been robbed: open the exit and send in backup.
+///       The wolf report waits until the results card has been dismissed.
 on_vault_looted = function() {
     if (vault_looted) return;
     vault_looted = true;
@@ -61,10 +66,6 @@ on_vault_looted = function() {
     var _backup = instance_create_depth(350, 2592, 110, oWolfCop);
     _backup.alert_level = 2;
     _backup.alert_timer = 120;
-
-    // Bear turns up to gloat. The conversation pauses the heist clock.
-    var _bear = instance_create_depth(1480, 3264, 115, oBearNPC);
-    _bear.start_conversation();
 };
 
 /// @desc Successful escape. The only place stolen money reaches the bank.
@@ -100,6 +101,18 @@ return_to_farm = function() {
     global.level_complete = false;
     global.spawn_x = -1;
     global.spawn_y = -1;
+
+    // The wolf's report plays once, after the first results card. The
+    // setup object hands the lines to oDialogue, so the box matches every
+    // other conversation. The old Bear's Office animation is not used.
+    if (state == "won" && !flag_get("wolf_report_seen")) {
+        if (!instance_exists(oWolfVaultDialogue)) {
+            flag_set("wolf_report_seen");
+            instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
+        }
+        return;
+    }
+
     room_goto(rm_farm);
 };
 

@@ -54,7 +54,10 @@ if (card_news != "") {
 
 if (card_timer > 45) {
     var _pulse = 0.55 + 0.45 * sin(current_time / 260);
-    gui_text(_cx, 570, "PRESS ENTER TO RETURN TO THE FARM", 1.5, c_white, fa_center, _pulse);
+    var _prompt = (_won && !flag_get("wolf_report_seen"))
+                ? "PRESS ENTER TO HEAR THE WOLF'S REPORT"
+                : "PRESS ENTER TO RETURN TO THE FARM";
+    gui_text(_cx, 570, _prompt, 1.5, c_white, fa_center, _pulse);
 }
 
 draw_set_colour(c_white);

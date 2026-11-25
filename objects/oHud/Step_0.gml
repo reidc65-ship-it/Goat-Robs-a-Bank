@@ -53,8 +53,14 @@ if (room == rm_farm) {
     var _heist = instance_find(oHeist, 0);
 
     var _chased = false;
-    with (oWolfCop) {
-        if (state == "chase" || state == "attack") _chased = true;
+    var _guard_count = instance_number(oWolfCop);
+    for (var _g = 0; _g < _guard_count; _g++) {
+        var _guard = instance_find(oWolfCop, _g);
+        if (!instance_exists(_guard)) continue;
+        if (_guard.state == "chase" || _guard.state == "attack") {
+            _chased = true;
+            break;
+        }
     }
 
     if (_heist.vault_looted && !flag_get("tip_escape")) {

@@ -1,5 +1,9 @@
 // =====================================================================
 //  oFarmUpgrades -> Draw
+//  Only Greener Grass and Sprinkler draw anything. The newer farm upgrades
+//  (fence, coop, paint) are intentionally visual no-ops so they never
+//  paint over the farm background (sFarmBG). They still buy, unlock and
+//  change the family's dialogue.
 // =====================================================================
 
 var _grass_y = ground_y - 40;
@@ -41,6 +45,10 @@ if (upgrade_owned("sprinkler")) {
         draw_circle(sprinkler_x + _dx, ground_y - 50 + _dy, 3, false);
     }
 }
+
+// --- New Fence / Chicken Coop / Fresh Paint ---------------------------
+// Deliberately do nothing: these three no longer draw over sFarmBG.
+// They remain real upgrades in the shop and in the family dialogue.
 
 draw_set_colour(c_white);
 draw_set_alpha(1);

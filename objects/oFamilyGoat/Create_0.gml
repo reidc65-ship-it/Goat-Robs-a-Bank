@@ -36,11 +36,32 @@ speakers = {
 
 /// @desc Picks a conversation from the player's choices so far.
 get_lines = function() {
+    if (upgrade_owned("paint")) {
+        return [
+            { side: "right", text: "You painted the barn! The neighbours are already talking." },
+            { side: "right", text: "GOAT FARM, in letters bigger than the bank's." },
+            { side: "left",  text: "Rebranding, Ma. Very important." }
+        ];
+    }
+    if (upgrade_owned("coop")) {
+        return [
+            { side: "right", text: "The chickens have a home with a roof! They've gone quiet out of respect." },
+            { side: "right", text: "I think that's what happiness looks like for a chicken." },
+            { side: "left",  text: "I may have overspent on the roof." }
+        ];
+    }
     if (upgrade_owned("sprinkler")) {
         return [
             { side: "right", text: "A sprinkler! The chickens are confused, but very hydrated." },
             { side: "right", text: "I don't know how you afford this, and I've decided not to ask." },
             { side: "left",  text: "Bake sales, Ma. Lots of bake sales." }
+        ];
+    }
+    if (upgrade_owned("fence")) {
+        return [
+            { side: "right", text: "A new fence! It doesn't lean quite so hopefully anymore." },
+            { side: "right", text: "The bank can't say we don't maintain the place now." },
+            { side: "left",  text: "Try them. I double dog dare you." }
         ];
     }
     if (upgrade_owned("grass")) {
