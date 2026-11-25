@@ -1,5 +1,9 @@
 // =====================================================================
 //  oFarmUpgrades -> Draw
+//  Only Greener Grass and Sprinkler draw anything. The newer farm upgrades
+//  (fence, coop, paint) are intentionally visual no-ops so they never
+//  paint over the farm background (sFarmBG). They still buy, unlock and
+//  change the family's dialogue.
 // =====================================================================
 
 var _grass_y = ground_y - 40;
@@ -42,56 +46,9 @@ if (upgrade_owned("sprinkler")) {
     }
 }
 
-// --- New Fence --------------------------------------------------------
-if (upgrade_owned("fence")) {
-    var _post = make_colour_rgb(150, 104, 58);
-    var _rail = make_colour_rgb(186, 136, 78);
-
-    // Near pasture, up to the barn wall. The fence is behind the player.
-    for (var _fx = 60; _fx <= 1020; _fx += 120) {
-        draw_set_colour(_post);
-        draw_rectangle(_fx - 6, ground_y - 86, _fx + 6, ground_y - 4, false);
-        draw_set_colour(_rail);
-        draw_rectangle(_fx, ground_y - 68, _fx + 120, ground_y - 54, false);
-        draw_rectangle(_fx, ground_y - 38, _fx + 120, ground_y - 24, false);
-    }
-}
-
-// --- Chicken Coop -----------------------------------------------------
-if (upgrade_owned("coop")) {
-    var _cx = 200;
-
-    draw_set_colour(make_colour_rgb(150, 68, 52));
-    draw_rectangle(_cx - 54, ground_y - 64, _cx + 54, ground_y - 4, false);
-    draw_set_colour(make_colour_rgb(96, 42, 34));
-    draw_triangle(_cx - 68, ground_y - 62, _cx + 68, ground_y - 62,
-                  _cx, ground_y - 104, false);
-    draw_set_colour(c_black);
-    draw_ellipse(_cx - 14, ground_y - 46, _cx + 14, ground_y - 4, false);
-
-    // Two very satisfied chickens.
-    draw_set_colour(c_white);
-    draw_circle(_cx + 80, ground_y - 14, 10, false);
-    draw_circle(_cx + 62, ground_y - 12, 9, false);
-    draw_set_colour(make_colour_rgb(220, 70, 50));
-    draw_triangle(_cx + 90, ground_y - 16, _cx + 102, ground_y - 12,
-                  _cx + 90, ground_y - 8, false);
-}
-
-// --- Fresh Paint ------------------------------------------------------
-if (upgrade_owned("paint")) {
-    draw_set_colour(make_colour_rgb(246, 236, 210));
-    draw_rectangle(1180, 420, 1400, 486, false);
-    draw_set_colour(make_colour_rgb(150, 104, 58));
-    draw_rectangle(1184, 424, 1396, 482, true);
-    draw_set_colour(make_colour_rgb(90, 58, 36));
-    draw_set_font(-1);
-    draw_set_halign(fa_center);
-    draw_set_valign(fa_middle);
-    draw_text_transformed(1290, 453, "GOAT FARM", 2.2, 2.2, 0);
-    draw_set_halign(fa_left);
-    draw_set_valign(fa_top);
-}
+// --- New Fence / Chicken Coop / Fresh Paint ---------------------------
+// Deliberately do nothing: these three no longer draw over sFarmBG.
+// They remain real upgrades in the shop and in the family dialogue.
 
 draw_set_colour(c_white);
 draw_set_alpha(1);
