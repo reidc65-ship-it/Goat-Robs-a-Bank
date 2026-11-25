@@ -12,7 +12,7 @@ draw_set_colour(c_white);
 draw_set_alpha(1);
 
 // Frame 0 is the locked grate, frame 1 is the open hatch.
-draw_sprite(sHeistExit, _open ? 1 : 0, x, y - 4);
+draw_sprite(sprite_index, _open ? 1 : 0, x, y - 4);
 
 draw_set_font(-1);
 

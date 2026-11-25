@@ -3,5 +3,6 @@
 // escape hatch and brings in a backup guard (see oHeist.on_vault_looted).
 event_inherited();
 
-value = 1000;
-kind  = "vault";
+value        = 1000;
+kind         = "vault";
+sprite_index = sVaultLoot;

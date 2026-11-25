@@ -42,7 +42,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": null,
+  "spriteId": {
+    "name":"sGoldBar",
+    "path":"sprites/sGoldBar/sGoldBar.yy"
+  },
   "spriteMaskId": null,
   "visible": true
 }

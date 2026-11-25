@@ -2,5 +2,6 @@
 // A more valuable oCash pickup.
 event_inherited();
 
-value = 250;
-kind  = "gold";
+value        = 250;
+kind         = "gold";
+sprite_index = sGoldBar;

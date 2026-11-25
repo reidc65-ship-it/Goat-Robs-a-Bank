@@ -33,9 +33,12 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
+    "name":"sSkylight",
+    "path":"sprites/sSkylight/sSkylight.yy"
+  },
+  "spriteMaskId":{
     "name":"sDoor",
     "path":"sprites/sDoor/sDoor.yy"
   },
-  "spriteMaskId":null,
   "visible":true
 }

@@ -61,7 +61,10 @@
   "resourceType": "GMObject",
   "resourceVersion": "2.0",
   "solid": false,
-  "spriteId": null,
+  "spriteId": {
+    "name":"sCash",
+    "path":"sprites/sCash/sCash.yy"
+  },
   "spriteMaskId": null,
   "visible": true
 }

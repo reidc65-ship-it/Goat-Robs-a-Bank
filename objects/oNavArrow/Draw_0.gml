@@ -31,7 +31,7 @@ else                      _ay += _bob;
 
 draw_set_colour(c_white);
 draw_set_alpha(1);
-draw_sprite(sNavArrow, _frame, _ax, _ay);
+draw_sprite(sprite_index, _frame, _ax, _ay);
 
 if (_label != "") {
     gui_text(x, y - 46, _label, 1.3, make_colour_rgb(255, 225, 130), fa_center, 1);

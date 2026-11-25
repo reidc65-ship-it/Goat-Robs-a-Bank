@@ -30,7 +30,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sStair",
+    "path":"sprites/sStair/sStair.yy"
+  },
   "spriteMaskId":null,
   "visible":true
 }
