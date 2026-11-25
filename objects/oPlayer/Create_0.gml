@@ -79,47 +79,9 @@ animation_set = function(_state, _hold) {
 hint_text = "";
 hint_timer = 0;
 
-// Stair traversal (Katana ZERO style). Stairs are non-solid objects; the
-// player finds the nearest walkable surface and follows it.
+// Stair traversal. oStair owns the surface and places us in its End Step.
+// This flag only tells our collision code that a flight has us.
 on_stair = noone;
-stair_surface = 0;
-
-/// @desc Find the lowest nearby stair surface under the player's feet.
-/// At a switchback landing two flights meet, so choosing the lowest
-/// surface makes the goat continue downhill instead of catching the
-/// uphill flight behind them.
-find_stair = function(_px, _py) {
-    var _best = noone;
-    var _best_y = -999999;
-    var _count = instance_number(oStair);
-
-    for (var _i = 0; _i < _count; _i++) {
-        var _s = instance_find(oStair, _i);
-        if (instance_exists(_s)) {
-            var _high_x = _s.x + _s.dir * _s.w;
-            var _min_x = min(_s.x, _high_x);
-            var _max_x = max(_s.x, _high_x);
-
-            // Use the exact flight span. Extra padding here would pull the
-            // goat below a landing at the low end of a flight.
-            if (_px >= _min_x && _px <= _max_x) {
-                var _t = clamp((_px - _s.x) / (_s.dir * _s.w), 0, 1);
-                var _sy = _s.y - _t * _s.h;
-
-                // Wide vertical tolerance catches a fast fall onto the flight.
-                if (_py >= _sy - 40 && _py <= _sy + 40) {
-                    if (_sy > _best_y) {
-                        _best_y = _sy;
-                        _best = _s;
-                    }
-                }
-            }
-        }
-    }
-
-    stair_surface = _best_y;
-    return _best;
-};
 
 // Health
 max_hp = 3;

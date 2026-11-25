@@ -86,7 +86,6 @@
     {"id":{"name":"sScoutCap","path":"sprites/sScoutCap/sScoutCap.yy",},},
     {"id":{"name":"sSkylight","path":"sprites/sSkylight/sSkylight.yy",},},
     {"id":{"name":"sSprinkler","path":"sprites/sSprinkler/sSprinkler.yy",},},
-    {"id":{"name":"sStair","path":"sprites/sStair/sStair.yy",},},
     {"id":{"name":"sUpgradeCharge","path":"sprites/sUpgradeCharge/sUpgradeCharge.yy",},},
     {"id":{"name":"sUpgradeDash","path":"sprites/sUpgradeDash/sUpgradeDash.yy",},},
     {"id":{"name":"sUpgradeDoubleJump","path":"sprites/sUpgradeDoubleJump/sUpgradeDoubleJump.yy",},},
