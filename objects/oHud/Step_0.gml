@@ -23,7 +23,7 @@ var _timed = false;   // for tips with no clear action: clear after a while
 
 if (room == rm_farm) {
     if (flag_get("scarecrow_pending") && !flag_get("scarecrow_defeated")) {
-        _id = "tip_scarecrow"; _text = "DASH through the training scarecrow with SHIFT. Hold A / D to aim";
+        _id = "tip_scarecrow"; _text = "DASH through the training scarecrow with SHIFT. Hold A / D to steer";
     } else if (flag_get("scarecrow_defeated") && !flag_get("board_opened")) {
         _id = "tip_scarecrow_done"; _text = "Scarecrow down! Head into the barn and talk to the SCOUT";
     } else if (!flag_get("tip_move")) {
@@ -64,7 +64,7 @@ if (room == rm_farm) {
     } else if (_chased && !flag_get("tip_guards")) {
         _id = "tip_guards"; _text = "Guards hurt! Dash into them with SHIFT, or run"; _timed = true;
     } else if (!flag_get("tip_dash")) {
-        _id = "tip_dash"; _text = "SHIFT dashes. Hold A / D to aim it, or point the mouse";
+        _id = "tip_dash"; _text = "SHIFT dashes left or right. Hold A / D to pick a side";
     } else if (!flag_get("tip_cash")) {
         _id = "tip_cash"; _text = "Grab the money! You only keep it if you escape";
     }

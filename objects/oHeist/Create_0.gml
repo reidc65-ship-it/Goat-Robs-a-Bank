@@ -106,7 +106,7 @@ return_to_farm = function() {
 /// @desc The current objective, based on how far the player has got.
 get_objective = function(_player) {
     if (vault_looted)                return "ALARM! Run up the stairs to the sewer hatch!";
-    if (instance_exists(oSkylight))  return "Break in: stand on the glass, point the mouse DOWN, tap SHIFT";
+    if (instance_exists(oSkylight))  return "Break in: stand on the glass and dash across it with SHIFT";
     if (_player.y > 2700)            return "Smash the vault door and grab the loot!";
     return "Follow the stairs down to the vault";
 };

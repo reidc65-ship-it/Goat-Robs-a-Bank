@@ -48,7 +48,7 @@ levels = [
 // Keep these matching the real controls in oPlayer and the NPC objects.
 howto_rows = [
     { head: "MOVE",   text: "A / D or the LEFT / RIGHT arrow keys walk. W or the UP arrow jumps. Hold to jump higher." },
-    { head: "DASH",   text: "SHIFT dashes the way you are moving. Standing still? It dashes toward the mouse." },
+    { head: "DASH",   text: "SHIFT dashes left or right. Hold A / D to pick a side. The goat glides to a stop." },
     { head: "FIGHT",  text: "A dash hurts guards and smashes doors. Buy HORN THROW, then LEFT CLICK to throw it." },
     { head: "TALK",   text: "Walk up to a character and press E. E, ENTER or SPACE continues. ESC skips." },
     { head: "MONEY",  text: "Grab the bills and gold bars. You only keep the money if you escape!" },
