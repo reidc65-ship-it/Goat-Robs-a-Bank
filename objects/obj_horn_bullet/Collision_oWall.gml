@@ -19,7 +19,7 @@ if (state == "out"
         variable_instance_set(_target, "flash", 6);
 
         if (_target_hp <= 0) {
-            effect_create_above(ef_explosion, _target.x, _target.y, 1, c_orange);
+            effect_create_depth(-15000, ef_explosion, _target.x, _target.y, 1, c_orange);
             instance_destroy(_target);
         }
     }

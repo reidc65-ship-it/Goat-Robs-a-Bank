@@ -136,7 +136,7 @@ if (is_dashing) {
         _door.hp -= 2;
         _door.flash = 6;
         if (_door.hp <= 0) {
-            effect_create_above(ef_explosion, _door.x, _door.y, 1, c_orange);
+            effect_create_depth(-15000, ef_explosion, _door.x, _door.y, 1, c_orange);
             instance_destroy(_door);
         }
     }
@@ -157,7 +157,7 @@ if (is_dashing) {
         _glass.hp -= 2;
         _glass.flash = 6;
         if (_glass.hp <= 0) {
-            effect_create_above(ef_explosion, _glass.x, _glass.y, 1, c_orange);
+            effect_create_depth(-15000, ef_explosion, _glass.x, _glass.y, 1, c_orange);
             instance_destroy(_glass);
 
             // Drop through the new hole instead of gliding over it.
