@@ -15,14 +15,14 @@ if (debug_mode) {
     var _cone_len = sight_range;
     var _cone_angle = sight_angle;
     var _center_dir = (facing == 1) ? 0 : 180;
-    
+
     draw_set_alpha(0.15);
     draw_set_colour(c_blue);
-    
+
     var _steps = 10;
     var _start = _center_dir - _cone_angle;
     var _end = _center_dir + _cone_angle;
-    
+
     draw_primitive_begin(pr_trianglefan);
     draw_vertex(x, y);
     for (var i = 0; i <= _steps; i++) {
@@ -31,15 +31,15 @@ if (debug_mode) {
         draw_vertex(x + cos(_rad) * _cone_len, y + sin(_rad) * _cone_len);
     }
     draw_primitive_end();
-    
+
     draw_set_alpha(1);
-    
+
     // Line of sight ray to player
     if (chase_target != noone && instance_exists(chase_target)) {
         draw_set_colour(c_red);
         draw_line_width(x, y, chase_target.x, chase_target.y, 2);
     }
-    
+
     // Patrol points
     draw_set_colour(c_yellow);
     for (var i = 0; i < array_length(patrol_points); i++) {
@@ -50,7 +50,7 @@ if (debug_mode) {
             draw_circle(_pt.x, _pt.y, 12, true);
         }
     }
-    
+
     // State text
     draw_set_colour(c_white);
     draw_set_halign(fa_left);
@@ -88,15 +88,15 @@ if (hp < max_hp && state != "dead") {
     var _bx = x - _bar_w / 2;
     var _by = bbox_top - 18;
     var _pct = hp / max_hp;
-    
+
     draw_set_colour(c_black);
     draw_rectangle(_bx - 1, _by - 1, _bx + _bar_w + 1, _by + _bar_h + 1, false);
-    
+
     draw_set_colour(c_red);
     draw_rectangle(_bx, _by, _bx + _bar_w, _by + _bar_h, false);
-    
+
     draw_set_colour(c_lime);
     draw_rectangle(_bx, _by, _bx + _bar_w * _pct, _by + _bar_h, false);
-    
+
     draw_set_colour(c_white);
 }

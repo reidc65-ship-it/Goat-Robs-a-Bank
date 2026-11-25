@@ -124,21 +124,21 @@ cam_y = clamp(y - 300, 0, max(0, room_height - 768));
 /// @desc Take damage and handle knockback/invincibility
 take_damage = function(_amt, _knockback_dir) {
     if (invincible_timer > 0 || spirit_timer > 0 || hp <= 0) return;
-    
+
     hp -= _amt;
     invincible_timer = 60; // 1 second invincibility
-    
+
     // Knockback
     if (!place_meeting(x + _knockback_dir * 8, y, oWall)) {
         x += _knockback_dir * 8;
     }
     vsp = -4; // Pop up slightly
     animation_set("hurt", 16);
-    
+
     // Visual feedback
     image_blend = c_red;
     alarm[0] = 10;
-    
+
     if (hp <= 0) {
         // Getting caught during a heist ends it and loses the loot.
         // Anywhere else, just restart the room.

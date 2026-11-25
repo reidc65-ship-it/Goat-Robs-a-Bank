@@ -86,7 +86,7 @@ if (variable_instance_exists(id, "patrol_path")) {
 /// @desc Check if player is in vision cone and has line of sight
 can_see_player = function() {
     if (!instance_exists(oPlayer)) return false;
-    
+
     var _p = instance_find(oPlayer, 0);
 
     // Spirit Form hides the goat completely.
@@ -95,22 +95,22 @@ can_see_player = function() {
     var _dx = _p.x - x;
     var _dy = _p.y - y;
     var _dist = point_distance(x, y, _p.x, _p.y);
-    
+
     // Range check
     if (_dist > sight_range) return false;
-    
+
     // Angle check (cone in front). image_angle is never rotated for this
     // sprite, so derive the looking direction from `facing`.
     var _look_dir = (facing >= 0) ? 0 : 180;
     var _angle_to = point_direction(x, y, _p.x, _p.y);
     var _diff = angle_difference(_angle_to, _look_dir);
     if (abs(_diff) > sight_angle) return false;
-    
+
     // Line of sight check
     if (los_check) {
         if (collision_line(x, y, _p.x, _p.y, oWall, true, true) != noone) return false;
     }
-    
+
     return true;
 };
 
@@ -118,7 +118,7 @@ can_see_player = function() {
 set_state = function(_new_state) {
     state = _new_state;
     state_timer = 0;
-    
+
     switch (_new_state) {
         case "idle":
             image_speed = 0;
@@ -146,9 +146,9 @@ set_state = function(_new_state) {
 /// @desc Take damage
 take_damage = function(_amt, _knockback_dir) {
     if (state == "dead") return;
-    
+
     hp -= _amt;
-    
+
     if (hp <= 0) {
         set_state("dead");
     } else {
@@ -156,7 +156,7 @@ take_damage = function(_amt, _knockback_dir) {
         // Apply knockback
         x += _knockback_dir * knockback_force * 0.5;
     }
-    
+
     // Visual feedback
     image_blend = c_red;
     alarm[0] = 5; // reset blend

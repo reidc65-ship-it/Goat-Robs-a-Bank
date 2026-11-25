@@ -129,7 +129,7 @@ do_patrol = function() {
         if (state_timer > patrol_wait) {
             // Calculate next index
             var _next_index = patrol_index + patrol_dir;
-            
+
             // Check bounds and reverse if needed
             if (_next_index >= array_length(patrol_points)) {
                 patrol_dir = -1;
@@ -138,7 +138,7 @@ do_patrol = function() {
                 patrol_dir = 1;
                 _next_index = 1;
             }
-            
+
             patrol_index = _next_index;
             state_timer = 0;
         }
@@ -207,7 +207,7 @@ check_sight = function() {
         lose_sight_timer = lose_sight_max;
         alert_level = 2;
         alert_timer = 120;
-        
+
         if (state != "chase" && state != "attack") {
             set_state("chase");
         }
@@ -251,7 +251,7 @@ do_attack = function() {
     if (attack_cooldown <= 0) {
         // Perform attack
         attack_cooldown = attack_cooldown_max;
-        
+
         // Damage player if close enough
         if (_dist <= attack_range) {
             // Call player's take_damage or similar
@@ -263,7 +263,7 @@ do_attack = function() {
                 chase_target.x += sign(chase_target.x - x) * knockback_force;
             }
         }
-        
+
         // Visual feedback
         image_blend = c_orange;
         alarm[1] = 10;
