@@ -2,7 +2,7 @@
 //  oWolfVaultDialogue -> Create
 //  Tiny setup object for the post-results story beat. It hands the lines
 //  and speaker palettes to oDialogue, so the box looks exactly like the
-//  other conversations in the game. Bear tells the wolf he was robbed.
+//  other conversations in the game. The wolf tells Bear he was robbed.
 // =====================================================================
 
 game_state_init();
@@ -33,12 +33,12 @@ speakers = {
 };
 
 // --- Conversation -----------------------------------------------------
-// Bear is the one delivering the news: his bank has been robbed.
+// The wolf is the one delivering the news: Bear's bank has been robbed.
 dialogue = [
-    { side: "right", text: "Wolf! Someone just cleaned out my bank!" },
-    { side: "right", text: "The vault is empty. I have been ROBBED." },
-    { side: "left",  text: "Robbed, Boss? By who?" },
-    { side: "right", text: "A goat. A GOAT, Wolf!" },
+    { side: "left",  text: "Boss! Someone just cleaned out the bank!" },
+    { side: "left",  text: "The vault is empty. You have been ROBBED." },
+    { side: "right", text: "Robbed? By who?!" },
+    { side: "left",  text: "A goat, Boss. A GOAT!" },
     { side: "right", text: "Find him. Bring back my money." }
 ];
 

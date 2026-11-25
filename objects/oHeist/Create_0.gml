@@ -98,12 +98,12 @@ return_to_farm = function() {
     global.spawn_x = -1;
     global.spawn_y = -1;
 
-    // Bear's report plays once, after the first results card. The setup
-    // object hands the lines to oDialogue, so the box matches every other
-    // conversation. The old Bear's Office animation is no longer used.
-    if (state == "won" && !flag_get("bear_report_seen")) {
+    // The wolf's report plays once, after the first results card. The
+    // setup object hands the lines to oDialogue, so the box matches every
+    // other conversation. The old Bear's Office animation is not used.
+    if (state == "won" && !flag_get("wolf_report_seen")) {
         if (!instance_exists(oWolfVaultDialogue)) {
-            flag_set("bear_report_seen");
+            flag_set("wolf_report_seen");
             instance_create_depth(0, 0, -20000, oWolfVaultDialogue);
         }
         return;
