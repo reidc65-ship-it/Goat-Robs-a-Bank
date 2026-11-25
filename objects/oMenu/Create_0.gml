@@ -98,6 +98,9 @@ pending_room = noone; // room to enter after fading out
 mx_prev = -1;
 my_prev = -1;
 
+// True while the title-screen volume slider is being dragged.
+dragging_vol = false;
+
 /// @desc How many selectable buttons the current screen has.
 item_count = function() {
     switch (menu_screen) {
@@ -142,6 +145,21 @@ button_rect = function(_i) {
 
     var _y1 = _y0 + _i * (_h + _gap);
     return { x1: _x1, y1: _y1, x2: _x1 + _w, y2: _y1 + _h };
+};
+
+/// @desc GUI rect for the master-volume slider inside its settings row.
+///       Only this area should react to mouse volume changes; the rest of
+///       the row is just a normal selectable button.
+volume_rect = function() {
+    var _r  = button_rect(0);
+    var _cy = (_r.y1 + _r.y2) * 0.5;
+
+    return {
+        x1: _r.x1 + 330,
+        y1: _cy - 6,
+        x2: _r.x2 - 116,
+        y2: _cy + 6
+    };
 };
 
 /// @desc Fades to black, then switches to _screen or _room.
@@ -194,6 +212,8 @@ toggle_setting = function() {
 };
 
 leave_settings = function() {
+    dragging_vol = false;
+
     var _pause = instance_find(oPauseMenu, 0);
     _pause.save_settings();
     save_game();
