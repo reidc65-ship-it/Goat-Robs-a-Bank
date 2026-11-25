@@ -33,25 +33,23 @@ if (dash_cooldown_timer > 0) {
 if (key_dash && !is_dashing && dash_cooldown_timer <= 0) {
     var _move = key_right - key_left;
 
-    // Dash in movement direction if holding A/D, otherwise dash toward mouse
-    if (_move != 0) {
-        dash_dir = (_move > 0) ? 0 : 180;
-    } else {
-        dash_dir = point_direction(x, y, mouse_x, mouse_y);
-    }
+    // The dash is a flat left / right burst. It never follows the mouse
+    // and never changes height, so mid-air dashes stay predictable.
+    if (_move != 0) facing = sign(_move);
+    dash_dir = (facing < 0) ? 180 : 0;
 
     is_dashing = true;
     dash_timer = dash_duration;
     dash_hits = [];
+    dash_exit_timer = 0;
     flag_set("tip_dash");
 }
 
 // --- Stair Attachment ---
-// Find a sloped stair surface under the goat's feet. A vertical dash or
-// jump deliberately leaves the stairs so they can be used as shortcuts.
+// Find a sloped stair surface under the goat's feet. A jump deliberately
+// leaves the stairs so they can be used as shortcuts.
 on_stair = noone;
-var _dash_vertical = is_dashing && abs(lengthdir_y(dashsp, dash_dir)) > 4;
-if (!_dash_vertical && vsp >= -1) {
+if (vsp >= -1) {
     var _found_stair = find_stair(x, y + 32);
     if (_found_stair != noone) {
         on_stair = _found_stair;
@@ -79,14 +77,19 @@ if (key_jump_pressed) {
 
 // --- Movement Logic ---
 if (is_dashing) {
-    // Override hsp and vsp for dash movement while ignoring gravity
+    // Flat burst: keep the current height and ignore gravity.
     hsp = lengthdir_x(dashsp, dash_dir);
-    vsp = lengthdir_y(dashsp, dash_dir);
+    vsp = 0;
 
     dash_timer--;
     if (dash_timer <= 0) {
         is_dashing = false;
         dash_cooldown_timer = dash_cooldown;
+
+        // Carry the horizontal speed for a few frames so the dash eases
+        // out instead of stopping dead.
+        dash_exit_timer = dash_exit_time;
+        dash_exit_hsp   = hsp;
     }
 } else {
     // Normal platformer movement. On a stair, downhill movement is faster
@@ -104,6 +107,14 @@ if (is_dashing) {
     }
 
     hsp = move * _speed;
+
+    // Dash tail: blend the leftover dash speed back into normal control.
+    if (dash_exit_timer > 0) {
+        var _tail    = dash_exit_timer / dash_exit_time; // 1 -> 0
+        var _control = 1 - _tail;
+        hsp = dash_exit_hsp * _tail * _tail + move * _speed * _control;
+        dash_exit_timer--;
+    }
 
     if (on_stair != noone) {
         vsp = 0;
@@ -150,6 +161,34 @@ if (is_dashing) {
         // A dash overlaps a guard for several frames, but only hits once.
         array_push(dash_hits, _wolf);
         _wolf.take_damage(2, sign(hsp));
+    }
+
+    // The bank skylight is a breakable floor. With flat dashes the goat
+    // can't dive through it any more, so dashing across the glass smashes
+    // it instead.
+    var _glass = instance_position(x, y + 34, oSkylight);
+    if (_glass != noone) {
+        _glass.hp -= 2;
+        _glass.flash = 6;
+        if (_glass.hp <= 0) {
+            effect_create_above(ef_explosion, _glass.x, _glass.y, 1, c_orange);
+            instance_destroy(_glass);
+
+            // Drop through the new hole instead of gliding over it.
+            is_dashing = false;
+            dash_exit_timer = 0;
+            dash_cooldown_timer = dash_cooldown;
+        }
+    }
+
+    // The Scout's training scarecrow only yields to a dash. Check the
+    // current spot and the next one so a fast dash can't tunnel past it.
+    var _scare = instance_place(x + hsp, y, oScarecrow);
+    if (_scare == noone) _scare = instance_place(x, y, oScarecrow);
+    if (_scare != noone && variable_instance_exists(_scare, "take_damage")
+        && !array_contains(dash_hits, _scare)) {
+        array_push(dash_hits, _scare);
+        _scare.take_damage(1, sign(hsp), true);
     }
 }
 

@@ -10,8 +10,11 @@ dash_timer = 0;         // Remaining dash time
 dash_cooldown = 30;     // Time between dashes (30 frames = 0.5 sec)
 dash_cooldown_timer = 0;// Remaining cooldown time
 is_dashing = false;     // State flag
-dash_dir = 0;           // Dash direction
+dash_dir = 0;           // 0 = right, 180 = left. Never vertical.
 dash_hits = [];         // Guards already hit by the current dash
+dash_exit_time = 8;     // frames of carried momentum after a dash
+dash_exit_timer = 0;
+dash_exit_hsp = 0;
 
 // Platforming feel: forgiving edges and remembered jump presses.
 coyote_time = 6;        // frames you can still jump after leaving a ledge
@@ -216,7 +219,7 @@ throw_horn = function(_charged) {
 };
 
 /// @desc Shows a short message over the goat's head.
-show_hint = function(_text) {
+show_hint = function(_text, _duration = 120) {
     hint_text = _text;
-    hint_timer = 120;
+    hint_timer = _duration;
 };

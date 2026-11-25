@@ -80,8 +80,35 @@ switch (menu_screen) {
         for (var i = 0; i < array_length(settings_rows); i++) {
             switch (settings_rows[i]) {
                 case "volume":
-                    draw_menu_button(i, "MASTER VOLUME",
-                                string(round(global.settings.master_volume * 100)) + "%", false);
+                    draw_menu_button(i, "MASTER VOLUME", "", false);
+
+                    var _row = button_rect(i);
+                    var _cy  = (_row.y1 + _row.y2) * 0.5;
+                    var _vr  = volume_rect();
+                    var _fx  = _vr.x1
+                             + (_vr.x2 - _vr.x1) * global.settings.master_volume;
+
+                    // Slider track.
+                    draw_set_colour(make_colour_rgb(8, 11, 17));
+                    draw_roundrect_ext(_vr.x1, _vr.y1, _vr.x2, _vr.y2,
+                                       6, 6, false);
+
+                    // Filled portion.
+                    if (_fx > _vr.x1) {
+                        draw_set_colour(_gold);
+                        draw_roundrect_ext(_vr.x1, _vr.y1, _fx, _vr.y2,
+                                           6, 6, false);
+                    }
+
+                    // Knob.
+                    var _kx = clamp(_fx, _vr.x1, _vr.x2);
+                    draw_set_colour(_gold_light);
+                    draw_roundrect_ext(_kx - 3, _vr.y1 - 6, _kx + 3, _vr.y2 + 6,
+                                       3, 3, false);
+
+                    draw_ui_text(_row.x2 - 32, _cy,
+                                 string(round(global.settings.master_volume * 100)) + "%",
+                                 1.55, _gold_light, fa_right, 1);
                     break;
                 case "fullscreen":
                     draw_menu_button(i, "FULLSCREEN", global.settings.fullscreen ? "ON" : "OFF", false);

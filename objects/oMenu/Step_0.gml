@@ -47,6 +47,7 @@ var _count   = item_count();
 var _clicked = -1;
 var _moved   = (_mx != mx_prev || _my != my_prev);
 var _press   = mouse_check_button_pressed(mb_left);
+var _held    = mouse_check_button(mb_left);
 
 mx_prev = _mx;
 my_prev = _my;
@@ -102,23 +103,28 @@ switch (menu_screen) {
             leave_settings();
             break;
         }
+
+        // The volume slider only responds inside its own track. Pressing
+        // elsewhere on the row selects it but does not jump the level.
+        var _vr = volume_rect();
+        if (sel == 0 && _press
+            && point_in_rectangle(_mx, _my, _vr.x1, _vr.y1, _vr.x2, _vr.y2)) {
+            dragging_vol = true;
+        }
+        if (!_held) dragging_vol = false;
+        if (dragging_vol) {
+            var _pause = instance_find(oPauseMenu, 0);
+            _pause.set_volume((_mx - _vr.x1) / (_vr.x2 - _vr.x1));
+        }
+
         if (keyboard_check_pressed(vk_left) || keyboard_check_pressed(ord("A"))) {
             adjust_setting(-1);
         }
         if (keyboard_check_pressed(vk_right) || keyboard_check_pressed(ord("D"))) {
             adjust_setting(1);
         }
-        if (_confirm) {
-            if (settings_rows[sel] == "volume") {
-                // Clicking the volume row sets the level from the cursor.
-                if (_clicked != -1) {
-                    var _vr = button_rect(sel);
-                    var _pause = instance_find(oPauseMenu, 0);
-                    _pause.set_volume((_mx - _vr.x1) / (_vr.x2 - _vr.x1));
-                }
-            } else {
-                toggle_setting();
-            }
+        if (_confirm && settings_rows[sel] != "volume") {
+            toggle_setting();
         }
         break;
 

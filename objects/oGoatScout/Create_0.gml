@@ -36,28 +36,75 @@ speakers = {
     }
 };
 
-// --- Conversation (Level Select Intro) -------------------------------
-dialogue = [
-    { side: "right", text: "Heist board's ready. Five jobs posted, one unlocked." },
-    { side: "left",  text: "Only one? What about the others?" },
-    { side: "right", text: "Need to prove yourself first. Bank don't rob itself." },
-    { side: "right", text: "Grab the vault loot, get out alive, keep the cash. Simple." },
-    { side: "left",  text: "Show me the board." }
+// --- Conversation (Dash Lesson) --------------------------------------
+// The Scout will not hand out a job until the goat has used the starter
+// dash on a training scarecrow outside the barn.
+intro_dialogue = [
+    { side: "right", text: "Whoa, slow down. Board's locked until you prove you can fight." },
+    { side: "left",  text: "Fight? I'm a goat in a vest." },
+    { side: "right", text: "A goat with a dash. I staked a training scarecrow outside the barn door." },
+    { side: "right", text: "Hold A or D, then tap SHIFT to dash through it. Two good hits and it's firewood." },
+    { side: "left",  text: "And then the board opens?" },
+    { side: "right", text: "Then the board opens. Go on, make some straw fly." }
+];
+
+reminder_dialogue = [
+    { side: "right", text: "That scarecrow is still standing. It's right outside the barn door." },
+    { side: "right", text: "Hold A or D, tap SHIFT, and dash through it. Twice." },
+    { side: "left",  text: "Working on it." }
+];
+
+unlocked_dialogue = [
+    { side: "left",  text: "Scarecrow's down." },
+    { side: "right", text: "Look at that. Straw everywhere. Board's unlocked - pick your first job." }
 ];
 
 start_conversation = function() {
-    // The introduction only plays once. After that, straight to the board.
-    if (flag_get("scout_met")) {
+    var _d;
+
+    // Board already earned: straight through.
+    if (flag_get("scarecrow_defeated")) {
+        if (!flag_get("board_opened")) {
+            flag_set("board_opened");
+            _d = instance_create_depth(0, 0, -20000, oDialogue);
+            _d.lines       = unlocked_dialogue;
+            _d.speakers    = speakers;
+            _d.on_complete = open_level_select;
+            _d.start_dialogue();
+            return;
+        }
         open_level_select();
         return;
     }
-    flag_set("scout_met");
 
-    var _d = instance_create_depth(0, 0, -20000, oDialogue);
-    _d.lines      = dialogue;
-    _d.speakers   = speakers;
-    _d.on_complete = open_level_select;
+    // Tutorial already started but the scarecrow is still up.
+    if (flag_get("scarecrow_pending")) {
+        _d = instance_create_depth(0, 0, -20000, oDialogue);
+        _d.lines       = reminder_dialogue;
+        _d.speakers    = speakers;
+        _d.on_complete = undefined;
+        _d.start_dialogue();
+        return;
+    }
+
+    // First meeting: explain the dash lesson and put the dummy outside.
+    flag_set("scout_met");
+    flag_set("scarecrow_pending");
+
+    _d = instance_create_depth(0, 0, -20000, oDialogue);
+    _d.lines       = intro_dialogue;
+    _d.speakers    = speakers;
+    _d.on_complete = announce_scarecrow;
     _d.start_dialogue();
+};
+
+/// @desc Called when the intro conversation ends. The scarecrow itself is
+///       placed in rm_farm and only appears while the lesson is active.
+announce_scarecrow = function() {
+    if (!instance_exists(oPlayer)) return;
+
+    var _p = instance_find(oPlayer, 0);
+    _p.show_hint("Training scarecrow is outside the barn. DASH through it with SHIFT!", 420);
 };
 
 /// @desc Called after dialogue ends to open level select (rm_menu)
