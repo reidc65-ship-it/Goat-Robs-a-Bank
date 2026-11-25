@@ -37,19 +37,6 @@ for (var i = 0; i < _p.max_hp; i++) {
     draw_triangle(_hx - 16, _hy - 1, _hx + 16, _hy - 1, _hx, _hy + 17, false);
 }
 
-// --- Spirit Form status -----------------------------------------------
-if (upgrade_owned("spirit")) {
-    var _spirit_text = "Q  SPIRIT READY";
-    var _spirit_col  = make_colour_rgb(150, 220, 255);
-    if (_p.spirit_timer > 0) {
-        _spirit_text = "SPIRIT FORM  " + frames_to_clock(_p.spirit_timer);
-    } else if (_p.spirit_cooldown_timer > 0) {
-        _spirit_text = "SPIRIT  " + frames_to_clock(_p.spirit_cooldown_timer);
-        _spirit_col  = make_colour_rgb(150, 160, 175);
-    }
-    gui_text(24, 88, _spirit_text, 1.1, _spirit_col, fa_left, 0.9);
-}
-
 // --- Money and timer --------------------------------------------------
 if (instance_exists(oHeist)) {
     var _heist = instance_find(oHeist, 0);

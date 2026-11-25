@@ -51,15 +51,16 @@ function game_state_defaults() {
     global.upgrades = [
         { id: "dash",       name: "DASH STRIKE",   desc: "Tap SHIFT to dash through enemies.",            cost: 0,    sprite: sUpgradeDash,       tier: 2 }, // Starter - owned
         { id: "horn",       name: "HORN THROW",    desc: "Left click to hurl your horn at range.",        cost: 500,  sprite: sUpgradeHorn,       tier: 1 },
-        { id: "doublejump", name: "DOUBLE JUMP",   desc: "Press W in mid-air to jump again.",             cost: 1200, sprite: sUpgradeDoubleJump, tier: 0 },
-        { id: "charge",     name: "CHARGE ATTACK", desc: "Hold right click, then release a horn blast.",  cost: 2500, sprite: sUpgradeCharge,     tier: 0 },
-        { id: "spirit",     name: "SPIRIT FORM",   desc: "Press Q: guards can't see or hurt you for 3s. Cooldown: 20s.", cost: 5000, sprite: sUpgradeSpirit, tier: 0 }
+        { id: "doublejump", name: "DOUBLE JUMP",   desc: "Press W in mid-air to jump again.",             cost: 1200, sprite: sUpgradeDoubleJump, tier: 0 }
     ];
 
     // Farm improvements are drawn by oFarmUpgrades. sprite -1 = drawn icon.
     global.farm_upgrades = [
         { id: "grass",     name: "GREENER GRASS", desc: "Lush grass and flowers for the family farm.", cost: 300, sprite: -1, tier: 1 },
-        { id: "sprinkler", name: "SPRINKLER",     desc: "A real sprinkler. The chickens are stunned.", cost: 700, sprite: -1, tier: 0 }
+        { id: "fence",     name: "NEW FENCE",     desc: "Rebuild the rotting fence around the pasture.", cost: 450, sprite: -1, tier: 0 },
+        { id: "sprinkler", name: "SPRINKLER",     desc: "A real sprinkler. The chickens are stunned.", cost: 700, sprite: -1, tier: 0 },
+        { id: "coop",      name: "CHICKEN COOP",  desc: "A proper home for the chickens. They approve.", cost: 900, sprite: -1, tier: 0 },
+        { id: "paint",     name: "FRESH PAINT",   desc: "Paint the barn and hang a proper GOAT FARM sign.", cost: 1500, sprite: -1, tier: 0 }
     ];
 }
 
