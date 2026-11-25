@@ -163,20 +163,18 @@ throw_horn = function(_charged) {
     var _sx = x + facing * 28;
     var _sy = y - 22;
     var _horn = instance_create_layer(_sx, _sy, "Instances", obj_horn_bullet);
-    var _dir = point_direction(x, y, mouse_x, mouse_y);
+    _horn.direction = point_direction(x, y, mouse_x, mouse_y);
+    _horn.image_angle = _horn.direction;
+    _horn.target_player = id;
 
-    with (_horn) {
-        direction = _dir;
-        image_angle = _dir;
-        target_player = other.id;
-
-        if (_charged) {
-            damage = 3;
-            door_damage = 2;
-            speed = 16;
-            image_xscale = 1.5;
-            image_yscale = 1.5;
-        }
+    // Set fields on the returned id instead of using `with`: analyzer rules
+    // treat locals from the calling scope as out of scope inside a with block.
+    if (_charged) {
+        _horn.damage = 3;
+        _horn.door_damage = 2;
+        _horn.speed = 16;
+        _horn.image_xscale = 1.5;
+        _horn.image_yscale = 1.5;
     }
 };
 

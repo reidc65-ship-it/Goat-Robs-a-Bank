@@ -54,8 +54,14 @@ if (instance_exists(oHeist)) {
 
     // Alert warning, if any guard is currently chasing the goat.
     var _chased = false;
-    with (oWolfCop) {
-        if (state == "chase" || state == "attack") _chased = true;
+    var _guard_count = instance_number(oWolfCop);
+    for (var _g = 0; _g < _guard_count; _g++) {
+        var _guard = instance_find(oWolfCop, _g);
+        if (!instance_exists(_guard)) continue;
+        if (_guard.state == "chase" || _guard.state == "attack") {
+            _chased = true;
+            break;
+        }
     }
     if (_chased) {
         gui_text(_gw * 0.5, 100, "SPOTTED!", 1.5, _red, fa_center,

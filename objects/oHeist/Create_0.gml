@@ -30,10 +30,14 @@ if (security_level >= 1) instance_create_depth(1550, 1952, 110, oWolfCop);
 if (security_level >= 2) instance_create_depth(1600, 3232, 110, oWolfCop);
 if (security_level >= 3) instance_create_depth(450, 2592, 110, oWolfCop);
 
-var _level = security_level;
-with (oWolfCop) {
-    sight_range += 30 * _level;
-    chase_speed += 0.2 * _level;
+// Bump every guard created above. Looping over ids keeps `security_level`
+// in its own scope instead of using an outer local inside a `with` block.
+var _guard_count = instance_number(oWolfCop);
+for (var _i = 0; _i < _guard_count; _i++) {
+    var _guard = instance_find(oWolfCop, _i);
+    if (!instance_exists(_guard)) continue;
+    _guard.sight_range += 30 * security_level;
+    _guard.chase_speed += 0.2 * security_level;
 }
 
 // Floating world-space text such as "+$50".

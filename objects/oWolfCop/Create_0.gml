@@ -92,8 +92,6 @@ can_see_player = function() {
     // Spirit Form hides the goat completely.
     if (_p.spirit_timer > 0) return false;
 
-    var _dx = _p.x - x;
-    var _dy = _p.y - y;
     var _dist = point_distance(x, y, _p.x, _p.y);
 
     // Range check

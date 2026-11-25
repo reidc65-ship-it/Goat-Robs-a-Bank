@@ -258,7 +258,9 @@ do_attack = function() {
             if (variable_instance_exists(chase_target, "take_damage")) {
                 chase_target.take_damage(damage, sign(chase_target.x - x));
             } else if (variable_instance_exists(chase_target, "hp")) {
-                chase_target.hp -= damage;
+                // Dynamic access keeps "hp" optional for non-player targets.
+                var _target_hp = variable_instance_get(chase_target, "hp") - damage;
+                variable_instance_set(chase_target, "hp", _target_hp);
                 // Knockback
                 chase_target.x += sign(chase_target.x - x) * knockback_force;
             }
