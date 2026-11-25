@@ -35,6 +35,7 @@ function game_state_defaults() {
         tip_move: false, tip_jump: false, tip_barn: false, tip_spend: false,
         tip_dash: false, tip_cash: false, tip_guards: false, tip_vault: false, tip_escape: false,
         elder_met: false, scout_met: false, family_met: false, bear_met: false,
+        bear_cutscene_seen: false,
         // Scout's dash tutorial: the job board stays shut until the
         // training scarecrow outside the barn is knocked down.
         scarecrow_pending: false, scarecrow_defeated: false, board_opened: false

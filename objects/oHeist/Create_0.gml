@@ -100,7 +100,14 @@ return_to_farm = function() {
     global.level_complete = false;
     global.spawn_x = -1;
     global.spawn_y = -1;
-    room_goto(rm_farm);
+
+    // The Bear's Office storyboard plays once, after the first results
+    // card. Later jobs go straight back to the farm.
+    if (state == "won" && !flag_get("bear_cutscene_seen")) {
+        room_goto(rm_bear_cutscene);
+    } else {
+        room_goto(rm_farm);
+    }
 };
 
 /// @desc The current objective, based on how far the player has got.
