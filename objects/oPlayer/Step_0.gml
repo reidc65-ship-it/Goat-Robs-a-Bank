@@ -45,20 +45,6 @@ if (key_dash && !is_dashing && dash_cooldown_timer <= 0) {
     flag_set("tip_dash");
 }
 
-// --- Stair Attachment ---
-// Find a sloped stair surface under the goat's feet. A jump deliberately
-// leaves the stairs so they can be used as shortcuts.
-on_stair = noone;
-if (vsp >= -1) {
-    var _found_stair = find_stair(x, y + 32);
-    if (_found_stair != noone) {
-        on_stair = _found_stair;
-        y = stair_surface - 32;
-        vsp = 0;
-        coyote_timer = coyote_time;
-    }
-}
-
 // --- Coyote time + jump buffering ---
 var _grounded = place_meeting(x, y + 1, oWall) || (on_stair != noone);
 if (_grounded) {
@@ -210,29 +196,6 @@ if (on_stair == noone && place_meeting(x + hsp, y, oWall)) {
 }
 x = x + hsp;
 
-// --- Stay on the stairs after the horizontal move ---
-// Re-find the surface at the new x. If we walked off either end, drop
-// back into normal gravity next frame. When walking UP a flight and
-// crossing the top edge, snap to the landing's top surface; otherwise the
-// goat's last sloped-foot position would be a few pixels below the slab
-// and the solid landing would catch them.
-if (on_stair != noone) {
-    var _old_stair = on_stair;
-    var _stair_now = find_stair(x, y + 32);
-    if (_stair_now != noone) {
-        on_stair = _stair_now;
-        y = stair_surface - 32;
-        vsp = 0;
-    } else {
-        var _top_x = _old_stair.x + _old_stair.dir * _old_stair.w;
-        var _top_y = _old_stair.y - _old_stair.h;
-        var _crossed_top = ((_old_stair.dir == -1 && x <= _top_x)
-                         || (_old_stair.dir == 1  && x >= _top_x));
-        if (_crossed_top) y = _top_y - 32;
-        on_stair = noone;
-    }
-}
-
 // --- Vertical Collision (Walls) ---
 if (vsp != 0 && place_meeting(x, y + vsp, oWall)) {
     while (!place_meeting(x, y + sign(vsp), oWall)) {
@@ -241,6 +204,33 @@ if (vsp != 0 && place_meeting(x, y + vsp, oWall)) {
     vsp = 0;
 }
 y = y + vsp;
+
+// --- Stair contact -----------------------------------------------------
+// The stair object is visual only. After ordinary wall collision, ask the
+// shared helper which flight is under our feet and snap to its carpet.
+// Skipping this while jumping upward keeps a jump from re-grabbing a stair.
+var _was_on_stair = on_stair;
+var _stair_hit = noone;
+if (vsp >= -1) {
+    _stair_hit = stair_surface_at(x, y + 32);
+}
+
+if (_stair_hit != noone) {
+    on_stair = _stair_hit.stair;
+    y = _stair_hit.y - 32;
+    vsp = 0;
+    coyote_timer = coyote_time;
+    air_jumps = upgrade_owned("doublejump") ? 1 : 0;
+} else {
+    on_stair = noone;
+
+    // Walking off the top edge should land on the slab, not hang a few
+    // pixels below it and get caught by the landing's side face.
+    if (_was_on_stair != noone) {
+        var _landing_y = stair_top_y(_was_on_stair, x);
+        if (_landing_y != noone) y = _landing_y - 32;
+    }
+}
 
 // --- Shooting Logic ---
 if (mouse_check_button_pressed(mb_left)) {

@@ -32,6 +32,11 @@ patrol_index  = 0;
 patrol_wait   = 60;       // frames to wait at each point
 patrol_dir    = 1;        // 1 = forward, -1 = reverse
 
+// --- Stair traversal ---------------------------------------------------
+// oStair only draws the flight. scrStairSurface sets this flag during Step
+// so guards can stand and walk on the sloped surface.
+on_stair = noone;
+
 // --- Chase ------------------------------------------------------------
 chase_target  = noone;
 last_known_x  = 0;
